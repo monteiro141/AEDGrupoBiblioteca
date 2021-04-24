@@ -18,7 +18,12 @@ Conclito com outras bibliotecas
 int main(void)
 {
     //printf("%d\n",gerarNumeroInteiro(1,100));
-    LIVRO x = CriarLivro();
-    MostrarLivro(x);
+    LIVRO L = CriarLivro();
+    MostrarLivro(L);
+    printf("------------------\n");
+    CLIENTE C;
+    C.NIF = 123456;
+    ENCOMENDA e = CriarEncomenda(C,L);
+    MostrarEncomenda(e);
     return 0;
 }
