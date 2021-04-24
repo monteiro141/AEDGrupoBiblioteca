@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 //Random
 #include <Aleatorio.h>
 #include <OperacoesPrimarias.h>
@@ -16,6 +17,8 @@ Conclito com outras bibliotecas
 
 int main(void)
 {
-    printf("%d\n",gerarNumeroInteiro(1,100));
+    //printf("%d\n",gerarNumeroInteiro(1,100));
+    LIVRO x = CriarLivro();
+    MostrarLivro(x);
     return 0;
 }

@@ -17,7 +17,7 @@ Funções:MostrarLivro(Recebe um Livro X e mostra os atributos todos do livro, n
         CriarLivro(Cria um livro modo random e devolve um livro)
         CompararLivros(Recebe livro X e Y, devolve 1 se forem iguais e 0 se forem diferentes).
 */
-typedef struct 
+typedef struct LIVRO
 {
     double ISBN;
     char Titulo[100];
@@ -42,7 +42,7 @@ Funções:MostrarEncomenda(Recebe uma Encomenda X e mostra os atributos todos da
         CriarEncomenda(Cria uma Encomenda modo random e devolve uma Encomenda)
         CompararEncomendas(Recebe Encomenda X e Y, devolve 1 se forem iguais e 0 se forem diferentes).
 */
-typedef struct
+typedef struct ENCOMENDA
 {
     int ISBN;
     int NIF;
@@ -65,7 +65,7 @@ Funções:MostrarCliente(Recebe um Cliente X e mostra os atributos todos do Clie
         CriarCliente(Cria um Cliente modo random e devolve um Cliente)
         CompararClientes(Recebe Cliente X e Y, devolve 1 se forem iguais e 0 se forem diferentes).
 */
-typedef struct
+typedef struct CLIENTE
 {
     int NIF;
     char Nome[100];
