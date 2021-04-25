@@ -27,7 +27,7 @@ void menuFicheiro()
 {
     printf("1 - Novo (criar um ED nova - vazia).\n");
     printf("2 - Abrir (passar os dados de um ficheiro para a ED).\n");
-    printf("3 -  Guardar (passar da ED para o ficheiro corrente).\n");
+    printf("3 - Guardar (passar da ED para o ficheiro corrente).\n");
     printf("4 - Sair para o menu.\n");
 }
 void menuLivros()
