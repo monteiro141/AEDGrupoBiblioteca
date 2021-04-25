@@ -2,6 +2,7 @@
     "files.associations": {
         "includes.h": "c",
         "string.h": "c",
-        "operacoesprimarias.h": "c"
+        "operacoesprimarias.h": "c",
+        "livrosarvores.h": "c"
     }
 }

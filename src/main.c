@@ -2,18 +2,10 @@
 #include <stdlib.h>
 //Random
 #include "Aleatorio.h"
-#include "OperacoesPrimarias.h"
-
-/*
-#include <OperacoesPrimarias.h>
-#include <ArvoresBinarias.h>
-#include <EADPilha.h>
-#include <ListasLigadasSimples.h>*/
-/*
-Conclito com outras bibliotecas
-#include <EADFila.h>
-#include <ListasLigadasDuplas.h>
-*/
+//#include "OperacoesPrimarias.h" V
+//#include "livrosArvores.h" V
+//#include "clientesListasLigadas.h" V
+#include "encomendasFilas.h"
 
 void menu()
 {

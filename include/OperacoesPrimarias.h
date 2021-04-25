@@ -7,7 +7,7 @@ typedef struct
     int Dia;
     int Mes;
     int ano;
-} DATA;
+} DATADMA;
 
 typedef struct LIVRO
 {
@@ -27,7 +27,7 @@ typedef struct ENCOMENDA
 {
     long long int ISBN;
     long long int NIF;
-    DATA Encomenda;
+    DATADMA Encomenda;
     int Quantidade;
     float PrecoTotal;
 }ENCOMENDA;

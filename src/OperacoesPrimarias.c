@@ -1,8 +1,9 @@
 #include <string.h>
 #include <time.h>
 #include <stdio.h>
-#include "OperacoesPrimarias.h"
 #include <stdlib.h>
+#include "OperacoesPrimarias.h"
+
 /*---------------------------Livro + Funções---------------------------*/
 void MostrarLivro (LIVRO X)
 {
