@@ -140,4 +140,12 @@ CLIENTE CriarCliente()
     C.ListaDeCompras = malloc(C.numeroEncomendas*sizeof(ENCOMENDA));
     return C;
 }
-int CompararClientes (CLIENTE X, CLIENTE Y);
+int CompararClientes (CLIENTE X, CLIENTE Y)
+{
+    if(X.NIF > Y.NIF)
+        return 1;
+    else if(X.NIF > Y.NIF)
+        return -1;
+    else
+        return 0;
+}
