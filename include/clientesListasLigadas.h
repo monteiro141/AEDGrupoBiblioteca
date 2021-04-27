@@ -10,14 +10,21 @@ struct Nodo {
 typedef struct Nodo *PNodo;
 
 PNodo Criar ();
-int Pesquisar (CLIENTE C, PNodo L);
-PNodo ProcurarAnteriorNIF (long long int NIF, PNodo L);
-PNodo InserirInicio (CLIENTE C, PNodo L);
 
+int Pesquisar (CLIENTE C, PNodo L);
+
+PNodo ProcurarNIF (long long int NIF, PNodo L);
+PNodo ProcurarNome (char* Nome, PNodo L);
+PNodo ProcurarMorada (char* Morada, PNodo L);
+PNodo ProcurarnTelefone (long long int nTele, PNodo L);
+
+void ConsultarClientesPorNIF(long long int NIF, PNodo L);
+void ConsultarClientesPorNome(char* Nome, PNodo L);
+void ConsultarClientesPorMorada(char* Morada, PNodo L);
+void ConsultarClientesPornTelefone(long long int nTele, PNodo L);
+
+PNodo InserirInicio (CLIENTE C, PNodo L);
 PNodo RemoverComNIF (long long int NIF, PNodo L);
 PNodo AlterarComNIF (long long int NIF, PNodo L);
 
-void ConsultarClientesPor(int n, PNodo L);
-void ConsultarPorNIF(long long int NIF, PNodo L);
-void ConsultarPorNome(char* Nome, PNodo L);
-void ConsultarPorMorada(char* Morada, PNodo L);
+void ConsultarClientesPor(int n, PNodo L)
