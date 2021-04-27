@@ -117,7 +117,7 @@ void menuOperacoes()
     printf("11 - Determinar o desperdício de memória.\n");
 }
 
-void menuFicheiro()
+void lerMenuFicheiro()
 {
     CLIENTE Cliente;
     ENCOMENDA Encomenda;
