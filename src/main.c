@@ -7,13 +7,27 @@
 //#include "clientesListasLigadas.h" V
 #include "encomendasFilas.h"
 
+//Mostrar os menus
+void clrscr()
+{
+    #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+        system("clear");
+    #endif
+
+    #if defined(_WIN32) || defined(_WIN64)
+        system("cls");
+    #endif
+}
 void menu();
 void menuFicheiro();
 void menuLivros();
 void menuClientes();
 void menuEncomendas();
 void menuOperacoes();
+//Executar operaçoes sobre os menus
 void lerMenuFicheiro();
+void lerMenuLivros();
+void lerMenuClientes();
 
 PNodoAB livros;
 PNodo clientes;
@@ -26,18 +40,23 @@ int main(void)
     clientes=NULL;
     encomendas=NULL;
     int opcao;
+    clrscr();
     do
     {
+        
         menu();
         scanf("%d",&opcao);
+        clrscr();
         switch(opcao)
         {
             case 1:
                 lerMenuFicheiro();
                 break;
             case 2:
+                lerMenuLivros();
                 break;
             case 3:
+                lerMenuClientes();
                 break;
             case 4:
                 break;
@@ -64,7 +83,7 @@ void menuFicheiro()
     printf("1 - Novo (criar um ED nova - vazia).\n");
     printf("2 - Abrir (passar os dados de um ficheiro para a ED).\n");
     printf("3 - Guardar (passar da ED para o ficheiro corrente).\n");
-    printf("4 - Sair para o menu.\n");
+    printf("0 - Sair para o menu.\n");
 }
 void menuLivros()
 {
@@ -72,6 +91,7 @@ void menuLivros()
     printf("2 - Remover(dado ISBN).\n");
     printf("3 - Alterar(dado ISBN).\n");
     printf("4 - Consultar.\n");
+    printf("0 - Sair para o menu.\n");
 }
 void menuClientes()
 {
@@ -79,11 +99,13 @@ void menuClientes()
     printf("2 - Remover(dado NIF).\n");
     printf("3 - Alterar(dado NIF).\n");
     printf("4 - Consultar.\n");
+    printf("0 - Sair para o menu.\n");
 }
 void menuEncomendas()
 {
     printf("1 - Inserir encomenda.\n");
     printf("2 - Remover (implica atualização da lista de compras do Cliente).\n");
+    printf("0 - Sair para o menu.\n");
 }
 void menuOperacoes()
 {
@@ -100,7 +122,6 @@ void menuOperacoes()
     printf("11 - Determinar o desperdício de memória.\n");
 }
 
-
 //Por acabar
 void lerMenuFicheiro()
 {
@@ -114,6 +135,7 @@ void lerMenuFicheiro()
     {
         menuFicheiro();
         scanf("%d",&opcao);
+        clrscr();
         switch(opcao)
         {
             case 1:
@@ -134,7 +156,7 @@ void lerMenuFicheiro()
                 while(fread(&Cliente,sizeof(CLIENTE),1,fpClientes)==1)
                 {
                     //INSERIR CLIENTE
-                    printf("Porfazer.\n");
+                    //printf("Porfazer.\n");
                     clientes = InserirInicio(Cliente,clientes);
                 }
                 while(fread(&Encomenda,sizeof(ENCOMENDA),1,fpEncomendas)==1)
@@ -166,8 +188,84 @@ void lerMenuFicheiro()
                 fclose(fpLivros);
                 break;
 
-            case 4:
+            case 0:
                 break;
         }
-    }while(opcao !=4);
+    }while(opcao !=0);
 }
+
+void lerMenuLivros()
+{
+    LIVRO livro;
+    int opcao;
+    do
+    {
+        menuLivros();
+        scanf("%d",&opcao);
+        clrscr();
+        switch(opcao)
+        {
+            case 1:
+                livros = InserirLivro(livros,CriarLivro());
+                break;
+
+            case 2:
+                printf("Qual ISBN para remover?\n");
+                scanf("%lld",&livro.ISBN);
+                livros = RemoverLivro(livros,livro);
+                break;
+
+            case 3:
+                printf("Qual ISBN para editar?\n");
+                scanf("%lld",&livro.ISBN);
+                livros = AlterarLivro(livros,livro,CriarLivro());
+                break;
+
+            case 4:
+                ConsultarLivro(livros);
+                break;
+
+            case 0:
+                break;
+        }
+        
+    }while(opcao !=0);
+    
+}
+
+void lerMenuClientes()
+{
+    CLIENTE cliente;
+    int opcao;
+    do
+    {
+        menuClientes();
+        scanf("%d",&opcao);
+        clrscr();
+        switch(opcao)
+        {
+            case 1:
+                clientes = InserirInicio(CriarCliente(),clientes);
+                break;
+
+            case 2:
+                printf("Qual NIF para remover?\n");
+                scanf("%lld",&cliente.NIF);
+                clientes = RemoverComNIF(cliente.NIF,clientes);
+                break;
+
+            case 3:
+                clientes = AlterarComNIF(clientes);
+                break;
+
+            case 4:
+                ConsultarClientesPor(clientes);
+                break;
+
+            case 0:
+                break;
+        }
+        
+    }while(opcao !=0);
+}
+

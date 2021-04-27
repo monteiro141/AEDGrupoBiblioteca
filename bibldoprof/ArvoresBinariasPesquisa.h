@@ -106,7 +106,7 @@ PNodoAB RemoverNodoABP (PNodoAB T){
   // 2 filhos (1� caso): remover o nodo sucessor (nodo mais � esquerda da sub�rvore direita) e copiar a sua informa��o
   T->Direita = SubstituirNodoDireita(T->Direita, &X);
   // 2 filhos (2� caso): remover o nodo antecessor (nodo mais � direita da sub�rvore esquerda) e copiar a sua informa��o
-  //  T->Esquerda = SubstituirNodoEsquerda(T->Esquerda, &X);  // 2� caso
+  T->Esquerda = SubstituirNodoEsquerda(T->Esquerda, &X);  // 2� caso
   T->Elemento = X;
   return T;
 }

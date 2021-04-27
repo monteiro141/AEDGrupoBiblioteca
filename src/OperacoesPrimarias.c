@@ -7,6 +7,7 @@
 /*---------------------------Livro + Funções---------------------------*/
 void MostrarLivro (LIVRO X)
 {
+    printf("################################\n");
     printf("ISBN: %lld\n",X.ISBN);
     printf("Titulo: %s.\n",X.Titulo);
     printf("Primeiro Autor: %s.\n",X.PrimeiroAutor);
@@ -16,23 +17,12 @@ void MostrarLivro (LIVRO X)
     printf("Area Cientifica: %s.\n",X.AreaCientifica);
     printf("Preco: %.2f.\n",X.Preco);
     printf("Quantidade em stock: %d.\n",X.QuantidadeStock);
+    printf("################################\n");
 }
 LIVRO CriarLivro ()
 {
     LIVRO x;
-    /*
-    Testar
-    x.ISBN = 123;
-    strcpy(x.Titulo,"cenas");
-    strcpy(x.PrimeiroAutor,"pautor");
-    strcpy(x.SegundoAutor,"sautor");
-    strcpy(x.Editora,"Edit");
-    x.AnoPublicacao = 1000;
-    strcpy(x.AreaCientifica,"AreaC");
-    x.Preco = 100;
-    x.QuantidadeStock = 999;
-    */
-    /*Reparar os \n do buffer*/
+    printf("################################\n");
     printf("ISBN: ");
     scanf("%lld",&x.ISBN);
 
@@ -59,7 +49,7 @@ LIVRO CriarLivro ()
 
     printf("Quantidade em stock: ");
     scanf("%d",&x.QuantidadeStock);
-    
+    printf("################################\n");
     return x;
 }
 int CompararLivros (LIVRO x, LIVRO y)
@@ -76,11 +66,13 @@ int CompararLivros (LIVRO x, LIVRO y)
 
 void MostrarEncomenda (ENCOMENDA E)
 {
+    printf("################################\n");
     printf("ISBN: %lld.\n",E.ISBN);
     printf("NIF: %lld.\n",E.NIF);
     printf("Encomenda: %d/%d/%d\n",E.Encomenda.Dia,E.Encomenda.Mes,E.Encomenda.ano);
     printf("Quantidade: %d\n",E.Quantidade);
     printf("Preço Total: %.2f\n",E.PrecoTotal);
+    printf("################################\n");
 }
 
 int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E)
@@ -88,6 +80,7 @@ int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E)
     int n=0;
     time_t now = time(NULL);
     struct tm *pt = localtime(&now);
+    printf("################################\n");
     printf("\nQuantos quer encomendar? ");
     scanf("%d",&n);
     if(n <= L.QuantidadeStock)
@@ -101,6 +94,7 @@ int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E)
         (*E).PrecoTotal = (*E).Quantidade * L.Preco;
         return 0;
     }
+    printf("################################\n");
     return 1;
 }
 
@@ -120,14 +114,17 @@ int CompararEncomendas (ENCOMENDA X, ENCOMENDA Y)
 
 void MostrarCliente (CLIENTE C)
 {
+    printf("################################\n");
     printf("NIF: %lld.\n",C.NIF);
     printf("Nome: %s.\n",C.Nome);
     printf("Morada: %s.\n",C.Morada);
     printf("Telefone: %lld.\n",C.Telefone);
     printf("*Listar encomendas*\n");
+    printf("################################\n");
 }
 CLIENTE CriarCliente()
 {
+    printf("################################\n");
     CLIENTE C;
     printf("NIF: ");
     scanf("%lld",&C.NIF);
@@ -139,6 +136,7 @@ CLIENTE CriarCliente()
     scanf("%lld",&C.Telefone);
     C.numeroEncomendas = 0;
     C.ListaDeCompras = malloc(C.numeroEncomendas*sizeof(ENCOMENDA));
+    printf("################################\n");
     return C;
 }
 int CompararClientes (CLIENTE X, CLIENTE Y)

@@ -27,7 +27,6 @@ int PesquisarABP(PNodoAB t, LIVRO L)
         return PesquisarABP(t->Direita,L);
 }
 
-
 PNodoAB InserirABP (PNodoAB t, LIVRO L)
 {
     if(t==NULL)
@@ -55,13 +54,38 @@ int AlturaAB (PNodoAB t)
       return (d + 1);  // d (altura da direita), 1 a raiz
 }
 
-
 PNodoAB LibertarNodoAB(PNodoAB t){
   t->Esquerda = NULL;
   t->Direita = NULL;
   free(t);
   t = NULL;
   return t;
+}
+
+PNodoAB SubstituirNodoDireita (PNodoAB T, LIVRO *X){
+  PNodoAB  PAux;
+  if (T->Esquerda == NULL) {
+    *X = T->Elemento;
+    PAux = T;
+    T = T->Direita;
+    PAux = LibertarNodoAB(PAux);
+    return T;
+  }
+  T->Esquerda = SubstituirNodoDireita(T->Esquerda, X);
+  return T;
+}
+
+PNodoAB SubstituirNodoEsquerda (PNodoAB T, LIVRO *X){
+  PNodoAB  PAux;
+  if (T->Direita == NULL) {
+    *X = T->Elemento;
+    PAux = T;
+    T = T->Esquerda;
+    PAux = LibertarNodoAB(PAux);
+    return  T;
+  }
+  T->Direita = SubstituirNodoEsquerda(T->Direita, X);
+  return T;
 }
 
 PNodoAB RemoverNodoABP (PNodoAB t){
@@ -84,16 +108,17 @@ PNodoAB RemoverNodoABP (PNodoAB t){
     return t;
   }
   t->Direita = SubstituirNodoDireita(t->Direita, &L);
+  t->Esquerda = SubstituirNodoEsquerda(t->Esquerda, &L);
   t->Elemento = L;
   return t;
 }
 
 PNodoAB RemoverABP (PNodoAB t, LIVRO L) {
-  if (CompararElementos(L, t->Elemento) == 0) {
+  if (CompararLivros(L, t->Elemento) == 0) {
     t = RemoverNodoABP(t);
     return t;
   }    
-  if (CompararElementos(L, t->Elemento) == -1)
+  if (CompararLivros(L, t->Elemento) == -1)
     t->Esquerda = RemoverABP(t->Esquerda, L);
   else
     t->Direita = RemoverABP(t->Direita, L);
@@ -114,6 +139,15 @@ int verificarEquilibrio(PNodoAB t)
     if(t->Direita != NULL && verificarEquilibrio(t->Direita) == 0)
         return 0;
     return 1;
+}
+
+int NumeroNodosAB (PNodoAB T) {
+  int  e, d;
+  if (T == NULL)
+    return 0;
+  e = NumeroNodosAB(T->Esquerda);
+  d = NumeroNodosAB(T->Direita);
+  return (e + d + 1);
 }
 
 void ABPEqInsercaoBinaria (PNodoAB *TE, LIVRO L[], int inicio, int fim) {
@@ -145,7 +179,7 @@ PNodoAB CriarABPEquilibradaIB (PNodoAB t){
   LIVRO *Lista;
   PNodoAB TE;
   int  N = 0, Num;
-  TE = CriarAB();
+  TE = NULL;
   Num = NumeroNodosAB(t);
   if (t == NULL)
     return NULL;
@@ -167,9 +201,9 @@ PNodoAB InserirLivro(PNodoAB t, LIVRO L)
     printf("Não pode inserir algo que ja existe!(ISBN)\n");
 
   if(verificarEquilibrio(t)==0)
-    t = CriarABPEquilibradaIB(t);
-
-  return t;
+    return CriarABPEquilibradaIB(t);
+  else
+    return t;
 }
 
 /*----------Remover livro----------*/
@@ -183,9 +217,8 @@ PNodoAB RemoverLivro(PNodoAB t, LIVRO L)
   t = RemoverABP(t,L);
 
   if(verificarEquilibrio(t)==0)
-    t = CriarABPEquilibradaIB(t);
-
-    return t;
+    return CriarABPEquilibradaIB(t);
+  return t;
 }
 
 /*----------Alterar livro(ISBN)----------*/
@@ -221,6 +254,14 @@ PNodoAB AlterarLivro(PNodoAB t, LIVRO L,LIVRO X)
 }
 
 /*----------Consultar Livro----------*/
+void ConsultarLivroTodos(PNodoAB t)
+{
+  if(t==NULL)
+    return;
+  MostrarLivro(t->Elemento);
+  ConsultarLivroTodos(t->Esquerda);
+  ConsultarLivroTodos(t->Direita);
+}
 void ConsultarLivroISBN(PNodoAB t, int ISBN)
 {
     if(t==NULL)
@@ -248,7 +289,8 @@ void ConsultarLivroAutorAnoPublicacao(PNodoAB t, char * Autor, int AnoPub)
 {
   if(t==NULL)
     return;
-    if((strcmp(t->Elemento.PrimeiroAutor,Autor)==0 || strcmp(t->Elemento.SegundoAutor,Autor)==0) && t->Elemento.AnoPublicacao == AnoPub)
+
+  if((strcmp(t->Elemento.PrimeiroAutor,Autor)==0 || strcmp(t->Elemento.SegundoAutor,Autor)==0) && t->Elemento.AnoPublicacao == AnoPub)
       MostrarLivro(t->Elemento);
   ConsultarLivroAutorAnoPublicacao(t->Esquerda,Autor,AnoPub);
   ConsultarLivroAutorAnoPublicacao(t->Direita,Autor,AnoPub);
@@ -276,7 +318,8 @@ void ConsultarLivro(PNodoAB t)
     printf("1 - Consultar por ISBN.\n");
     printf("2 - Consultar por Titulo.\n");
     printf("3 - Consultar por Autor e Ano de publicação.\n");
-    printf("4 - Consultar por Editora e Area Cientifica..\n");
+    printf("4 - Consultar por Editora e Area Cientifica.\n");
+    printf("5 - Consultar todos.\n");
     printf("Para sair insira um número que seja diferente dos números acima.\n");
 	  scanf("%d",&n);
     //fazer menus para mostrar o que cada numero significa
@@ -285,7 +328,7 @@ void ConsultarLivro(PNodoAB t)
         //NIF
         case 1:
         printf("Qual o ISBN? ");
-        scanf("%d",&ISBN);
+        scanf("%lld",&ISBN);
         ConsultarLivroISBN(t,ISBN);
         break;
 
@@ -301,7 +344,7 @@ void ConsultarLivro(PNodoAB t)
         printf("Qual o Autor? ");
         scanf("\n%[^\n]s",Autor);
         printf("Qual o Ano de publibcação? ");
-        scanf("%d",AnoPub);
+        scanf("%d",&AnoPub);
         ConsultarLivroAutorAnoPublicacao(t,Autor,AnoPub);
         break;
 
@@ -312,12 +355,16 @@ void ConsultarLivro(PNodoAB t)
         scanf("\n%[^\n]s",AreaC);
         ConsultarLivroEditoraAreaC(t,Editora,AreaC);
         break;
+
+        case 5:
+        ConsultarLivroTodos(t);
+        break;
         default:
         printf("Operação inválida, por favor insira um número válido.\n");
     }
 }
 
-
+/*----------Guardar Livro----------*/
 void guardarLivros(PNodoAB t, FILE * FP)
 {
   if(t==NULL)

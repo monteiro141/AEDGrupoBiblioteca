@@ -18,11 +18,17 @@ int AlturaAB (PNodoAB t);
 
 PNodoAB LibertarNodoAB(PNodoAB t);
 
+PNodoAB SubstituirNodoDireita (PNodoAB T, LIVRO *X);
+
+PNodoAB SubstituirNodoEsquerda (PNodoAB T, LIVRO *X);
+
 PNodoAB RemoverNodoABP (PNodoAB t);
 
 PNodoAB RemoverABP (PNodoAB t, LIVRO L) ;
 
 int verificarEquilibrio(PNodoAB t);
+
+int NumeroNodosAB (PNodoAB T);
 
 void ABPEqInsercaoBinaria (PNodoAB *TE, LIVRO L[], int inicio, int fim);
 
@@ -41,6 +47,7 @@ PNodoAB AlterarLivroAux(PNodoAB t, LIVRO L, LIVRO X);
 PNodoAB AlterarLivro(PNodoAB t, LIVRO L,LIVRO X);
 
 /*----------Consultar Livro----------*/
+void ConsultarLivroTodos(PNodoAB t);
 void ConsultarLivroISBN(PNodoAB t, int ISBN);
 void ConsultarLivroTitulo(PNodoAB t, char * Titulo);
 void ConsultarLivroAutorAnoPublicacao(PNodoAB t, char * Autor, int AnoPub);

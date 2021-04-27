@@ -10,9 +10,8 @@ struct Nodo {
 typedef struct Nodo *PNodo;
 
 PNodo Criar ();
-
+PNodo CriarNodo (CLIENTE X);
 int Pesquisar (CLIENTE C, PNodo L);
-
 PNodo ProcurarNIF (long long int NIF, PNodo L);
 PNodo ProcurarAnteriorNIF (long long int NIF, PNodo L);
 PNodo ProcurarNome (char* Nome, PNodo L);
