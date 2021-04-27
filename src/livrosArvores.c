@@ -309,3 +309,13 @@ void ConsultarLivro(int n, PNodoAB t)
         printf("Operação inválida, por favor insira um número válido.\n");
     }
 }
+
+
+void guardarLivros(PNodoAB t, FILE * FP)
+{
+  if(t==NULL)
+    return;
+  fwrite(&t->Elemento,sizeof(LIVRO),1,FP);
+  guardarLivros(t->Esquerda,FP);
+  guardarLivros(t->Direita,FP);
+}
