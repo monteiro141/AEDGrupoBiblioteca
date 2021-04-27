@@ -16,11 +16,15 @@ void menuOperacoes();
 void lerMenuFicheiro();
 
 PNodoAB livros;
+PNodo clientes;
 PNodoFila encomendas;
 
 
 int main(void)
 {
+    livros=NULL;
+    clientes=NULL;
+    encomendas=NULL;
     int opcao;
     do
     {
@@ -43,21 +47,6 @@ int main(void)
                 break;
         }
     }while(opcao !=0);
-
-
-    /*//printf("%d\n",gerarNumeroInteiro(1,100));
-    printf("---Teste livro---\n");
-    LIVRO L = CriarLivro();
-    MostrarLivro(L);
-    printf("---Teste cliente---\n");
-    CLIENTE C = CriarCliente();
-    MostrarCliente(C);
-    printf("---Teste encomenda---\n");
-    ENCOMENDA E;
-    if(CriarEncomenda(C,L,&E)==0)
-        MostrarEncomenda(E);
-    else
-        printf("Não há stock.\n");*/
     return 0;
 }
 
@@ -82,20 +71,14 @@ void menuLivros()
     printf("1 - Inserir livro.\n");
     printf("2 - Remover(dado ISBN).\n");
     printf("3 - Alterar(dado ISBN).\n");
-    printf("4 - Consultar por ISBN.\n");
-    printf("5 - Consultar por Titulo.\n");
-    printf("6 - Consultar por Autor.\n");
-    printf("7 - Consultar por Editora.\n");
-    printf("8 - Consultar por Area Cientifica.\n");
+    printf("4 - Consultar.\n");
 }
 void menuClientes()
 {
     printf("1 - Inserir cliente.\n");
     printf("2 - Remover(dado NIF).\n");
     printf("3 - Alterar(dado NIF).\n");
-    printf("4 - Consultar por NIF.\n");
-    printf("5 - Consultar por Nome.\n");
-    printf("6 - Consultar por Morada.\n");
+    printf("4 - Consultar.\n");
 }
 void menuEncomendas()
 {
@@ -117,6 +100,8 @@ void menuOperacoes()
     printf("11 - Determinar o desperdício de memória.\n");
 }
 
+
+//Por acabar
 void lerMenuFicheiro()
 {
     CLIENTE Cliente;
@@ -150,11 +135,13 @@ void lerMenuFicheiro()
                 {
                     //INSERIR CLIENTE
                     printf("Porfazer.\n");
+                    clientes = InserirInicio(Cliente,clientes);
                 }
                 while(fread(&Encomenda,sizeof(ENCOMENDA),1,fpEncomendas)==1)
                 {
                     //INSERIR encomenda
                     printf("Porfazer.\n");
+
                 }
                 while(fread(&Livro,sizeof(LIVRO),1,fpLivros)==1)
                 {
@@ -172,6 +159,7 @@ void lerMenuFicheiro()
                 fpLivros=fopen("EDLivros.bin","wb");
                 
                 guardarLivros(livros,fpLivros);
+                guarderClientes(clientes,fpClientes);
 
                 fclose(fpClientes);
                 fclose(fpEncomendas);

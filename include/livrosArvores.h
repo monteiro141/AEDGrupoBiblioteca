@@ -45,6 +45,6 @@ void ConsultarLivroISBN(PNodoAB t, int ISBN);
 void ConsultarLivroTitulo(PNodoAB t, char * Titulo);
 void ConsultarLivroAutorAnoPublicacao(PNodoAB t, char * Autor, int AnoPub);
 void ConsultarLivroEditoraAreaC(PNodoAB t, char * Editora, char * AreaC);
-void ConsultarLivro(int n, PNodoAB t);
+void ConsultarLivro(PNodoAB t);
 /*----------Guardar Livro----------*/
 void guardarLivros(PNodoAB t, FILE * FP);

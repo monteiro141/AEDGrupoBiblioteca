@@ -24,9 +24,26 @@ int Pesquisar (CLIENTE C, PNodo L)
 PNodo ProcurarNIF (long long int NIF, PNodo L)
 {
   PNodo  Aux = L; 
-  while (Aux != NULL && Aux->Elemento.NIF != NIF) Aux = Aux -> Prox;
-  if(Aux->Elemento.NIF != NIF) return NULL;
-  else return Aux;
+  while (Aux != NULL && Aux->Elemento.NIF != NIF) 
+  	Aux = Aux -> Prox;
+
+  if(Aux->Elemento.NIF != NIF) 
+  	return NULL;
+  else 
+  	return Aux;
+}
+
+PNodo ProcurarAnteriorNIF (long long int NIF, PNodo L){
+  PNodo  Ant = NULL; 
+  while (L != NULL && L->Elemento.NIF != NIF){
+    Ant = L;
+    L = L->Prox;
+  } 
+
+  if(L->Elemento.NIF != NIF) 
+  	return NULL;
+  else
+  	return Ant;
 }
 
 PNodo ProcurarNome (char* Nome, PNodo L)
@@ -106,17 +123,21 @@ PNodo RemoverComNIF (long long int NIF, PNodo L)
     P = PAnt->Prox;
     PAnt->Prox = P->Prox; // ou (PAnt->Prox)->Prox
   } 
-  LibertarNodo(P); 
+  free(P);
+  P = NULL; 
   return  L;
 }
 
-PNodo AlterarComNIF (long long int NIF, PNodo L)
+PNodo AlterarComNIF (PNodo L)
 {
+	long long int NIF;
+	printf("Qual é o NIF?\n");
+	scanf("%lld",&NIF);
 	int n;
 	char Nome[100]={};
 	char Morada[100]={};
 	long long int nTelefone = 0;
-	PNodo P = ProcurarAnteriorNIF(NIF, L); //se existir, pedir o que quer alterar;
+	PNodo P = ProcurarNIF(NIF, L); //se existir, pedir o que quer alterar;
   	if (P == NULL) printf("Erro: esse 'NIF' não está associado a nenhum Cliente, por favor verifique se inseriu o 'NIF' corretamente.\n");
   	
 	else
@@ -159,8 +180,9 @@ PNodo AlterarComNIF (long long int NIF, PNodo L)
 }
 
 //Consultar por
-void ConsultarClientesPor(int n, PNodo L)
+void ConsultarClientesPor(PNodo L)
 {
+	int n;
 	long long int NIF = 0;
 	char Nome[100]={};
 	char Morada[100]={};
@@ -171,11 +193,11 @@ void ConsultarClientesPor(int n, PNodo L)
 	printf("3 - Morada\n");
 	printf("4 - Número de telefone\n");
 	printf("Para sair insira um número que seja diferente dos números acima.\n");
+	scanf("%d",&n);
 	switch(n)
 	{
 		//NIF
 		case 1:
-		
 		printf("Insira um 'NIF' válido: ");
 		scanf("%lld", NIF);
 		printf("-----------------------------\n");
@@ -207,5 +229,14 @@ void ConsultarClientesPor(int n, PNodo L)
 
 		default:
 		printf("Operação inválida, por favor insira um número válido.\n");
+	}
+}
+
+void guarderClientes(PNodo L, FILE * FP)
+{
+	while(L!=NULL)
+	{
+		fwrite(&L->Elemento,sizeof(CLIENTE),1,FP);
+		L = L->Prox;
 	}
 }

@@ -264,14 +264,21 @@ void ConsultarLivroEditoraAreaC(PNodoAB t, char * Editora, char * AreaC)
   ConsultarLivroEditoraAreaC(t->Direita,Editora,AreaC);
 }
 
-void ConsultarLivro(int n, PNodoAB t)
+void ConsultarLivro(PNodoAB t)
 {
+  int n;
   long long int ISBN = 0;
   char Titulo[100];
   char Autor[100];
   char Editora[100];
   char AreaC[100];
   int AnoPub=0;
+    printf("1 - Consultar por ISBN.\n");
+    printf("2 - Consultar por Titulo.\n");
+    printf("3 - Consultar por Autor e Ano de publicação.\n");
+    printf("4 - Consultar por Editora e Area Cientifica..\n");
+    printf("Para sair insira um número que seja diferente dos números acima.\n");
+	  scanf("%d",&n);
     //fazer menus para mostrar o que cada numero significa
     switch(n)
     {
@@ -291,9 +298,9 @@ void ConsultarLivro(int n, PNodoAB t)
 
         //Morada
         case 3:
-        printf("Qual o Titulo? ");
+        printf("Qual o Autor? ");
         scanf("\n%[^\n]s",Autor);
-        printf("Qual o Titulo? ");
+        printf("Qual o Ano de publibcação? ");
         scanf("%d",AnoPub);
         ConsultarLivroAutorAnoPublicacao(t,Autor,AnoPub);
         break;
