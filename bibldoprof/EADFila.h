@@ -56,7 +56,6 @@ PNodoFila Juntar (INFO X, PNodoFila Fila){
   return Fila;
 }
 
-
 PNodoFila Remover (PNodoFila Fila){
   PNodoFila P;
   P = Fila;
@@ -65,10 +64,6 @@ PNodoFila Remover (PNodoFila Fila){
   return Fila;
 }
 
-
 INFO Frente (PNodoFila Fila){
   return Fila->Elemento;
 }
-
-
-

@@ -268,4 +268,3 @@ void lerMenuClientes()
         
     }while(opcao !=0);
 }
-
