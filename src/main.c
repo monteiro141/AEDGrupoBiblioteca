@@ -29,6 +29,7 @@ void lerMenuFicheiro();
 void lerMenuLivros();
 void lerMenuClientes();
 void lerMenuEncomendas();
+void lerMenuOperacoes();
 
 PNodoAB livros;
 PNodo clientes;
@@ -106,7 +107,7 @@ void menuClientes()
 void menuEncomendas()
 {
     printf("1 - Inserir encomenda.\n");
-    printf("2 - Remover (implica atualização da lista de compras do Cliente).\n");
+    printf("2 - Remover.\n");
     printf("3 - Consultar todas.\n");
     printf("0 - Sair para o menu.\n");
 }
@@ -138,7 +139,7 @@ void lerMenuFicheiro()
     {
         menuFicheiro();
         scanf("%d",&opcao);
-        //clrscr();
+        clrscr();
         switch(opcao)
         {
             case 1:
@@ -248,7 +249,7 @@ void lerMenuClientes()
     {
         menuClientes();
         scanf("%d",&opcao);
-        //clrscr();
+        clrscr();
         switch(opcao)
         {
             case 1:
@@ -287,7 +288,7 @@ void lerMenuEncomendas()
     {
         menuEncomendas();
         scanf("%d",&opcao);
-        //clrscr();
+        clrscr();
         switch(opcao)
         {
             case 1:
@@ -305,7 +306,7 @@ void lerMenuEncomendas()
                         printf("Não existe esse livro.\n");
                     else {
                         L = DevolveLivro(livros,L);
-                        if((qtd = CriarEncomenda(C,L,&encomenda))==-1)
+                        if((qtd = CriarEncomenda(C,L,&encomenda,&encomendas))==-1)
                             printf("Não foi possivel criar a encomenda.\n");
                         else
                         {
@@ -324,11 +325,40 @@ void lerMenuEncomendas()
                 break;
 
             case 2:
-                
+                encomendas = RemoverEncomenda(encomendas);
                 break;
 
             case 3:
                 encomendas = ConsultarEncomendas(encomendas);
+                break;
+
+            case 0:
+                break;
+        }
+        
+    }while(opcao !=0);
+}
+
+void lerMenuOperacoes()
+{
+    int opcao;
+    do
+    {
+        menuOperacoes();
+        scanf("%d",&opcao);
+        clrscr();
+        switch(opcao)
+        {
+            case 1:
+               
+                break;
+
+            case 2:
+                
+                break;
+
+            case 3:
+                
                 break;
 
             case 4:

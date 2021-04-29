@@ -67,6 +67,7 @@ int CompararLivros (LIVRO x, LIVRO y)
 void MostrarEncomenda (ENCOMENDA E)
 {
     printf("################################\n");
+    printf("ID: %d.\n",E.ID);
     printf("ISBN: %lld.\n",E.ISBN);
     printf("NIF: %lld.\n",E.NIF);
     printf("Encomenda: %d/%d/%d\n",E.Encomenda.Dia,E.Encomenda.Mes,E.Encomenda.ano);
@@ -75,7 +76,7 @@ void MostrarEncomenda (ENCOMENDA E)
     printf("################################\n");
 }
 
-int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E)
+int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E, PNodoFila * encomendas)
 {
     int n=0;
     time_t now = time(NULL);
@@ -83,8 +84,18 @@ int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E)
     printf("################################\n");
     printf("\nQuantos quer encomendar? ");
     scanf("%d",&n);
+    PNodoFila aux = NULL;
+    ENCOMENDA Enc;
+    Enc.ID=0;
     if(n <= L.QuantidadeStock)
     {
+        while(*encomendas!=NULL)
+        {
+            aux = Inserir((*encomendas)->Elemento,aux);
+            Enc.ID = (*encomendas)->Elemento.ID;
+            (*encomendas) = Remover((*encomendas));
+        }
+        (*E).ID = Enc.ID + 1;
         (*E).ISBN = L.ISBN;
         (*E).NIF = C.NIF;
         (*E).Encomenda.Dia = pt->tm_mday;
@@ -92,6 +103,12 @@ int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E)
         (*E).Encomenda.ano = pt->tm_year +1900;
         (*E).Quantidade = n;
         (*E).PrecoTotal = (*E).Quantidade * L.Preco;
+        while(aux!=NULL)
+        {
+            (*encomendas) = Inserir(aux->Elemento,(*encomendas));
+            Enc.ID = (*encomendas)->Elemento.ID;
+            aux = Remover(aux);
+        }
         return n;
     }
     printf("################################\n");

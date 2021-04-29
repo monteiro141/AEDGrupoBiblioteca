@@ -25,6 +25,7 @@ typedef struct LIVRO
 
 typedef struct ENCOMENDA
 {
+    int ID;
     long long int ISBN;
     long long int NIF;
     DATADMA Encomenda;
@@ -86,9 +87,11 @@ Funções:MostrarEncomenda(Recebe uma Encomenda X e mostra os atributos todos da
         CriarEncomenda(Cria uma Encomenda modo random e devolve uma Encomenda)
         CompararEncomendas(Recebe Encomenda X e Y, devolve 0 se forem iguais, -1 se x < y e 1 se x > y).
 */
+PNodoFila Inserir (ENCOMENDA X, PNodoFila Fila);
+PNodoFila Remover (PNodoFila Fila);
 PNodoFila mostrarPorCliente(PNodoFila Fila, CLIENTE C);
 void MostrarEncomenda (ENCOMENDA E);
-int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E);
+int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E, PNodoFila * encomendas);
 int CompararEncomendas (ENCOMENDA X, ENCOMENDA Y);
 
 

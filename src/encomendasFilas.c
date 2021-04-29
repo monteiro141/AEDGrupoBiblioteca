@@ -71,31 +71,6 @@ PNodoFila mostrarPorCliente(PNodoFila Fila, CLIENTE C)
 	return aux;
 }
 
-PNodoFila RemoverEncomendaDadoNIF(PNodoFila Fila)
-{
-	int flag=0; //0->Nao removeu; 1->Removeu;
-	long long int NIF=0;
-	PNodoFila Aux = NULL;
-	printf("Insira o 'NIF' a que quer remover as encomendas: \n");
-	scanf("%lld",&NIF);
-	while(Fila != NULL)
-	{
-		if (Fila->Elemento.NIF == NIF)
-		{
-			Remover(Fila);
-			flag=1;
-		}
-		else
-		{
-			Aux = Inserir(Fila->Elemento,Aux);
-			Fila = Fila -> Prox;
-		}
-	}
-	if (flag == 0)
-		printf("Nenhuma correspondência encontrada!\n");
-	return Aux;
-}
-
 PNodoFila ConsultarEncomendas(PNodoFila Fila)
 {
 	PNodoFila aux =NULL;
@@ -108,6 +83,34 @@ PNodoFila ConsultarEncomendas(PNodoFila Fila)
 	return aux;
 }
 
+
+PNodoFila RemoverEncomenda(PNodoFila Fila)
+{
+	int id,removed=0;
+	PNodoFila aux=NULL;
+	printf("Qual o ID da encomenda para remover?\n");
+	scanf("%d",&id);
+	while(Fila != NULL)
+	{
+		if(Fila->Elemento.ID == id)
+		{
+			Fila = Remover(Fila);
+			removed = 1;
+		}else
+		{
+			aux = Inserir(Fila->Elemento,aux);
+			Fila = Remover(Fila);
+		}
+	}
+	if(removed == 0)
+	{
+		printf("Esse id não existe!\n");
+	}else
+	{
+		printf("Encomenda removida com sucesso.\n");
+	}
+	return aux;
+}
 
 PNodoFila guardarEncomendas(PNodoFila Fila, FILE * FP)
 {
