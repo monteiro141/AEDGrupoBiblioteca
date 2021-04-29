@@ -80,32 +80,32 @@ PNodo ProcurarnTelefone (long long int nTele, PNodo L)
   else return Aux;
 }
 
-void ConsultarClientesPorNIF(long long int NIF, PNodo L)
+void ConsultarClientesPorNIF(long long int NIF, PNodo L,PNodoFila Fila)
 {
 	PNodo aux = ProcurarNIF(NIF, L);
 	if (aux == NULL) printf("Cliente não encontrado, por favor verifique se o 'NIF' foi inserido corretamente!\n");
-	else MostrarCliente(aux->Elemento);
+	else MostrarCliente(aux->Elemento,Fila);
 }
 
-void ConsultarClientesPorNome(char* Nome, PNodo L)
+void ConsultarClientesPorNome(char* Nome, PNodo L,PNodoFila Fila)
 {
 	PNodo aux = ProcurarNome(Nome, L);
 	if (aux == NULL) printf("Cliente não encontrado, por favor verifique se o 'Nome' foi inserido corretamente!\n");
-	else MostrarCliente(aux->Elemento);
+	else MostrarCliente(aux->Elemento,Fila);
 }
 
-void ConsultarClientesPorMorada(char* Morada, PNodo L)
+void ConsultarClientesPorMorada(char* Morada, PNodo L,PNodoFila Fila)
 {
 	PNodo aux = ProcurarMorada(Morada, L);
 	if (aux == NULL) printf("Cliente não encontrado, por favor verifique se a 'Morada' foi inserido corretamente!\n");
-	else MostrarCliente(aux->Elemento);
+	else MostrarCliente(aux->Elemento,Fila);
 }
 
-void ConsultarClientesPornTelefone(long long int nTele, PNodo L)
+void ConsultarClientesPornTelefone(long long int nTele, PNodo L,PNodoFila Fila)
 {
 	PNodo aux = ProcurarnTelefone(nTele, L);
 	if (aux == NULL) printf("Cliente não encontrado, por favor verifique se o 'Número de telefone' foi inserido corretamente!\n");
-	else MostrarCliente(aux->Elemento);
+	else MostrarCliente(aux->Elemento,Fila);
 }
 
 //------------------------------------------------------------------------------------
@@ -119,6 +119,35 @@ PNodo InserirInicio (CLIENTE C, PNodo L)
   P->Prox = L;
   L = P;
   return L;
+}
+
+PNodo AtualizarCliente(CLIENTE C, CLIENTE X, PNodo L)
+{
+	PNodo aux = L;
+	while(aux!= NULL)
+	{
+		if(CompararClientes(aux->Elemento,C)==0)
+		{
+			aux->Elemento = X;
+			return L;
+		}
+		aux = aux->Prox;
+	}
+	return L;
+}
+
+CLIENTE DevolveCliente(CLIENTE C, PNodo L)
+{
+	PNodo aux = L;
+	CLIENTE dummy;
+	dummy.NIF=-1;
+	while(aux != NULL)
+	{
+		if(CompararClientes(aux->Elemento,C)==0)
+			return aux->Elemento;
+		aux = aux->Prox;
+	}
+	return dummy;
 }
 
 PNodo RemoverComNIF (long long int NIF, PNodo L)
@@ -190,7 +219,7 @@ PNodo AlterarComNIF (PNodo L)
 }
 
 //Consultar por
-void ConsultarClientesPor(PNodo L)
+void ConsultarClientesPor(PNodo L,PNodoFila Fila)
 {
 	int n;
 	long long int NIF = 0;
@@ -212,7 +241,7 @@ void ConsultarClientesPor(PNodo L)
 		printf("Insira um 'NIF' válido: ");
 		scanf("%lld", &NIF);
 		printf("-----------------------------\n");
-		ConsultarClientesPorNIF(NIF, L);
+		ConsultarClientesPorNIF(NIF, L,Fila);
 		break;
 
 		//Nome
@@ -220,7 +249,7 @@ void ConsultarClientesPor(PNodo L)
 		printf("Insira um 'Nome' válido: ");
 		scanf("\n%[^\n]s",Nome);
 		printf("-----------------------------\n");
-		ConsultarClientesPorNome(Nome,L);
+		ConsultarClientesPorNome(Nome,L,Fila);
 		break;
 
 		//Morada
@@ -228,14 +257,14 @@ void ConsultarClientesPor(PNodo L)
 		printf("Insira uma 'Morada' válida: ");
 		scanf("\n%[^\n]s",Morada);
 		printf("-----------------------------\n");
-		ConsultarClientesPorMorada(Morada, L);
+		ConsultarClientesPorMorada(Morada, L,Fila);
 		break;
 
 		case 4:
 		printf("Insira um 'Número de telefone' válido: ");
 		scanf("%lld", &nTelefone);
 		printf("-----------------------------\n");
-		ConsultarClientesPornTelefone(nTelefone,L);
+		ConsultarClientesPornTelefone(nTelefone,L,Fila);
 		break;
 
 		case 0:
@@ -245,11 +274,12 @@ void ConsultarClientesPor(PNodo L)
 	}
 }
 
-void guarderClientes(PNodo L, FILE * FP)
+void guardarClientes(PNodo L, FILE * FP)
 {
-	while(L!=NULL)
+	while(L!=NULL) 
 	{
 		fwrite(&L->Elemento,sizeof(CLIENTE),1,FP);
+		//MostrarCliente(L->Elemento);
 		L = L->Prox;
 	}
 }

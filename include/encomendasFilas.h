@@ -1,10 +1,15 @@
 #include "clientesListasLigadas.h"
 
-struct NodoFila {
-  ENCOMENDA Elemento;
-  struct NodoFila *Prox;
-};
 
-typedef struct NodoFila *PNodoFila;
-
+PNodoFila CriarNodoFila (ENCOMENDA X);
+int FilaVazia (PNodoFila Fila);
 PNodoFila CriarFila ();
+PNodoFila Remover (PNodoFila Fila);
+
+PNodoFila Inserir (ENCOMENDA X, PNodoFila Fila);
+
+PNodoFila RemoverEncomendaDadoNIF(PNodoFila Fila);
+
+PNodoFila ConsultarEncomendas(PNodoFila Fila);
+
+PNodoFila guardarEncomendas(PNodoFila Fila, FILE * FP);

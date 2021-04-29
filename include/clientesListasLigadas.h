@@ -2,12 +2,7 @@
 
 #include <stdlib.h>
 
-struct Nodo {
-  CLIENTE Elemento;
-  struct Nodo *Prox;
-};
 
-typedef struct Nodo *PNodo;
 
 PNodo Criar ();
 PNodo CriarNodo (CLIENTE X);
@@ -18,15 +13,17 @@ PNodo ProcurarNome (char* Nome, PNodo L);
 PNodo ProcurarMorada (char* Morada, PNodo L);
 PNodo ProcurarnTelefone (long long int nTele, PNodo L);
 
-void ConsultarClientesPorNIF(long long int NIF, PNodo L);
-void ConsultarClientesPorNome(char* Nome, PNodo L);
-void ConsultarClientesPorMorada(char* Morada, PNodo L);
-void ConsultarClientesPornTelefone(long long int nTele, PNodo L);
+void ConsultarClientesPorNIF(long long int NIF, PNodo L,PNodoFila Fila);
+void ConsultarClientesPorNome(char* Nome, PNodo L,PNodoFila Fila);
+void ConsultarClientesPorMorada(char* Morada, PNodo L,PNodoFila Fila);
+void ConsultarClientesPornTelefone(long long int nTele, PNodo L,PNodoFila Fila);
 
 PNodo InserirInicio (CLIENTE C, PNodo L);
+PNodo AtualizarCliente(CLIENTE C, CLIENTE X, PNodo L);
+CLIENTE DevolveCliente(CLIENTE C, PNodo L);
 PNodo RemoverComNIF (long long int NIF, PNodo L);
 PNodo AlterarComNIF (PNodo L);
 
-void ConsultarClientesPor(PNodo L);
+void ConsultarClientesPor(PNodo L,PNodoFila Fila);
 /*----------Guardar Clientes----------*/
-void guarderClientes(PNodo L, FILE * FP);
+void guardarClientes(PNodo L, FILE * FP);

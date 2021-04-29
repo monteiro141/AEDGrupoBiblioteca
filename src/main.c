@@ -28,6 +28,7 @@ void menuOperacoes();
 void lerMenuFicheiro();
 void lerMenuLivros();
 void lerMenuClientes();
+void lerMenuEncomendas();
 
 PNodoAB livros;
 PNodo clientes;
@@ -59,6 +60,7 @@ int main(void)
                 lerMenuClientes();
                 break;
             case 4:
+                lerMenuEncomendas();
                 break;
             case 5:
                 break;
@@ -105,6 +107,7 @@ void menuEncomendas()
 {
     printf("1 - Inserir encomenda.\n");
     printf("2 - Remover (implica atualização da lista de compras do Cliente).\n");
+    printf("3 - Consultar todas.\n");
     printf("0 - Sair para o menu.\n");
 }
 void menuOperacoes()
@@ -135,7 +138,7 @@ void lerMenuFicheiro()
     {
         menuFicheiro();
         scanf("%d",&opcao);
-        clrscr();
+        //clrscr();
         switch(opcao)
         {
             case 1:
@@ -155,15 +158,12 @@ void lerMenuFicheiro()
                 fpLivros=fopen("EDLivros.bin","rb");
                 while(fread(&Cliente,sizeof(CLIENTE),1,fpClientes)==1)
                 {
-                    //INSERIR CLIENTE
-                    //printf("Porfazer.\n");
+                    //MostrarCliente(Cliente);
                     clientes = InserirInicio(Cliente,clientes);
                 }
                 while(fread(&Encomenda,sizeof(ENCOMENDA),1,fpEncomendas)==1)
                 {
-                    //INSERIR encomenda
-                    printf("Porfazer.\n");
-
+                    encomendas = Inserir(Encomenda,encomendas);
                 }
                 while(fread(&Livro,sizeof(LIVRO),1,fpLivros)==1)
                 {
@@ -181,8 +181,10 @@ void lerMenuFicheiro()
                 fpLivros=fopen("EDLivros.bin","wb");
                 
                 guardarLivros(livros,fpLivros);
-                guarderClientes(clientes,fpClientes);
-
+                guardarClientes(clientes,fpClientes);
+                printf("Arroz\n");
+                encomendas = guardarEncomendas(encomendas,fpEncomendas);
+                printf("massa\n");
                 fclose(fpClientes);
                 fclose(fpEncomendas);
                 fclose(fpLivros);
@@ -259,7 +261,73 @@ void lerMenuClientes()
                 break;
 
             case 4:
-                ConsultarClientesPor(clientes);
+                ConsultarClientesPor(clientes,encomendas);
+                break;
+
+            case 0:
+                break;
+        }
+        
+    }while(opcao !=0);
+}
+
+void lerMenuEncomendas()
+{
+    ENCOMENDA encomenda;
+    LIVRO L,AUX;
+    CLIENTE C,AUXC;
+    int qtd;
+    int opcao;
+    do
+    {
+        menuEncomendas();
+        scanf("%d",&opcao);
+        //clrscr();
+        switch(opcao)
+        {
+            case 1:
+                printf("NIF do cliente: ");
+                scanf("%lld",&C.NIF);
+                if(ProcurarNIF(C.NIF,clientes)==NULL)
+                    printf("Não existe esse cliente!\n");
+                else
+                {
+                    C = DevolveCliente(C,clientes);
+                    printf("ISBN do livro: ");
+                    scanf("%lld",&L.ISBN);
+                    
+                    if(PesquisarABP(livros,L) == 0 )
+                        printf("Não existe esse livro.\n");
+                    else {
+                        L = DevolveLivro(livros,L);
+                        if((qtd = CriarEncomenda(C,L,&encomenda))==-1)
+                            printf("Não foi possivel criar a encomenda.\n");
+                        else
+                        {
+                            AUX = L;
+                            L.QuantidadeStock -= qtd;
+                            //printf("Antes do altLivro.\n");
+                            livros = AlterarLivro(livros,AUX,L);
+                            //printf("Depois do altLivro.\n");
+                            AUXC = C;
+                            C.numeroEncomendas++;
+                            clientes = AtualizarCliente(AUXC,C,clientes);
+                            encomendas = Inserir(encomenda,encomendas);
+                        }
+                    }
+                }
+                break;
+
+            case 2:
+                
+                break;
+
+            case 3:
+                encomendas = ConsultarEncomendas(encomendas);
+                break;
+
+            case 4:
+                
                 break;
 
             case 0:

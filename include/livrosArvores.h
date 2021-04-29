@@ -1,11 +1,5 @@
 #include "OperacoesPrimarias.h"
-struct NodoAB {
-  LIVRO Elemento;
-  struct NodoAB *Esquerda;
-  struct NodoAB *Direita;
-};
 
-typedef struct NodoAB *PNodoAB;
 
 /*----------Funções Auxiliares----------*/
 PNodoAB CriarNodoAB(LIVRO L);
@@ -47,6 +41,7 @@ PNodoAB AlterarLivroAux(PNodoAB t, LIVRO L, LIVRO X);
 PNodoAB AlterarLivro(PNodoAB t, LIVRO L,LIVRO X);
 
 /*----------Consultar Livro----------*/
+LIVRO DevolveLivro(PNodoAB t, LIVRO L);
 void ConsultarLivroTodos(PNodoAB t);
 void ConsultarLivroISBN(PNodoAB t, int ISBN);
 void ConsultarLivroTitulo(PNodoAB t, char * Titulo);

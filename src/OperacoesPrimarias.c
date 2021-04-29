@@ -92,10 +92,10 @@ int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E)
         (*E).Encomenda.ano = pt->tm_year +1900;
         (*E).Quantidade = n;
         (*E).PrecoTotal = (*E).Quantidade * L.Preco;
-        return 0;
+        return n;
     }
     printf("################################\n");
-    return 1;
+    return -1;
 }
 
 int CompararEncomendas (ENCOMENDA X, ENCOMENDA Y)
@@ -112,14 +112,15 @@ int CompararEncomendas (ENCOMENDA X, ENCOMENDA Y)
 
 /*---------------------------Cliente + funções---------------------------*/
 
-void MostrarCliente (CLIENTE C)
+void MostrarCliente (CLIENTE C,PNodoFila Fila)
 {
     printf("################################\n");
     printf("NIF: %lld.\n",C.NIF);
     printf("Nome: %s.\n",C.Nome);
     printf("Morada: %s.\n",C.Morada);
     printf("Telefone: %lld.\n",C.Telefone);
-    printf("*Listar encomendas*\n");
+    printf("***Listar encomendas***\n");
+    Fila = mostrarPorCliente(Fila,C);
     printf("################################\n");
 }
 CLIENTE CriarCliente()
@@ -135,7 +136,7 @@ CLIENTE CriarCliente()
     printf("Telefone: ");
     scanf("%lld",&C.Telefone);
     C.numeroEncomendas = 0;
-    C.ListaDeCompras = malloc(C.numeroEncomendas*sizeof(ENCOMENDA));
+    //C.ListaDeCompras = malloc(C.numeroEncomendas*sizeof(ENCOMENDA));
     printf("################################\n");
     return C;
 }

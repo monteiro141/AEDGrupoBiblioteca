@@ -38,11 +38,32 @@ typedef struct CLIENTE
     char Nome[100];
     char Morada[100];
     long long int Telefone;
-    ENCOMENDA * ListaDeCompras;
+    //ENCOMENDA * ListaDeCompras;
     int numeroEncomendas;
 }CLIENTE;
 
 
+struct NodoFila {
+  ENCOMENDA Elemento;
+  struct NodoFila *Prox;
+};
+
+typedef struct NodoFila *PNodoFila;
+
+struct NodoAB {
+  LIVRO Elemento;
+  struct NodoAB *Esquerda;
+  struct NodoAB *Direita;
+};
+
+typedef struct NodoAB *PNodoAB;
+
+struct Nodo {
+  CLIENTE Elemento;
+  struct Nodo *Prox;
+};
+
+typedef struct Nodo *PNodo;
 
 /*---------------------------Livro + Funções---------------------------*/
 /*
@@ -65,7 +86,7 @@ Funções:MostrarEncomenda(Recebe uma Encomenda X e mostra os atributos todos da
         CriarEncomenda(Cria uma Encomenda modo random e devolve uma Encomenda)
         CompararEncomendas(Recebe Encomenda X e Y, devolve 0 se forem iguais, -1 se x < y e 1 se x > y).
 */
-
+PNodoFila mostrarPorCliente(PNodoFila Fila, CLIENTE C);
 void MostrarEncomenda (ENCOMENDA E);
 int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E);
 int CompararEncomendas (ENCOMENDA X, ENCOMENDA Y);
@@ -79,6 +100,6 @@ Funções:MostrarCliente(Recebe um Cliente X e mostra os atributos todos do Clie
         CompararClientes(Recebe Cliente X e Y, devolve 0 se forem iguais, -1 se x < y e 1 se x > y).
 */
 
-void MostrarCliente (CLIENTE C);
+void MostrarCliente (CLIENTE C,PNodoFila Fila);
 CLIENTE CriarCliente();
 int CompararClientes (CLIENTE X, CLIENTE Y);

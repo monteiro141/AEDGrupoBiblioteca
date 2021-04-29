@@ -253,7 +253,23 @@ PNodoAB AlterarLivro(PNodoAB t, LIVRO L,LIVRO X)
   return t;
 }
 
+
 /*----------Consultar Livro----------*/
+
+LIVRO DevolveLivro(PNodoAB t, LIVRO L)
+{
+  LIVRO A;
+  A.ISBN=-1;
+    if(t==NULL)
+        return A;
+    if(CompararLivros(L,t->Elemento)==0)
+      return t->Elemento;
+    if(CompararLivros(L,t->Elemento)==-1)
+        return DevolveLivro(t->Esquerda,L);
+    else
+        return DevolveLivro(t->Direita,L);
+}
+
 void ConsultarLivroTodos(PNodoAB t)
 {
   if(t==NULL)
