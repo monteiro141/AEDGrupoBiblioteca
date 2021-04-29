@@ -54,32 +54,56 @@ PNodo ProcurarAnteriorNIF (long long int NIF, PNodo L){
   } 
   	return Ant;
 }
-
-PNodo ProcurarNome (char* Nome, PNodo L)
+//Fixar isto depois de jantar
+int ProcurarNome (char* Nome, PNodo L,PNodoFila Fila)
 {
   PNodo  Aux = L; 
-  while (Aux != NULL && strstr(Aux->Elemento.Nome, Nome)) 
-  	Aux = Aux -> Prox;
-  if(strcmp(L->Elemento.Nome, Nome) != 0) 
-  	return NULL;
-  else 
-  	return Aux;
+  int check=0;
+  while (Aux != NULL)
+  {
+	  if(strstr(Aux->Elemento.Nome, Nome)!=NULL)
+	  {
+		  Fila = MostrarCliente(Aux->Elemento,Fila);
+		  check=1;
+	  }
+	  Aux = Aux -> Prox;
+  } 
+  	
+  return check;
 }
 
-PNodo ProcurarMorada (char* Morada, PNodo L)
+int ProcurarMorada (char* Morada, PNodo L,PNodoFila Fila)
 {
   PNodo  Aux = L; 
-  while (Aux != NULL && strstr(Aux->Elemento.Morada, Morada)) Aux = Aux -> Prox;
-  if(strcmp(L->Elemento.Morada, Morada) !=0) return NULL;
-  else return Aux;
+  int check=0;
+  while (Aux != NULL)
+  {
+	  if(strstr(Aux->Elemento.Morada, Morada)!=NULL)
+	  {
+		  Fila =  MostrarCliente(Aux->Elemento,Fila);
+		  check=1;
+	  }
+	  Aux = Aux -> Prox;
+  } 
+  	
+  return check;
 }
 
-PNodo ProcurarnTelefone (long long int nTele, PNodo L)
+int ProcurarnTelefone (long long int nTele, PNodo L, PNodoFila Fila)
 {
   PNodo  Aux = L; 
-  while (Aux != NULL && Aux->Elemento.Telefone != nTele) Aux = Aux -> Prox;
-  if(Aux->Elemento.Telefone != nTele) return NULL;
-  else return Aux;
+  int check=0;
+  while (Aux != NULL)
+  {
+	  if(Aux->Elemento.Telefone == nTele)
+	  {
+		  Fila =  MostrarCliente(Aux->Elemento,Fila);;
+		  check=1;
+	  }
+	  Aux = Aux -> Prox;
+  } 
+  	
+  return check;
 }
 
 PNodoFila ConsultarClientesPorNIF(long long int NIF, PNodo L,PNodoFila Fila)
@@ -94,31 +118,23 @@ PNodoFila ConsultarClientesPorNIF(long long int NIF, PNodo L,PNodoFila Fila)
 
 PNodoFila ConsultarClientesPorNome(char* Nome, PNodo L,PNodoFila Fila)
 {
-	PNodo aux = ProcurarNome(Nome, L);
-	if (aux == NULL) 
+	if (ProcurarNome(Nome, L,Fila)==0) 
 		printf("Cliente não encontrado, por favor verifique se o 'Nome' foi inserido corretamente!\n");
-	else 
-		Fila = MostrarCliente(aux->Elemento,Fila);
 	return Fila;
 }
 
 PNodoFila ConsultarClientesPorMorada(char* Morada, PNodo L,PNodoFila Fila)
 {
-	PNodo aux = ProcurarMorada(Morada, L);
-	if (aux == NULL) 
+	
+	if (ProcurarMorada(Morada, L,Fila)==0) 
 		printf("Cliente não encontrado, por favor verifique se a 'Morada' foi inserido corretamente!\n");
-	else 
-		Fila = MostrarCliente(aux->Elemento,Fila);
 	return Fila;
 }
 
 PNodoFila ConsultarClientesPornTelefone(long long int nTele, PNodo L,PNodoFila Fila)
 {
-	PNodo aux = ProcurarnTelefone(nTele, L);
-	if (aux == NULL) 
+	if (ProcurarnTelefone(nTele, L,Fila)==0) 
 		printf("Cliente não encontrado, por favor verifique se o 'Número de telefone' foi inserido corretamente!\n");
-	else 
-		Fila = MostrarCliente(aux->Elemento,Fila);
 	return Fila;
 }
 
