@@ -182,9 +182,7 @@ void lerMenuFicheiro()
                 
                 guardarLivros(livros,fpLivros);
                 guardarClientes(clientes,fpClientes);
-                printf("Arroz\n");
                 encomendas = guardarEncomendas(encomendas,fpEncomendas);
-                printf("massa\n");
                 fclose(fpClientes);
                 fclose(fpEncomendas);
                 fclose(fpLivros);
@@ -220,7 +218,14 @@ void lerMenuLivros()
             case 3:
                 printf("Qual ISBN para editar?\n");
                 scanf("%lld",&livro.ISBN);
-                livros = AlterarLivro(livros,livro,CriarLivro());
+                //livros = AlterarLivro(livros,livro,CriarLivro());
+                if(PesquisarABP(livros,livro)==0)
+                    printf("ISBN invalido!\n");
+                else
+                {
+                    livros = RemoverLivro(livros,livro);
+                    livros = InserirLivro(livros,CriarLivro());
+                }
                 break;
 
             case 4:
@@ -243,7 +248,7 @@ void lerMenuClientes()
     {
         menuClientes();
         scanf("%d",&opcao);
-        clrscr();
+        //clrscr();
         switch(opcao)
         {
             case 1:
@@ -261,7 +266,7 @@ void lerMenuClientes()
                 break;
 
             case 4:
-                ConsultarClientesPor(clientes,encomendas);
+                encomendas = ConsultarClientesPor(clientes,encomendas);
                 break;
 
             case 0:
@@ -288,7 +293,7 @@ void lerMenuEncomendas()
             case 1:
                 printf("NIF do cliente: ");
                 scanf("%lld",&C.NIF);
-                if(ProcurarNIF(C.NIF,clientes)==NULL)
+                if(ProcurarNIF(C.NIF,clientes,&C)==1)
                     printf("Não existe esse cliente!\n");
                 else
                 {

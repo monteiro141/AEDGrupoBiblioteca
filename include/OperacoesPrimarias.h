@@ -100,6 +100,6 @@ Funções:MostrarCliente(Recebe um Cliente X e mostra os atributos todos do Clie
         CompararClientes(Recebe Cliente X e Y, devolve 0 se forem iguais, -1 se x < y e 1 se x > y).
 */
 
-void MostrarCliente (CLIENTE C,PNodoFila Fila);
+PNodoFila MostrarCliente (CLIENTE C,PNodoFila Fila);
 CLIENTE CriarCliente();
 int CompararClientes (CLIENTE X, CLIENTE Y);

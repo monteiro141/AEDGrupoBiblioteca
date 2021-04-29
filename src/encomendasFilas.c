@@ -114,9 +114,7 @@ PNodoFila guardarEncomendas(PNodoFila Fila, FILE * FP)
 	PNodoFila aux=NULL;
 	while(Fila !=NULL)
 	{
-		printf("Cenas\n");
 		aux = Inserir(Fila->Elemento,aux);
-		printf("outrascenas\n");
 		fwrite(&Fila->Elemento,sizeof(ENCOMENDA),1,FP);
 		Fila = Remover(Fila);
 	}

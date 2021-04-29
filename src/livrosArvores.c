@@ -239,13 +239,14 @@ PNodoAB AlterarLivroAux(PNodoAB t, LIVRO L, LIVRO X)
 
 PNodoAB AlterarLivro(PNodoAB t, LIVRO L,LIVRO X)
 {
-  if(PesquisarABP(t,L)==0)
+  PNodoAB aux = t;
+  if(PesquisarABP(aux,L)==0)
   {
     printf("Livro não existe!\n");
     return t;
   }
 
-  t = AlterarLivroAux(t,L,X);
+  aux = AlterarLivroAux(aux,L,X);
 
   if(verificarEquilibrio(t)==0)
     t = CriarABPEquilibradaIB(t);

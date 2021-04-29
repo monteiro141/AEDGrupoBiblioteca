@@ -112,7 +112,7 @@ int CompararEncomendas (ENCOMENDA X, ENCOMENDA Y)
 
 /*---------------------------Cliente + funções---------------------------*/
 
-void MostrarCliente (CLIENTE C,PNodoFila Fila)
+PNodoFila MostrarCliente (CLIENTE C,PNodoFila Fila)
 {
     printf("################################\n");
     printf("NIF: %lld.\n",C.NIF);
@@ -122,6 +122,7 @@ void MostrarCliente (CLIENTE C,PNodoFila Fila)
     printf("***Listar encomendas***\n");
     Fila = mostrarPorCliente(Fila,C);
     printf("################################\n");
+    return Fila;
 }
 CLIENTE CriarCliente()
 {
@@ -144,7 +145,7 @@ int CompararClientes (CLIENTE X, CLIENTE Y)
 {
     if(X.NIF > Y.NIF)
         return 1;
-    else if(X.NIF > Y.NIF)
+    else if(X.NIF < Y.NIF)
         return -1;
     else
         return 0;
