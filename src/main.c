@@ -356,21 +356,85 @@ void lerMenuOperacoes()
         switch(opcao)
         {
             case 1:
-                
+                //funcao1(arvore, mes1, mes2, ano1, ano2);
+
+                // percorrer a arvore e conta quantos livros foram vendidos
+                // entre 'x' e 'y' meses dentro de 'a' e 'b' anos
                 break;
 
             case 2:
-                
+                //funcao2(arvore, livro);
+
+                // percorre as encomendas dentro da arvore
+                // e guarda a data mais recente do 'livro' vendido escolhido
                 break;
 
             case 3:
-                
+                //funcao3(cliente);
+
+                // percorrer todas as encomendas e somar a 'Quantidade'
                 break;
 
             case 4:
-                
+                //funcao4(arvore,area cientifica, int K);
+
+                // percorrer a arvore e comparar os Nodos a procura de livros da 'area cientifica'
+                // e por os livros da 'area cientifica' por ordem decrescente
+                // (os mais recentes primeiro)
+                // mostrar os K primeiro elementos
                 break;
 
+            case 5:
+                //funcao5(arvore, mes1, mes2, ano1, ano2, int K);
+
+                // similar a funcao4, mas tem em conta os intervalos de tempo
+                // em vez da 'Area Cientifica'
+                break;
+
+            case 6:
+                //funcao6(arvore);
+
+                // procurar a arvore pelos diferentes tipos de 'Areas Cientificas'
+                // e conta a quantidade de livros de cada categoria
+                break;
+
+            case 7:
+                //funcao7(listaClientes);
+
+                // usa a funcao3 ate nao haver mais clientes para analisar, 
+                // guardando o cliente e o numero de livros comprados,
+                // comparando-os e mantemdo o cliente com o maior numero de livros comprado
+                break;
+
+            case 8:
+                //funcao8(listaClientes);
+
+                // similarmente a funcao7, usa a funcao3 e guarda todos os clientes
+                // com o numero de livros comprados numa lista
+                // e de seguida e ordenado com um algoritmo de ordenacao
+                break;
+
+            case 9:
+                //funcao9(arvore);
+
+                // percorrer a arvore e encontrar o ano mais antigo de publicacao
+                // apos encontrar o numero mais antigo percorrer a arvore toda ate ao ano atual
+                // guardando o numero de livros publicados no ano em questao para comparar com o ano a seguir
+                // guardando o ano com mais publicacoes
+                break;
+
+            case 10:
+                //funcao10(listaClientes, mes1, mes2, ano1, ano2);
+
+                // percorrer a listaClientes e le o precoTotal das encomendas de cada cliente,
+                // comparando-o com o seguinte, guardando apenas o cliente com o maior gasto
+                break;
+
+            case 11:
+                //funcao11();
+
+                // nao faco a minima como pegar nisto 991 sirene
+                break;
             case 0:
                 break;
 
