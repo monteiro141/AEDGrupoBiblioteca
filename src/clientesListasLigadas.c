@@ -260,37 +260,37 @@ PNodo AlterarComNIF (PNodo L)
 		{
 			//Nome
 			case 1:
-			printf("Insira um 'Nome' válido: ");
-			scanf("\n%[^\n]s",Nome);
-			C.NIF = NIF;
-			C = DevolveCliente(C,L);
-			New = C;
-			strcpy(New.Nome,Nome);
-			L = AtualizarCliente(C,New,L);
-			break;
+				printf("Insira um 'Nome' válido: ");
+				scanf("\n%[^\n]s",Nome);
+				C.NIF = NIF;
+				C = DevolveCliente(C,L);
+				New = C;
+				strcpy(New.Nome,Nome);
+				L = AtualizarCliente(C,New,L);
+				break;
 
 			//Morada
 			case 2:
-			printf("Insira uma 'Morada' válida: ");
-			scanf("\n%[^\n]s",Morada);
-			C.NIF = NIF;
-			C = DevolveCliente(C,L);
-			New = C;
-			strcpy(New.Morada,Morada);
-			L = AtualizarCliente(C,New,L);
-			break;
+				printf("Insira uma 'Morada' válida: ");
+				scanf("\n%[^\n]s",Morada);
+				C.NIF = NIF;
+				C = DevolveCliente(C,L);
+				New = C;
+				strcpy(New.Morada,Morada);
+				L = AtualizarCliente(C,New,L);
+				break;
 
 			case 3:
-			printf("Insira um 'Número de telefone' válido: ");
-			scanf("%lld", &nTelefone);
-			C.NIF = NIF;
-			C = DevolveCliente(C,L);
-			New = C;
-			New.Telefone = nTelefone;
-			L = AtualizarCliente(C,New,L);
-			break;
+				printf("Insira um 'Número de telefone' válido: ");
+				scanf("%lld", &nTelefone);
+				C.NIF = NIF;
+				C = DevolveCliente(C,L);
+				New = C;
+				New.Telefone = nTelefone;
+				L = AtualizarCliente(C,New,L);
+				break;
 			default:
-			printf("Operação inválida, por favor insira um número válido.\n");
+				printf("Operação inválida, por favor insira um número válido.\n");
 		}
 		printf("\n");
 		printf("Mudança feita com sucesso.\n");
@@ -321,41 +321,44 @@ PNodoFila ConsultarClientesPor(PNodo L,PNodoFila Fila)
 	{
 		//NIF
 		case 1:
-		printf("Insira um 'NIF' válido: ");
-		scanf("%lld", &NIF);
-		printf("-----------------------------\n");
-		Fila = ConsultarClientesPorNIF(NIF, L,Fila);
-		break;
+			printf("Insira um 'NIF' válido: ");
+			scanf("%lld", &NIF);
+			printf("-----------------------------\n");
+			Fila = ConsultarClientesPorNIF(NIF, L,Fila);
+			break;
 
 		//Nome
 		case 2:
-		printf("Insira um 'Nome' válido: ");
-		scanf("\n%[^\n]s",Nome);
-		printf("-----------------------------\n");
-		Fila= ConsultarClientesPorNome(Nome,L,Fila);
-		break;
+			printf("Insira um 'Nome' válido: ");
+			scanf("\n%[^\n]s",Nome);
+			printf("-----------------------------\n");
+			Fila= ConsultarClientesPorNome(Nome,L,Fila);
+			break;
 
 		//Morada
 		case 3:
-		printf("Insira uma 'Morada' válida: ");
-		scanf("\n%[^\n]s",Morada);
-		printf("-----------------------------\n");
-		Fila= ConsultarClientesPorMorada(Morada, L,Fila);
-		break;
+			printf("Insira uma 'Morada' válida: ");
+			scanf("\n%[^\n]s",Morada);
+			printf("-----------------------------\n");
+			Fila= ConsultarClientesPorMorada(Morada, L,Fila);
+			break;
 
 		case 4:
-		printf("Insira um 'Número de telefone' válido: ");
-		scanf("%lld", &nTelefone);
-		printf("-----------------------------\n");
-		Fila = ConsultarClientesPornTelefone(nTelefone,L,Fila);
-		break;
+			printf("Insira um 'Número de telefone' válido: ");
+			scanf("%lld", &nTelefone);
+			printf("-----------------------------\n");
+			Fila = ConsultarClientesPornTelefone(nTelefone,L,Fila);
+			break;
+
 		case 5:
-		Fila= ConsultarClientesTodos(L,Fila);
-		break;
+			Fila= ConsultarClientesTodos(L,Fila);
+			break;
+
 		case 0:
 			break;
+
 		default:
-		printf("Operação inválida, por favor insira um número válido.\n");
+			printf("Operação inválida, por favor insira um número válido.\n");
 	}
 	return Fila;
 }

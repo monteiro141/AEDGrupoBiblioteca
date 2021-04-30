@@ -344,6 +344,23 @@ void lerMenuOperacoes()
     int opcao;
     do
     {
+        printf("Operações disponíveis:\n");
+        printf("\n");
+        printf("1 - Quantos livros foram vendidos num dado período de tempo (mês e ano)\n");
+        printf("2 - Determinar a data da última compra/venda de um dado livro\n");
+        printf("3 - Determinar quantos livros um dado cliente já comprou\n");
+        printf("4 - Mostrar os K livros mais recentes de uma dada Área Científica\n");
+        printf("5 - Mostrar os K livros mais vendidos num dado período (mês e ano)\n");
+        printf("6 - Determinar a Área Científica com mais livros\n");
+        printf("7 - Determinar qual o Cliente com mais livros comprados\n");
+        printf("8 - Mostrar os Clientes por ordem decrescente do número de compras\n");
+        printf("9 - Determinar o Ano com mais publicações\n");
+        printf("10 - Calcular o cliente que mais gastou num dado período (mês e ano)\n");
+        printf("11 - Determinar o desperdício de memória\n");
+        printf("\n");
+        printf("0 - Sair do Menu de Operações\n");
+        printf("\n");
+        printf("Escolha a operação que pretende realizar:");
         menuOperacoes();
         scanf("%d",&opcao);
         clrscr();
@@ -367,6 +384,9 @@ void lerMenuOperacoes()
 
             case 0:
                 break;
+
+            default:
+			    printf("Operação inválida, por favor insira um número válido.\n");
         }
         
     }while(opcao !=0);
