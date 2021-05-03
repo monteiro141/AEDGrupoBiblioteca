@@ -5,7 +5,8 @@
 //#include "OperacoesPrimarias.h" V
 //#include "livrosArvores.h" V
 //#include "clientesListasLigadas.h" V
-#include "encomendasFilas.h"
+//#include "encomendasFilas.h"
+#include "operacoes.h"
 
 //Mostrar os menus
 void clrscr()
@@ -356,37 +357,42 @@ void lerMenuOperacoes()
         switch(opcao)
         {
             case 1:
-                //funcao1(arvore, mes1, mes2, ano1, ano2);
-
-                // percorrer a arvore e conta quantos livros foram vendidos
-                // entre 'x' e 'y' meses dentro de 'a' e 'b' anos
+                /*Quantos livros foram vendidos num dado período de tempo (mês e ano)
+                funcao1(filas, mes1, mes2, ano1, ano2); livros -> arvore ; encomendas -> filas tem as datas
+                Buscar os ISBNs à função e listar pelo void ConsultarLivroISBN(PNodoAB t, int ISBN)
+                percorrer a arvore e conta quantos livros foram vendidos
+                entre 'x' e 'y' meses dentro de 'a' e 'b' anos*/
+                encomendas = operacao1(encomendas);
                 break;
 
             case 2:
-                //funcao2(arvore, livro);
-
-                // percorre as encomendas dentro da arvore
-                // e guarda a data mais recente do 'livro' vendido escolhido
+                /*funcao2(encomendas, livro);
+                percorre as encomendas dentro da arvore
+                e guarda a data mais recente do 'livro' vendido escolhido*/
+                
+                encomendas = operacao2(encomendas);
+                
                 break;
 
             case 3:
-                //funcao3(cliente);
-
+                //funcao3(cliente,encomendas);
+                
                 // percorrer todas as encomendas e somar a 'Quantidade'
+                encomendas = operacao3(encomendas);
                 break;
 
             case 4:
-                //funcao4(arvore,area cientifica, int K);
-
-                // percorrer a arvore e comparar os Nodos a procura de livros da 'area cientifica'
-                // e por os livros da 'area cientifica' por ordem decrescente
-                // (os mais recentes primeiro)
-                // mostrar os K primeiro elementos
+                /*funcao4(arvore,area cientifica, int K)
+                percorrer a arvore e comparar os Nodos a procura de livros da 'area cientifica'
+                e por os livros da 'area cientifica' por ordem crescente
+                (os mais recentes primeiro)
+                mostrar os K primeiro elementos*/
+                operacao4(livros);
                 break;
 
             case 5:
-                //funcao5(arvore, mes1, mes2, ano1, ano2, int K);
-
+                //funcao5(fila encomendas, mes1, mes2, ano1, ano2, int K);
+                
                 // similar a funcao4, mas tem em conta os intervalos de tempo
                 // em vez da 'Area Cientifica'
                 break;
@@ -424,7 +430,7 @@ void lerMenuOperacoes()
                 break;
 
             case 10:
-                //funcao10(listaClientes, mes1, mes2, ano1, ano2);
+                //funcao10(listaClientes, mes1, mes2, ano1, ano2, encomendas);
 
                 // percorrer a listaClientes e le o precoTotal das encomendas de cada cliente,
                 // comparando-o com o seguinte, guardando apenas o cliente com o maior gasto
