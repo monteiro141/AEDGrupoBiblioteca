@@ -84,7 +84,7 @@ PNodoFila ConsultarEncomendas(PNodoFila Fila)
 }
 
 
-PNodoFila RemoverEncomenda(PNodoFila Fila)
+PNodoFila RemoverEncomenda(PNodoFila Fila,ENCOMENDA * e)
 {
 	int id,removed=0;
 	PNodoFila aux=NULL;
@@ -94,8 +94,10 @@ PNodoFila RemoverEncomenda(PNodoFila Fila)
 	{
 		if(Fila->Elemento.ID == id)
 		{
+			(*e)=Fila->Elemento;
 			Fila = Remover(Fila);
 			removed = 1;
+			
 		}else
 		{
 			aux = Inserir(Fila->Elemento,aux);

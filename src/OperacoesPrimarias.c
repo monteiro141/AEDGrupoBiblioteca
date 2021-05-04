@@ -66,14 +66,18 @@ int CompararLivros (LIVRO x, LIVRO y)
 
 void MostrarEncomenda (ENCOMENDA E)
 {
-    printf("################################\n");
+    printf("**\n");
     printf("ID: %d.\n",E.ID);
     printf("ISBN: %lld.\n",E.ISBN);
     printf("NIF: %lld.\n",E.NIF);
-    printf("Encomenda: %d/%d/%d\n",E.Encomenda.Dia,E.Encomenda.Mes,E.Encomenda.ano);
     printf("Quantidade: %d\n",E.Quantidade);
     printf("Preço Total: %.2f\n",E.PrecoTotal);
-    printf("################################\n");
+    printf("Encomenda: %d/%d/%d\n",E.Encomenda.Dia,E.Encomenda.Mes,E.Encomenda.ano);
+    if(E.Concluida.ano==-1)
+        printf("Não foi concluida\n");
+    else
+        printf("Concluida: %d/%d/%d\n",E.Concluida.Dia,E.Concluida.Mes,E.Concluida.ano);
+    printf("**\n");
 }
 
 int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E, PNodoFila * encomendas)
@@ -102,7 +106,11 @@ int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E, PNodoFila * encomendas)
         (*E).Encomenda.Mes = pt->tm_mon +1;
         (*E).Encomenda.ano = pt->tm_year +1900;
         (*E).Quantidade = n;
+        (*E).Concluida.Dia = -1;
+        (*E).Concluida.Mes = -1;
+        (*E).Concluida.ano = -1;
         (*E).PrecoTotal = (*E).Quantidade * L.Preco;
+
         while(aux!=NULL)
         {
             (*encomendas) = Inserir(aux->Elemento,(*encomendas));
@@ -136,7 +144,12 @@ PNodoFila MostrarCliente (CLIENTE C,PNodoFila Fila)
     printf("Nome: %s.\n",C.Nome);
     printf("Morada: %s.\n",C.Morada);
     printf("Telefone: %lld.\n",C.Telefone);
-    printf("***Listar encomendas***\n");
+    printf("\n***Encomendas concluidas***\n");
+    for(int i = 0; i < C.numeroEncomendas; i++)
+    {
+        MostrarEncomenda(C.ListaDeCompras[i]);
+    }
+    printf("\n***Encomendas por concluir***\n");
     Fila = mostrarPorCliente(Fila,C);
     printf("################################\n");
     return Fila;

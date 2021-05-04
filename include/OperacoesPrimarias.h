@@ -29,6 +29,7 @@ typedef struct ENCOMENDA
     long long int ISBN;
     long long int NIF;
     DATADMA Encomenda;
+    DATADMA Concluida;
     int Quantidade;
     float PrecoTotal;
 }ENCOMENDA;
@@ -39,7 +40,7 @@ typedef struct CLIENTE
     char Nome[100];
     char Morada[100];
     long long int Telefone;
-    //ENCOMENDA * ListaDeCompras;
+    ENCOMENDA ListaDeCompras[100];
     int numeroEncomendas;
 }CLIENTE;
 

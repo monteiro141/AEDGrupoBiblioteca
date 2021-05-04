@@ -8,6 +8,6 @@ PNodoFila CriarFila ();
 
 PNodoFila ConsultarEncomendas(PNodoFila Fila);
 
-PNodoFila RemoverEncomenda(PNodoFila Fila);
+PNodoFila RemoverEncomenda(PNodoFila Fila,ENCOMENDA * e);
 
 PNodoFila guardarEncomendas(PNodoFila Fila, FILE * FP);

@@ -293,6 +293,9 @@ void lerMenuEncomendas()
     ENCOMENDA encomenda;
     LIVRO L,AUX;
     CLIENTE C,AUXC;
+    ENCOMENDA encRemovida;
+    time_t now = time(NULL);
+    struct tm *pt = localtime(&now);
     int qtd;
     int opcao;
     clrscr();
@@ -328,7 +331,7 @@ void lerMenuEncomendas()
                             livros = AlterarLivro(livros,AUX,L);
                             //printf("Depois do altLivro.\n");
                             AUXC = C;
-                            C.numeroEncomendas++;
+                            //C.numeroEncomendas++;
                             clientes = AtualizarCliente(AUXC,C,clientes);
                             encomendas = Inserir(encomenda,encomendas);
                         }
@@ -337,7 +340,16 @@ void lerMenuEncomendas()
                 break;
 
             case 2:
-                encomendas = RemoverEncomenda(encomendas);
+                // Remover encomenda e atualizar os clientes
+                encomendas = RemoverEncomenda(encomendas,&encRemovida);
+                ProcurarNIF(C.NIF,clientes,&C);
+                AUXC = C;
+                C.numeroEncomendas++;
+                encRemovida.Concluida.Dia = pt->tm_mday;
+                encRemovida.Concluida.Mes = pt->tm_mon +1;
+                encRemovida.Concluida.ano = pt->tm_year +1900;
+                C.ListaDeCompras[C.numeroEncomendas-1] = encRemovida;
+                clientes = AtualizarCliente(AUXC,C,clientes);
                 break;
 
             case 3:
@@ -404,7 +416,7 @@ void lerMenuOperacoes()
 
             case 6:
                 //funcao6(arvore);
-
+                operacao6(livros);
                 // procurar a arvore pelos diferentes tipos de 'Areas Cientificas'
                 // e conta a quantidade de livros de cada categoria
                 break;

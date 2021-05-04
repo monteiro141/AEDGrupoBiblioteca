@@ -257,8 +257,67 @@ void operacao6(PNodoAB LIVROS)
     {
         printf("Não tem livros.\n");
     }
+    free(livrosAC);
     return;
 }
+
+void bubbleSort7(operacao7counter ** arr, int n)
+{
+    int i,j;
+    operacao7counter aux;
+    for (i = 0; i < n-1; i++)      
+  
+       // Last i elements are already in place   
+       for (j = 0; j < n-i-1; j++) 
+           if ((*arr)[j].qtdLivros < (*arr)[j+1].qtdLivros)
+           {
+            aux = (*arr)[j];
+            (*arr)[j] = (*arr)[j+1];
+            (*arr)[j+1] = aux;
+           }
+}
+
+PNodoFila operacao7Aux(PNodoFila ENCOMENDAS,operacao7counter ** clientes,int * quantidade)
+{
+    PNodoFila aux=NULL;
+    int exist=0;
+    while(ENCOMENDAS != NULL)
+    {
+        aux = Inserir(ENCOMENDAS->Elemento,aux);
+        for(int i=0;i < (*quantidade);i++)
+        {
+            if(ENCOMENDAS->Elemento.NIF==(*clientes)[i].NIF)
+            {
+                exist=1;
+                (*clientes)[i].qtdLivros += ENCOMENDAS->Elemento.Quantidade;
+            }
+        }
+        if(exist==0)
+        {
+            (*quantidade)++;
+            (*clientes) = realloc((*clientes),(*quantidade)*sizeof(operacao7counter));
+            (*clientes)[(*quantidade)-1].NIF = ENCOMENDAS->Elemento.NIF;
+            (*clientes)[(*quantidade)-1].qtdLivros = ENCOMENDAS->Elemento.Quantidade;
+        }
+    }
+    return aux;
+}
+
+PNodoFila operacao7(PNodoFila ENCOMENDAS, PNodo L)
+{
+    int quantidade=0;
+    operacao7counter * clientes = malloc(quantidade*sizeof(operacao7counter));
+    ENCOMENDAS = operacao7Aux(ENCOMENDAS,&clientes,&quantidade);
+    bubbleSort7(&clientes,quantidade);
+    if(quantidade==0)
+        printf("Não há clientes com encomendas.\n");
+    else
+        ENCOMENDAS = ConsultarClientesPorNIF(clientes[0].NIF,L,ENCOMENDAS);
+    return ENCOMENDAS;
+}
+
+
+
 
 void operacao8(PNodoFila filaEncomendas)
 {
@@ -269,5 +328,50 @@ void operacao8(PNodoFila filaEncomendas)
     for (int i = 0; i < tamanhototalclientes; i++)
     {
         //TODO
+    }
+}
+
+void operacao9Aux(PNodoAB LIVROS, operacao9counter ** livrosAnoPub,int * quantidade)
+{
+    if(LIVROS == NULL)
+        return;
+    int exist=0;
+    for(int i=0;i < (*quantidade);i++)
+    {
+        if(LIVROS->Elemento.AnoPublicacao == (*livrosAnoPub)[i].ano)
+        {
+            (*livrosAnoPub)[i].qtd ++;
+            exist=1;
+        }
+    }
+    if(exist==0)
+    {
+        (*quantidade)++;
+        (*livrosAnoPub) = realloc((*livrosAnoPub),(*quantidade)*sizeof(operacao9counter));
+        (*livrosAnoPub)[(*quantidade)].ano = LIVROS->Elemento.AnoPublicacao;
+        (*livrosAnoPub)[(*quantidade)].qtd = 1;
+    }
+    operacao9Aux(LIVROS->Esquerda,livrosAnoPub,quantidade);
+    operacao9Aux(LIVROS->Direita,livrosAnoPub,quantidade);
+}
+
+void operacao9(PNodoAB LIVROS)
+{
+    int quantidade=0, anoMax=0,qtdMax=0;
+    operacao9counter * livrosAnoPub = malloc(quantidade*sizeof(operacao9counter));
+    operacao9Aux(LIVROS,&livrosAnoPub,&quantidade);
+    if(quantidade==0)
+        printf("Não há publicações.\n");
+    else
+    {
+        for(int i = 0;i <quantidade;i++)
+        {
+            if(livrosAnoPub[i].qtd > qtdMax)
+            {
+                anoMax = livrosAnoPub[i].ano;
+                qtdMax = livrosAnoPub[i].qtd;
+            }
+        }
+        printf("%d teve %d publicações e foi o ano com mais publicações.\n",anoMax,qtdMax);
     }
 }

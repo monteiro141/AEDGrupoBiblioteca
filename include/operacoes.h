@@ -16,33 +16,52 @@ void bubbleSort4(LIVRO ** arr, int n);
 void operacao4Aux(PNodoAB Livros, LIVRO ** kLivros,int * quantidade, char * areaC);
 void operacao4(PNodoAB Livros);
 
+
+//Mostrar os K livros mais vendidos num dado período (mês e ano);
 typedef struct operacao5Counter
 {
     long long int ISBN;
     int qtd;
 }operacao5Counter;
-
-
-//Mostrar os K livros mais vendidos num dado período (mês e ano);
 void bubbleSort5(operacao5Counter ** arr, int n);
 PNodoFila operacao5Aux(PNodoFila ENCOMENDA,int mI,int mF,int aI,int aF,operacao5Counter ** kLivros,int * quantidade);
 PNodoFila operacao5(PNodoFila ENCOMENDA,PNodoAB LIVROS);
 
 
+//6 Determinar a Área Científica com mais livros
 typedef struct operacao6counter
 {   char AreaCientifica[100];
     int qtd;
 } operacao6counter;
-//Determinar a Área Científica com mais livros
 void bubbleSort6(operacao6counter ** arr, int n);
 void operacao6Aux(PNodoAB LIVROS, operacao6counter ** livrosAC, int * quantidade);
 void operacao6(PNodoAB LIVROS);
 
+
+//Determinar qual o Cliente com mais livros comprados;
+typedef struct operacao7counter
+{   long long int NIF;
+    int qtdLivros;
+} operacao7counter;
+void bubbleSort7(operacao7counter ** arr, int n);
+PNodoFila operacao7Aux(PNodoFila ENCOMENDAS,operacao7counter ** clientes,int * quantidade);
+PNodoFila operacao7(PNodoFila ENCOMENDAS, PNodo L);
+
+//Mostrar os Clientes por ordem decrescente do número de compras;
 typedef struct
 {
     long long int NIF;
     char Nome[100];
     int numeroCompras;
 }operacao8counter;
-
 void operacao8(PNodoFila filaEncomendas);
+
+
+//Determinar o Ano com mais publicações
+typedef struct
+{
+    int ano;
+    int qtd;
+}operacao9counter;
+
+void operacao9(PNodoAB LIVROS);
