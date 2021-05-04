@@ -316,20 +316,60 @@ PNodoFila operacao7(PNodoFila ENCOMENDAS, PNodo L)
     return ENCOMENDAS;
 }
 
-
-
-
-void operacao8(PNodoFila filaEncomendas)
+void operacao8(PNodo listaClientes)
 {
-    int tamanhototalclientes = 0, exists = 0;
-    operacao8counter * clientes = malloc(tamanhototalclientes*sizeof(operacao8counter));
-    if(filaEncomendas == NULL)
-        return;
+    PNodo aux = listaClientes;
+    int tamanhototalclientes = 1, exists = 0;
+    operacao8cliente * clientes = malloc(tamanhototalclientes*sizeof(operacao8cliente));
+
+    while (aux != NULL)
+    {
+        for (int i = 0; i < tamanhototalclientes; i++)
+        {
+            if (aux->Elemento.NIF == clientes[tamanhototalclientes-1].NIF)
+            {
+                exists=1;
+            }
+        
+            if (exists == 0)
+            {
+                
+                tamanhototalclientes++;
+                clientes= realloc(clientes, tamanhototalclientes*sizeof(operacao8cliente));
+
+                operacao8cliente novoCliente;
+                novoCliente.NIF = aux->Elemento.NIF;
+                strcpy(novoCliente.Nome, aux->Elemento.Nome);
+                novoCliente.numeroCompras = aux->Elemento.numeroEncomendas;
+                clientes[tamanhototalclientes-1] = novoCliente;
+            }
+            exists=0;
+        }
+        aux = aux->Prox;
+    }
+
+    int i,j;
+    operacao8cliente clienteAux;
+    for (i = 0; i < tamanhototalclientes-1; i++)      
+    {
+        // Last i elements are already in place   
+        for (j = 0; j < tamanhototalclientes-i-1; j++) 
+        {
+            if (clientes[j].numeroCompras > clientes[j+1].numeroCompras)
+            {
+                clienteAux = clientes[j];
+                clientes[j] = clientes[j+1];
+                clientes[j+1] = clienteAux;
+            }
+        }
+    }
+
     for (int i = 0; i < tamanhototalclientes; i++)
     {
-        //TODO
+        printf("NIF: %lld, Nome: %s, Número de encomendas: %i", clientes[i].NIF, clientes[i].Nome, clientes[i].numeroCompras);
     }
 }
+
 
 void operacao9Aux(PNodoAB LIVROS, operacao9counter ** livrosAnoPub,int * quantidade)
 {

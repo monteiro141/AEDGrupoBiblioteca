@@ -53,9 +53,9 @@ typedef struct
     long long int NIF;
     char Nome[100];
     int numeroCompras;
-}operacao8counter;
-void operacao8(PNodoFila filaEncomendas);
+}operacao8cliente;
 
+void operacao8(PNodoFila filaEncomendas);
 
 //Determinar o Ano com mais publicações
 typedef struct
