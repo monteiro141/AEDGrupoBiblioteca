@@ -114,7 +114,7 @@ void menuEncomendas()
 }
 void menuOperacoes()
 {
-    printf("Operações disponíveis:\n");
+    printf("\nOperações disponíveis:\n");
     printf("\n");
     printf("1 - Quantos livros foram vendidos num dado período de tempo (mês e ano).\n");
     printf("2 - Determinar a data da última compra/venda de um dado livro.\n");
@@ -423,7 +423,7 @@ void lerMenuOperacoes()
 
             case 7:
                 //funcao7(listaClientes);
-                encomendas = operacao7(operacao7,clientes);
+                encomendas = operacao7(encomendas,clientes);
                 // usa a funcao3 ate nao haver mais clientes para analisar, 
                 // guardando o cliente e o numero de livros comprados,
                 // comparando-os e mantemdo o cliente com o maior numero de livros comprado
@@ -431,7 +431,7 @@ void lerMenuOperacoes()
 
             case 8:
                 //funcao8(listaClientes);
-
+                operacao8(clientes);
                 // similarmente a funcao7, usa a funcao3 e guarda todos os clientes
                 // com o numero de livros comprados numa lista
                 // e de seguida e ordenado com um algoritmo de ordenacao
