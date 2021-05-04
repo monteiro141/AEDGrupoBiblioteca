@@ -49,7 +49,6 @@ int main(void)
         
         menu();
         scanf("%d",&opcao);
-        clrscr();
         switch(opcao)
         {
             case 1:
@@ -65,6 +64,7 @@ int main(void)
                 lerMenuEncomendas();
                 break;
             case 5:
+                lerMenuOperacoes();
                 break;
             case 0:
                 break;
@@ -142,11 +142,12 @@ void lerMenuFicheiro()
 
     int opcao;
     FILE * fpClientes=NULL,*fpEncomendas=NULL,*fpLivros=NULL;
+    clrscr();
     do
     {
         menuFicheiro();
         scanf("%d",&opcao);
-        clrscr();
+        
         switch(opcao)
         {
             case 1:
@@ -206,11 +207,12 @@ void lerMenuLivros()
 {
     LIVRO livro;
     int opcao;
+    clrscr();
     do
     {
         menuLivros();
         scanf("%d",&opcao);
-        clrscr();
+       
         switch(opcao)
         {
             case 1:
@@ -252,11 +254,12 @@ void lerMenuClientes()
 {
     CLIENTE cliente;
     int opcao;
+    clrscr();
     do
     {
         menuClientes();
         scanf("%d",&opcao);
-        clrscr();
+        
         switch(opcao)
         {
             case 1:
@@ -267,6 +270,7 @@ void lerMenuClientes()
                 printf("Qual NIF para remover?\n");
                 scanf("%lld",&cliente.NIF);
                 clientes = RemoverComNIF(cliente.NIF,clientes);
+                //fazer o remover encomenda pelo NIF
                 break;
 
             case 3:
@@ -291,11 +295,12 @@ void lerMenuEncomendas()
     CLIENTE C,AUXC;
     int qtd;
     int opcao;
+    clrscr();
     do
     {
         menuEncomendas();
         scanf("%d",&opcao);
-        clrscr();
+        
         switch(opcao)
         {
             case 1:
@@ -349,11 +354,11 @@ void lerMenuEncomendas()
 void lerMenuOperacoes()
 {
     int opcao;
+    clrscr();
     do
     {
         menuOperacoes();
         scanf("%d",&opcao);
-        clrscr();
         switch(opcao)
         {
             case 1:
@@ -392,7 +397,7 @@ void lerMenuOperacoes()
 
             case 5:
                 //funcao5(fila encomendas, mes1, mes2, ano1, ano2, int K);
-                
+                encomendas = operacao5(encomendas,livros);
                 // similar a funcao4, mas tem em conta os intervalos de tempo
                 // em vez da 'Area Cientifica'
                 break;

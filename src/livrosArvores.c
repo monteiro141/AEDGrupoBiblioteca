@@ -108,7 +108,7 @@ PNodoAB RemoverNodoABP (PNodoAB t){
     return t;
   }
   t->Direita = SubstituirNodoDireita(t->Direita, &L);
-  t->Esquerda = SubstituirNodoEsquerda(t->Esquerda, &L);
+  //t->Esquerda = SubstituirNodoEsquerda(t->Esquerda, &L);
   t->Elemento = L;
   return t;
 }
@@ -279,7 +279,7 @@ void ConsultarLivroTodos(PNodoAB t)
   ConsultarLivroTodos(t->Esquerda);
   ConsultarLivroTodos(t->Direita);
 }
-void ConsultarLivroISBN(PNodoAB t, int ISBN)
+void ConsultarLivroISBN(PNodoAB t, long long int ISBN)
 {
     if(t==NULL)
         return;

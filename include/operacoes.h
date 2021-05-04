@@ -16,6 +16,24 @@ void bubbleSort4(LIVRO ** arr, int n);
 void operacao4Aux(PNodoAB Livros, LIVRO ** kLivros,int * quantidade, char * areaC);
 void operacao4(PNodoAB Livros);
 
-//Mostrar os K livros mais vendidos num dado período (mês e ano);
+typedef struct operacao5Counter
+{
+    long long int ISBN;
+    int qtd;
+}operacao5Counter;
 
-void operacao5(PNodoFila ENCOMENDA);
+
+//Mostrar os K livros mais vendidos num dado período (mês e ano);
+void bubbleSort5(operacao5Counter ** arr, int n);
+PNodoFila operacao5Aux(PNodoFila ENCOMENDA,int mI,int mF,int aI,int aF,operacao5Counter ** kLivros,int * quantidade);
+PNodoFila operacao5(PNodoFila ENCOMENDA,PNodoAB LIVROS);
+
+
+typedef struct operacao6counter
+{   char AreaCientifica[100];
+    int qtd;
+} operacao6counter;
+//Determinar a Área Científica com mais livros
+void bubbleSort6(operacao6counter ** arr, int n);
+void operacao6Aux(PNodoAB LIVROS, operacao6counter ** livrosAC, int * quantidade);
+void operacao6(PNodoAB LIVROS);

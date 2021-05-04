@@ -43,7 +43,7 @@ PNodoAB AlterarLivro(PNodoAB t, LIVRO L,LIVRO X);
 /*----------Consultar Livro----------*/
 LIVRO DevolveLivro(PNodoAB t, LIVRO L);
 void ConsultarLivroTodos(PNodoAB t);
-void ConsultarLivroISBN(PNodoAB t, int ISBN);
+void ConsultarLivroISBN(PNodoAB t, long long int ISBN);
 void ConsultarLivroTitulo(PNodoAB t, char * Titulo);
 void ConsultarLivroAutorAnoPublicacao(PNodoAB t, char * Autor, int AnoPub);
 void ConsultarLivroEditoraAreaC(PNodoAB t, char * Editora, char * AreaC);
