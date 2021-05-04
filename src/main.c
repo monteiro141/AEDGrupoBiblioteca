@@ -423,7 +423,7 @@ void lerMenuOperacoes()
 
             case 7:
                 //funcao7(listaClientes);
-
+                encomendas = operacao7(operacao7,clientes);
                 // usa a funcao3 ate nao haver mais clientes para analisar, 
                 // guardando o cliente e o numero de livros comprados,
                 // comparando-os e mantemdo o cliente com o maior numero de livros comprado
@@ -439,7 +439,7 @@ void lerMenuOperacoes()
 
             case 9:
                 //funcao9(arvore);
-
+                operacao9(livros);
                 // percorrer a arvore e encontrar o ano mais antigo de publicacao
                 // apos encontrar o numero mais antigo percorrer a arvore toda ate ao ano atual
                 // guardando o numero de livros publicados no ano em questao para comparar com o ano a seguir
