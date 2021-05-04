@@ -47,15 +47,15 @@ void bubbleSort7(operacao7counter ** arr, int n);
 PNodoFila operacao7Aux(PNodoFila ENCOMENDAS,operacao7counter ** clientes,int * quantidade);
 PNodoFila operacao7(PNodoFila ENCOMENDAS, PNodo L);
 
-//Mostrar os Clientes por ordem decrescente do número de compras;
-typedef struct
+//Mostrar os Clientes por ordem decrescente do número de compras
+typedef struct operacao8cliente
 {
     long long int NIF;
     char Nome[100];
     int numeroCompras;
 }operacao8cliente;
 
-void operacao8(PNodoFila filaEncomendas);
+void operacao8(PNodo listaClientes);
 
 //Determinar o Ano com mais publicações
 typedef struct
@@ -64,4 +64,5 @@ typedef struct
     int qtd;
 }operacao9counter;
 
+void operacao9Aux(PNodoAB LIVROS, operacao9counter ** livrosAnoPub,int * quantidade);
 void operacao9(PNodoAB LIVROS);
