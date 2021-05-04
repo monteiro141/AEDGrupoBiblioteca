@@ -259,3 +259,15 @@ void operacao6(PNodoAB LIVROS)
     }
     return;
 }
+
+void operacao8(PNodoFila filaEncomendas)
+{
+    int tamanhototalclientes = 0, exists = 0;
+    operacao8counter * clientes = malloc(tamanhototalclientes*sizeof(operacao8counter));
+    if(filaEncomendas == NULL)
+        return;
+    for (int i = 0; i < tamanhototalclientes; i++)
+    {
+        //TODO
+    }
+}

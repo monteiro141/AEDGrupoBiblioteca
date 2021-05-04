@@ -37,3 +37,12 @@ typedef struct operacao6counter
 void bubbleSort6(operacao6counter ** arr, int n);
 void operacao6Aux(PNodoAB LIVROS, operacao6counter ** livrosAC, int * quantidade);
 void operacao6(PNodoAB LIVROS);
+
+typedef struct
+{
+    long long int NIF;
+    char Nome[100];
+    int numeroCompras;
+}operacao8counter;
+
+void operacao8(PNodoFila filaEncomendas);
