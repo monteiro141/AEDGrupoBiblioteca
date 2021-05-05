@@ -127,6 +127,11 @@ void menuOperacoes()
     printf("9 - Determinar o Ano com mais publicações.\n");
     printf("10 - Calcular o cliente que mais gastou num dado período (mês e ano).\n");
     printf("11 - Determinar o desperdício de memória.\n");
+    printf("12 - Qual a encomenda mais antiga.\n");
+    printf("13 - O cliente com mais encomendas concluidas.\n");
+    printf("14 - Dado um livro, quais foram os clientes que o compraram.\n");
+    printf("15 - Quantos clientes existem no programa.\n");
+
     printf("\n");
     printf("0 - Sair do Menu de Operações\n");
     printf("\n");
@@ -327,11 +332,8 @@ void lerMenuEncomendas()
                         {
                             AUX = L;
                             L.QuantidadeStock -= qtd;
-                            //printf("Antes do altLivro.\n");
                             livros = AlterarLivro(livros,AUX,L);
-                            //printf("Depois do altLivro.\n");
                             AUXC = C;
-                            //C.numeroEncomendas++;
                             clientes = AtualizarCliente(AUXC,C,clientes);
                             encomendas = Inserir(encomenda,encomendas);
                         }
@@ -341,15 +343,21 @@ void lerMenuEncomendas()
 
             case 2:
                 // Remover encomenda e atualizar os clientes
+                encRemovida.NIF =-1;
                 encomendas = RemoverEncomenda(encomendas,&encRemovida);
-                ProcurarNIF(C.NIF,clientes,&C);
-                AUXC = C;
-                C.numeroEncomendas++;
-                encRemovida.Concluida.Dia = pt->tm_mday;
-                encRemovida.Concluida.Mes = pt->tm_mon +1;
-                encRemovida.Concluida.ano = pt->tm_year +1900;
-                C.ListaDeCompras[C.numeroEncomendas-1] = encRemovida;
-                clientes = AtualizarCliente(AUXC,C,clientes);
+                if(encRemovida.NIF!=-1)
+                {  
+
+                    ProcurarNIF(encRemovida.NIF,clientes,&C);
+                    printf("NIF: %lld\n",C.NIF);
+                    AUXC = C;
+                    C.numeroEncomendas++;
+                    encRemovida.Concluida.Dia = pt->tm_mday;
+                    encRemovida.Concluida.Mes = pt->tm_mon +1;
+                    encRemovida.Concluida.ano = pt->tm_year +1900;
+                    C.ListaDeCompras[C.numeroEncomendas-1] = encRemovida;
+                    clientes = AtualizarCliente(AUXC,C,clientes);
+                }
                 break;
 
             case 3:
@@ -457,6 +465,14 @@ void lerMenuOperacoes()
                 //funcao11();
 
                 // nao faco a minima como pegar nisto 991 sirene
+                break;
+            case 12:
+                break;
+            case 13:
+                break;
+            case 14:
+                break;
+            case 15:
                 break;
             case 0:
                 break;

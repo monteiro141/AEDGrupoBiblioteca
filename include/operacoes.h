@@ -66,3 +66,17 @@ typedef struct
 
 void operacao9Aux(PNodoAB LIVROS, operacao9counter ** livrosAnoPub,int * quantidade);
 void operacao9(PNodoAB LIVROS);
+
+
+//Calcular o cliente que mais gastou num dado período (mês e ano)
+
+
+//Determinar o desperdício de memória.
+
+// Qual a encomenda mais antiga.
+
+// O cliente com mais encomendas concluidas.
+
+//Dado um livro, quais foram os clientes que o compraram.
+
+//Quantos clientes existem no programa.

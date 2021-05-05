@@ -92,7 +92,7 @@ PNodoFila RemoverEncomenda(PNodoFila Fila,ENCOMENDA * e)
 	scanf("%d",&id);
 	while(Fila != NULL)
 	{
-		if(Fila->Elemento.ID == id)
+		if(Fila->Elemento.ID == id && removed == 0)
 		{
 			(*e)=Fila->Elemento;
 			Fila = Remover(Fila);
