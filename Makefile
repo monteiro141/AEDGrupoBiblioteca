@@ -10,7 +10,7 @@ BIN	= $(addprefix $(BINDIR), $(_BIN))
 
 SRC	= $(wildcard src/*.c)
 
-CFLAGS = -Wall -std=c17 -pedantic -g -I$(INCLDIR) -lm
+CFLAGS = -Wall -std=c17 -pedantic -g -I$(INCLDIR) -fsanitize=address -fsanitize=undefined  -lm 
 
 $(BINDIR)/$(_BIN): $(SRC)
 	@$(CC) $(SRC) $(CFLAGS) -o $@
