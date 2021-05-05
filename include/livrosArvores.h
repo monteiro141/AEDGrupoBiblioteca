@@ -50,3 +50,4 @@ void ConsultarLivroEditoraAreaC(PNodoAB t, char * Editora, char * AreaC);
 void ConsultarLivro(PNodoAB t);
 /*----------Guardar Livro----------*/
 void guardarLivros(PNodoAB t, FILE * FP);
+PNodoAB novoLivros(PNodoAB t);

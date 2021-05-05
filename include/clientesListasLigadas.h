@@ -29,5 +29,7 @@ PNodo RemoverComNIF(long long int NIF, PNodo L);
 PNodo AlterarComNIF (PNodo L);
 
 PNodoFila ConsultarClientesPor(PNodo L,PNodoFila Fila);
-/*----------Guardar Clientes----------*/
+/*----------Guardar/Novo Clientes----------*/
 void guardarClientes(PNodo L, FILE * FP);
+PNodo novoClientes(PNodo L);
+

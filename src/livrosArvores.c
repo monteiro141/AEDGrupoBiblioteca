@@ -15,6 +15,8 @@ PNodoAB CriarNodoAB(LIVRO L)
   return P;
 }
 
+
+
 int PesquisarABP(PNodoAB t, LIVRO L)
 {
     if(t==NULL)
@@ -60,6 +62,14 @@ PNodoAB LibertarNodoAB(PNodoAB t){
   free(t);
   t = NULL;
   return t;
+}
+
+PNodoAB DestruirAB(PNodoAB T){
+  if (T == NULL) 
+    return NULL;
+  T->Esquerda = DestruirAB(T->Esquerda);
+  T->Direita = DestruirAB(T->Direita);
+  return LibertarNodoAB(T);
 }
 
 PNodoAB SubstituirNodoDireita (PNodoAB T, LIVRO *X){
@@ -128,7 +138,6 @@ PNodoAB RemoverABP (PNodoAB t, LIVRO L) {
 int verificarEquilibrio(PNodoAB t)
 {
     int e, d;
-
     e = AlturaAB(t->Esquerda);
     d = AlturaAB(t->Direita);
     if(abs(e-d) > 1)
@@ -389,4 +398,13 @@ void guardarLivros(PNodoAB t, FILE * FP)
   fwrite(&t->Elemento,sizeof(LIVRO),1,FP);
   guardarLivros(t->Esquerda,FP);
   guardarLivros(t->Direita,FP);
+}
+
+PNodoAB novoLivros(PNodoAB t)
+{
+  while(t!=NULL)
+  {
+    t = DestruirAB(t);
+  }
+  return t;
 }

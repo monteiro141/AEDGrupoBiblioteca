@@ -125,3 +125,11 @@ PNodoFila guardarEncomendas(PNodoFila Fila, FILE * FP)
 	}
 	return aux;
 }
+PNodoFila novoEncomendas(PNodoFila Fila)
+{
+	while(Fila != NULL)
+	{
+		Fila = Remover(Fila);
+	}
+	return Fila;
+}

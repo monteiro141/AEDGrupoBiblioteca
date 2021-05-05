@@ -72,11 +72,14 @@ void operacao9(PNodoAB LIVROS);
 
 
 //Determinar o desperdício de memória.
+size_t operacao11Aux(PNodoAB LIVROS);
+PNodoFila operacao11(PNodoFila ENCOMENDAS, PNodo CLIENTES, PNodoAB LIVROS);
+
 
 // Qual a encomenda mais antiga.
-
+PNodoFila operacao12 (PNodoFila Encomendas);
 // O cliente com mais encomendas concluidas.
-
+void operacao13(PNodo Clientes);
 //Dado um livro, quais foram os clientes que o compraram.
 
 //Quantos clientes existem no programa.

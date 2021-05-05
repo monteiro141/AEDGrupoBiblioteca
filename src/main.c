@@ -160,6 +160,9 @@ void lerMenuFicheiro()
                 fpClientes=fopen("EDClientes.bin","wb");
                 fpEncomendas=fopen("EDEncomendas.bin","wb");
                 fpLivros=fopen("EDLivros.bin","wb");
+                clientes = novoClientes(clientes);
+                encomendas = novoEncomendas(encomendas);
+                livros = novoLivros(livros);
                 fclose(fpClientes);
                 fclose(fpEncomendas);
                 fclose(fpLivros);
@@ -349,7 +352,6 @@ void lerMenuEncomendas()
                 {  
 
                     ProcurarNIF(encRemovida.NIF,clientes,&C);
-                    printf("NIF: %lld\n",C.NIF);
                     AUXC = C;
                     C.numeroEncomendas++;
                     encRemovida.Concluida.Dia = pt->tm_mday;
@@ -463,12 +465,15 @@ void lerMenuOperacoes()
 
             case 11:
                 //funcao11();
-
+                encomendas = operacao11(encomendas,clientes,livros);
                 // nao faco a minima como pegar nisto 991 sirene
                 break;
             case 12:
+                encomendas = operacao12(encomendas);
                 break;
             case 13:
+            // to be fixed
+                operacao13(clientes);
                 break;
             case 14:
                 break;

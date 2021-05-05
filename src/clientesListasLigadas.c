@@ -153,12 +153,16 @@ PNodoFila ConsultarClientesTodos(PNodo L, PNodoFila Fila)
 
 PNodo InserirInicio (CLIENTE C, PNodo L)
 {
-  PNodo P = CriarNodo(C);
-  if (P == NULL)
-    return L;
-  P->Prox = L;
-  L = P;
-  return L;
+	if(PesquisarRec(C,L)==0)
+	{
+		PNodo P = CriarNodo(C);
+		if (P == NULL)
+			return L;
+		P->Prox = L;
+		L = P;
+	}else
+		printf("Já existe cliente com esse NIF.\n");
+	return L;
 }
 
 PNodo AtualizarCliente(CLIENTE C, CLIENTE X, PNodo L)
@@ -370,4 +374,13 @@ void guardarClientes(PNodo L, FILE * FP)
 		fwrite(&L->Elemento,sizeof(CLIENTE),1,FP);
 		L = L->Prox;
 	}
+}
+
+PNodo novoClientes(PNodo L)
+{
+	while(L!=NULL)
+	{
+		L = RemoverC(L->Elemento,L);
+	}
+	return L;
 }

@@ -311,7 +311,9 @@ PNodoFila operacao7(PNodoFila ENCOMENDAS, PNodo L)
         printf("Não há clientes com encomendas.\n");
     else
         ENCOMENDAS = ConsultarClientesPorNIF(clientes[0].NIF,L,ENCOMENDAS);
+    free(clientes);
     return ENCOMENDAS;
+
 }
 
 void operacao8(PNodo listaClientes)
@@ -353,6 +355,7 @@ void operacao8(PNodo listaClientes)
     {
         printf("NIF: %lld, Nome: %s, Número de encomendas: %i\n", clientes[i].NIF, clientes[i].Nome, clientes[i].numeroCompras);
     }
+    free(clientes);
 }
 
 
@@ -400,4 +403,116 @@ void operacao9(PNodoAB LIVROS)
         printf("%d teve %d publicações e foi o ano com mais publicações.\n",anoMax,qtdMax);
     }
     free(livrosAnoPub);
+}
+
+size_t operacao11Aux(PNodoAB LIVROS)
+{
+    if(LIVROS==NULL)
+        return 0;
+    size_t clienteAtual=0;
+    clienteAtual =  sizeof(LIVROS->Elemento.AnoPublicacao) +
+    sizeof(LIVROS->Elemento.AreaCientifica) +
+    sizeof(LIVROS->Elemento.Editora) +
+    sizeof(LIVROS->Elemento.Idioma) + 
+    sizeof(LIVROS->Elemento.ISBN) +
+    sizeof(LIVROS->Elemento.Preco) +
+    sizeof(LIVROS->Elemento.PrimeiroAutor) + 
+    sizeof(LIVROS->Elemento.QuantidadeStock) +
+    sizeof(LIVROS->Elemento.SegundoAutor) + 
+    sizeof(LIVROS->Elemento.Titulo);
+    return sizeof(LIVRO) - clienteAtual + operacao11Aux(LIVROS->Esquerda) + operacao11Aux(LIVROS->Direita);
+}
+PNodoFila operacao11(PNodoFila ENCOMENDAS, PNodo CLIENTES, PNodoAB LIVROS)
+{
+    size_t bytes=0;
+    size_t sizecliente=0,sizeEncomenda=0;
+    PNodoFila aux=NULL;
+    //Secção dos clientes
+    while(CLIENTES != NULL)
+    {
+        sizecliente = sizeof(CLIENTES->Elemento.ListaDeCompras) + 
+        sizeof(CLIENTES->Elemento.Morada) + 
+        sizeof(CLIENTES->Elemento.NIF) + 
+        sizeof(CLIENTES->Elemento.Nome) + 
+        sizeof(CLIENTES->Elemento.numeroEncomendas) + 
+        sizeof(CLIENTES->Elemento.Telefone);
+        bytes += sizeof(CLIENTE) - sizecliente;
+        CLIENTES = CLIENTES->Prox;
+    }
+    bytes += operacao11Aux(LIVROS);
+    while(ENCOMENDAS != NULL)
+    {
+        aux = Inserir(ENCOMENDAS->Elemento,aux);
+        sizeEncomenda = sizeof(ENCOMENDAS->Elemento.Concluida.ano) +
+        sizeof(ENCOMENDAS->Elemento.Concluida.Dia) + 
+        sizeof(ENCOMENDAS->Elemento.Concluida.Mes) +
+        sizeof(ENCOMENDAS->Elemento.Encomenda.ano) + 
+        sizeof(ENCOMENDAS->Elemento.Concluida.Dia) +
+        sizeof(ENCOMENDAS->Elemento.Concluida.Mes) +
+        sizeof(ENCOMENDAS->Elemento.ID) + 
+        sizeof(ENCOMENDAS->Elemento.ISBN) +
+        sizeof(ENCOMENDAS->Elemento.NIF) +
+        sizeof(ENCOMENDAS->Elemento.PrecoTotal) +
+        sizeof(ENCOMENDAS->Elemento.Quantidade);
+        bytes += sizeof(ENCOMENDA) - sizeEncomenda;
+        ENCOMENDAS = Remover(ENCOMENDAS);
+    }
+    printf("Desperdicio de memória: %zu bytes.\n",bytes);
+    return aux;
+}
+
+PNodoFila operacao12 (PNodoFila Encomendas)
+{
+    PNodoFila aux=NULL;
+    ENCOMENDA encomendaAux;
+    if(Encomendas!=NULL)
+      encomendaAux = Encomendas->Elemento;
+    else
+    {
+        printf("Não há encomendas.\n");
+        return Encomendas;
+    }
+    
+    while (Encomendas != NULL)
+    {
+        aux = Inserir(Encomendas->Elemento,aux);
+        if (aux ->Elemento.Encomenda.ano <= encomendaAux.Encomenda.ano &&
+            aux ->Elemento.Encomenda.Mes <= encomendaAux.Encomenda.Mes &&
+            aux ->Elemento.Encomenda.Dia < encomendaAux.Encomenda.Dia)
+            encomendaAux = aux->Elemento;
+        
+        Encomendas = Remover(Encomendas);
+    }
+    return aux;
+}
+
+void operacao13(PNodo Clientes)
+{
+    PNodo aux = Clientes;
+    CLIENTE clienteAux;
+    int contador = 0, contadormaisencomendas = 0;
+
+    while (aux != NULL)
+    {
+        PNodoFila filaEncomenda = aux -> Elemento.ListaDeCompras;
+
+        while (filaEncomenda != NULL)
+        {
+            if (filaEncomenda->Elemento.Concluida.Dia != -1)
+                contador++;
+            filaEncomenda = Remover(filaEncomenda->Prox);
+        }
+        if (contador > contadormaisencomendas)
+        {
+            contadormaisencomendas = contador;
+            clienteAux = aux -> Elemento;
+        }
+        contador = 0;
+        aux = aux -> Prox;
+    }
+
+    printf("O cliente com mais encomendas concluidas:\n\n");
+    printf("NIF: %lld\n", clienteAux.NIF);
+    printf("Nome: %s\n", clienteAux.Nome);
+    printf("Numero de encomendas concluidas: %i\n", contadormaisencomendas);
 }

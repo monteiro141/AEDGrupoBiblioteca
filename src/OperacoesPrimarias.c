@@ -7,24 +7,28 @@
 /*---------------------------Livro + Funções---------------------------*/
 void MostrarLivro (LIVRO X)
 {
-    printf("################################\n");
-    printf("ISBN: %lld\n",X.ISBN);
-    printf("Titulo: %s.\n",X.Titulo);
-    printf("Primeiro Autor: %s.\n",X.PrimeiroAutor);
-    printf("Segundo Autor: %s.\n",X.SegundoAutor);
-    printf("Editora: %s.\n",X.Editora);
-    printf("Ano Publicacao: %d.\n",X.AnoPublicacao);
-    printf("Area Cientifica: %s.\n",X.AreaCientifica);
-    printf("Preco: %.2f.\n",X.Preco);
+    printf("\n################################\n");
+    printf("ISBN:                %lld\n",X.ISBN);
+    printf("Titulo:              %s.\n",X.Titulo);
+    printf("Primeiro Autor:      %s.\n",X.PrimeiroAutor);
+    printf("Segundo Autor:       %s.\n",X.SegundoAutor);
+    printf("Editora:             %s.\n",X.Editora);
+    printf("Ano Publicacao:      %d.\n",X.AnoPublicacao);
+    printf("Area Cientifica:     %s.\n",X.AreaCientifica);
+    printf("Preco:               %.2f euros.\n",X.Preco);
     printf("Quantidade em stock: %d.\n",X.QuantidadeStock);
     printf("################################\n");
 }
 LIVRO CriarLivro ()
 {
     LIVRO x;
-    printf("################################\n");
-    printf("ISBN: ");
-    scanf("%lld",&x.ISBN);
+    printf("\n################################\n");
+    do{
+        printf("ISBN: ");
+        scanf("%lld",&x.ISBN);
+        if(x.ISBN < 1000000000000 || x.ISBN > 9999999999999)
+            printf("ISBN inválido! (13 digitos)\n");
+    }while(x.ISBN < 1000000000000 || x.ISBN > 9999999999999);
 
     printf("Titulo: ");
     scanf("\n%[^\n]s",x.Titulo);
@@ -67,16 +71,16 @@ int CompararLivros (LIVRO x, LIVRO y)
 void MostrarEncomenda (ENCOMENDA E)
 {
     printf("**\n");
-    printf("ID: %d.\n",E.ID);
-    printf("ISBN: %lld.\n",E.ISBN);
-    printf("NIF: %lld.\n",E.NIF);
-    printf("Quantidade: %d\n",E.Quantidade);
+    printf("ID:          %d.\n",E.ID);
+    printf("ISBN:        %lld.\n",E.ISBN);
+    printf("NIF:         %lld.\n",E.NIF);
+    printf("Quantidade:  %d\n",E.Quantidade);
     printf("Preço Total: %.2f\n",E.PrecoTotal);
-    printf("Encomenda: %d/%d/%d\n",E.Encomenda.Dia,E.Encomenda.Mes,E.Encomenda.ano);
+    printf("Encomenda:   %d/%d/%d\n",E.Encomenda.Dia,E.Encomenda.Mes,E.Encomenda.ano);
     if(E.Concluida.ano==-1)
         printf("Não foi concluida\n");
     else
-        printf("Concluida: %d/%d/%d\n",E.Concluida.Dia,E.Concluida.Mes,E.Concluida.ano);
+        printf("Concluida:   %d/%d/%d\n",E.Concluida.Dia,E.Concluida.Mes,E.Concluida.ano);
     printf("**\n");
 }
 
@@ -85,7 +89,7 @@ int CriarEncomenda (CLIENTE C, LIVRO L,ENCOMENDA * E, PNodoFila * encomendas)
     int n=0;
     time_t now = time(NULL);
     struct tm *pt = localtime(&now);
-    printf("################################\n");
+    printf("\n################################\n");
     printf("\nQuantos quer encomendar? ");
     scanf("%d",&n);
     PNodoFila aux = NULL;
@@ -139,10 +143,10 @@ int CompararEncomendas (ENCOMENDA X, ENCOMENDA Y)
 
 PNodoFila MostrarCliente (CLIENTE C,PNodoFila Fila)
 {
-    printf("################################\n");
-    printf("NIF: %lld.\n",C.NIF);
-    printf("Nome: %s.\n",C.Nome);
-    printf("Morada: %s.\n",C.Morada);
+    printf("\n################################\n");
+    printf("NIF:      %lld.\n",C.NIF);
+    printf("Nome:     %s.\n",C.Nome);
+    printf("Morada:   %s.\n",C.Morada);
     printf("Telefone: %lld.\n",C.Telefone);
     printf("\n***Encomendas concluidas***\n");
     for(int i = 0; i < C.numeroEncomendas; i++)
@@ -156,10 +160,14 @@ PNodoFila MostrarCliente (CLIENTE C,PNodoFila Fila)
 }
 CLIENTE CriarCliente()
 {
-    printf("################################\n");
+    printf("\n################################\n");
     CLIENTE C;
-    printf("NIF: ");
-    scanf("%lld",&C.NIF);
+    do{
+        printf("NIF: ");
+        scanf("%lld",&C.NIF);
+        if(C.NIF<100000000 || C.NIF > 999999999)
+            printf("NIF inválido!(9 digitos)\n");
+    }while(C.NIF<100000000 || C.NIF > 999999999);
     printf("Nome: ");
     scanf("\n%[^\n]s",C.Nome);
     printf("Morada: ");
