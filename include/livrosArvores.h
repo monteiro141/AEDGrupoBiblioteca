@@ -11,6 +11,7 @@ PNodoAB InserirABP (PNodoAB t, LIVRO L);
 int AlturaAB (PNodoAB t);
 
 PNodoAB LibertarNodoAB(PNodoAB t);
+PNodoAB DestruirAB(PNodoAB T);
 
 PNodoAB SubstituirNodoDireita (PNodoAB T, LIVRO *X);
 
