@@ -216,7 +216,7 @@ PNodoAB InserirLivro(PNodoAB t, LIVRO L)
 }
 
 /*----------Remover livro----------*/
-PNodoAB RemoverLivro(PNodoAB t, LIVRO L)
+PNodoAB RemoverLivro(PNodoAB t, LIVRO L,int * removido)
 {
   if(PesquisarABP(t,L)==0)
   {
@@ -224,7 +224,7 @@ PNodoAB RemoverLivro(PNodoAB t, LIVRO L)
     return t;
   }
   t = RemoverABP(t,L);
-
+  (*removido) = 1;
   if(verificarEquilibrio(t)==0)
     return CriarABPEquilibradaIB(t);
   return t;

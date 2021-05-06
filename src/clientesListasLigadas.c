@@ -229,12 +229,16 @@ int PesquisarRec (CLIENTE X, PNodo L){
     return PesquisarRec(X, L->Prox);
 }
 
-PNodo RemoverComNIF(long long int NIF, PNodo L)
+PNodo RemoverComNIF(long long int NIF, PNodo L,int * removido)
 {
     CLIENTE RX;
     RX.NIF = NIF;
     if(PesquisarRec(RX,L)==1)
-        L = RemoverC(RX,L);
+	{
+		(*removido) = 1;
+		L = RemoverC(RX,L);
+	}
+        
     return L;
 }
 

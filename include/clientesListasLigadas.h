@@ -25,7 +25,7 @@ CLIENTE DevolveCliente(CLIENTE C, PNodo L);
 PNodo ProcurarAnterior (CLIENTE X, PNodo L);
 PNodo RemoverC (CLIENTE X, PNodo L);
 int PesquisarRec (CLIENTE X, PNodo L);
-PNodo RemoverComNIF(long long int NIF, PNodo L);
+PNodo RemoverComNIF(long long int NIF, PNodo L,int * removido);
 PNodo AlterarComNIF (PNodo L);
 
 PNodoFila ConsultarClientesPor(PNodo L,PNodoFila Fila);

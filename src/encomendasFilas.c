@@ -114,6 +114,41 @@ PNodoFila RemoverEncomenda(PNodoFila Fila,ENCOMENDA * e)
 	return aux;
 }
 
+PNodoFila RemoverPeloNIF(long long int NIF, PNodoFila Fila)
+{
+	PNodoFila aux = NULL;
+	while(Fila !=NULL)
+	{
+		if(NIF == Fila->Elemento.NIF)
+		{
+			Fila = Remover(Fila);
+		}else
+		{
+			aux = Inserir(Fila->Elemento,aux);
+			Fila = Remover(Fila);
+		}
+	}
+	return aux;
+}
+
+PNodoFila RemoverPeloISBN(long long int ISBN, PNodoFila Fila)
+{
+	PNodoFila aux = NULL;
+	while(Fila !=NULL)
+	{
+		if(ISBN == Fila->Elemento.ISBN)
+		{
+			Fila = Remover(Fila);
+		}else
+		{
+			aux = Inserir(Fila->Elemento,aux);
+			Fila = Remover(Fila);
+		}
+	}
+	return aux;
+}
+
+
 PNodoFila guardarEncomendas(PNodoFila Fila, FILE * FP)
 {
 	PNodoFila aux=NULL;

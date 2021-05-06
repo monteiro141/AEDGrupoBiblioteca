@@ -35,7 +35,7 @@ PNodoAB CriarABPEquilibradaIB (PNodoAB t);
 PNodoAB InserirLivro(PNodoAB t, LIVRO L);
 
 /*----------Remover livro----------*/
-PNodoAB RemoverLivro(PNodoAB t, LIVRO L);
+PNodoAB RemoverLivro(PNodoAB t, LIVRO L,int * removido);
 
 /*----------Alterar livro(ISBN)----------*/
 PNodoAB AlterarLivroAux(PNodoAB t, LIVRO L, LIVRO X);

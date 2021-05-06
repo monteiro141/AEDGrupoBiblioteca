@@ -218,12 +218,13 @@ void lerMenuLivros()
 {
     LIVRO livro;
     int opcao;
+    int removido;
     clrscr();
     do
     {
         menuLivros();
         scanf("%d",&opcao);
-       
+        
         switch(opcao)
         {
             case 1:
@@ -233,19 +234,29 @@ void lerMenuLivros()
             case 2:
                 printf("Qual ISBN para remover?\n");
                 scanf("%lld",&livro.ISBN);
-                livros = RemoverLivro(livros,livro);
+                removido = 0;
+                livros = RemoverLivro(livros,livro,&removido);
+                if(removido == 1)
+                {
+                   encomendas = RemoverPeloISBN(livro.ISBN,encomendas);
+                }
                 break;
 
             case 3:
                 printf("Qual ISBN para editar?\n");
                 scanf("%lld",&livro.ISBN);
                 //livros = AlterarLivro(livros,livro,CriarLivro());
+                removido = 0;
                 if(PesquisarABP(livros,livro)==0)
                     printf("ISBN invalido!\n");
                 else
                 {
-                    livros = RemoverLivro(livros,livro);
+                    livros = RemoverLivro(livros,livro,&removido);
                     livros = InserirLivro(livros,CriarLivro());
+                    if(removido == 1)
+                    {
+                        encomendas = RemoverPeloISBN(livro.ISBN,encomendas);
+                    }
                 }
                 break;
 
@@ -266,6 +277,7 @@ void lerMenuClientes()
     CLIENTE cliente;
     int opcao;
     clrscr();
+    int removido=0;
     do
     {
         menuClientes();
@@ -280,7 +292,12 @@ void lerMenuClientes()
             case 2:
                 printf("Qual NIF para remover?\n");
                 scanf("%lld",&cliente.NIF);
-                clientes = RemoverComNIF(cliente.NIF,clientes);
+                removido=0;
+                clientes = RemoverComNIF(cliente.NIF,clientes,&removido);
+                if(removido == 1)
+                {
+                    encomendas = RemoverPeloNIF(cliente.NIF,encomendas);
+                }
                 //fazer o remover encomenda pelo NIF
                 break;
 
