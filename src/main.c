@@ -477,7 +477,7 @@ void lerMenuOperacoes()
                 break;
 
             case 10:
-                encomendas = funcao10(clientes, encomendas);
+                encomendas = operacao10(clientes, encomendas);
 
                 // percorrer a listaClientes e le o precoTotal das encomendas de cada cliente,
                 // comparando-o com o seguinte, guardando apenas o cliente com o maior gasto
@@ -498,8 +498,8 @@ void lerMenuOperacoes()
                 encomendas = operacao14(livros, clientes, encomendas);
                 break;
             case 15:
+                encomendas = operacao15(clientes, encomendas);
                 break;
-                operacao15(clientes, encomendas);
             case 0:
                 break;
 

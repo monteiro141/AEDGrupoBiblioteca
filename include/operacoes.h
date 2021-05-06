@@ -69,7 +69,7 @@ void operacao9(PNodoAB LIVROS);
 
 
 //Calcular o cliente que mais gastou num dado período (mês e ano)
-
+PNodoFila operacao10(PNodo Clientes, PNodoFila Encomendas);
 
 //Determinar o desperdício de memória.
 size_t operacao11Aux(PNodoAB LIVROS);
@@ -81,5 +81,6 @@ PNodoFila operacao12 (PNodoFila Encomendas);
 // O cliente com mais encomendas concluidas.
 void operacao13(PNodo Clientes);
 //Dado um livro, quais foram os clientes que o compraram.
-
+PNodoFila operacao14(PNodoAB Livros, PNodo Clientes, PNodoFila Encomendas);
 //Quantos clientes existem no programa.
+PNodoFila operacao15 (PNodo Clientes, PNodoFila Encomendas);

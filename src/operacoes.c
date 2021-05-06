@@ -407,8 +407,7 @@ void operacao9(PNodoAB LIVROS)
 
 PNodoFila operacao10(PNodo Clientes, PNodoFila Encomendas)
 {
-    PNodoFila encomendasAux;
-    PNodo clientesAux;
+    PNodoFila encomendasAux=NULL;
     float precoaux = 0;
     CLIENTE clienteAux;
     int mesinicio, mesfim, anoinicio, anofim;
@@ -435,7 +434,7 @@ PNodoFila operacao10(PNodo Clientes, PNodoFila Encomendas)
         Encomendas = Remover(Encomendas);
     }
     printf("Cliente que mais gastou entre %i/%i e %i/%i:\n",mesinicio,mesfim,anoinicio,anofim);
-    encomendasAux = MostrarCliente(clienteAux,encomendasAux);
+    encomendasAux = ConsultarClientesPorNIF(clienteAux.NIF,Clientes,encomendasAux);
 
     return encomendasAux;
 }
@@ -530,9 +529,10 @@ void operacao13(PNodo Clientes)
 
 PNodoFila operacao14(PNodoAB Livros, PNodo Clientes, PNodoFila Encomendas)
 {
-    PNodoAB livrosAux = Livros;
-    PNodo clientesAux = Clientes;
     CLIENTE clienteAux;
+    PNodoFila aux=NULL;
+    int quantidade=0;
+    CLIENTE * qtdClientes = malloc(quantidade*sizeof(CLIENTE));
     LIVRO livroAux;
     printf("Insira um ISBN de um livro valido: ");
     scanf("%lld", &livroAux.ISBN);
@@ -543,29 +543,38 @@ PNodoFila operacao14(PNodoAB Livros, PNodo Clientes, PNodoFila Encomendas)
     else
     {
         printf("Clientes cque encomendaram o livro: \n");
-        while (clientesAux != NULL)
+        while (Encomendas != NULL)
         {
-            if (Encomendas->Elemento.ISBN == livroAux.ISBN);
+            aux = Inserir(Encomendas->Elemento,aux);
+            if(Encomendas->Elemento.ISBN == livroAux.ISBN)
             {
                 clienteAux.NIF = Encomendas->Elemento.NIF;
                 clienteAux = DevolveCliente(clienteAux, Clientes);
-                Encomendas = MostrarCliente(clienteAux, Encomendas);
+                quantidade++;
+                qtdClientes = realloc(qtdClientes,quantidade*sizeof(CLIENTE));
+                qtdClientes[quantidade-1] = clienteAux;
             }
-            clientesAux = clientesAux->Prox;
+            Encomendas = Remover(Encomendas);
+        }
+        for(int i = 0;i < quantidade;i++)
+        {
+           aux = MostrarCliente(qtdClientes[i], aux);
         }
     }
-
-    return Encomendas;
+    free(qtdClientes);
+    return aux;
 }
 
 PNodoFila operacao15 (PNodo Clientes, PNodoFila Encomendas)
 {
     PNodo clientesAux = Clientes;
-
+    int qtd=0;
     while (clientesAux != NULL)
     {
         Encomendas = MostrarCliente(clientesAux->Elemento, Encomendas);
         clientesAux = clientesAux -> Prox;
+        qtd++;
     }
+    printf("Existem %d clientes.\n",qtd);
     return Encomendas;
 }
