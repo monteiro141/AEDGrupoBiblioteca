@@ -169,13 +169,16 @@ void lerMenuFicheiro()
                 break;
 
             case 2:
-            //Ler de files para C
+            /*Primeiramente abrimos os ficheiros, limpamos as EDs e copiamos os dados do ficheiro para as EDs
+            */
                 fpClientes=fopen("EDClientes.bin","rb");
                 fpEncomendas=fopen("EDEncomendas.bin","rb");
                 fpLivros=fopen("EDLivros.bin","rb");
+                clientes = novoClientes(clientes);
+                encomendas = novoEncomendas(encomendas);
+                livros = novoLivros(livros);
                 while(fread(&Cliente,sizeof(CLIENTE),1,fpClientes)==1)
                 {
-                    //MostrarCliente(Cliente);
                     clientes = InserirInicio(Cliente,clientes);
                 }
                 while(fread(&Encomenda,sizeof(ENCOMENDA),1,fpEncomendas)==1)

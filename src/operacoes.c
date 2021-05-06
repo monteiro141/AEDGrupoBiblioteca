@@ -410,55 +410,36 @@ size_t operacao11Aux(PNodoAB LIVROS)
     if(LIVROS==NULL)
         return 0;
     size_t clienteAtual=0;
-    clienteAtual =  sizeof(LIVROS->Elemento.AnoPublicacao) +
-    sizeof(LIVROS->Elemento.AreaCientifica) +
-    sizeof(LIVROS->Elemento.Editora) +
-    sizeof(LIVROS->Elemento.Idioma) + 
-    sizeof(LIVROS->Elemento.ISBN) +
-    sizeof(LIVROS->Elemento.Preco) +
-    sizeof(LIVROS->Elemento.PrimeiroAutor) + 
-    sizeof(LIVROS->Elemento.QuantidadeStock) +
-    sizeof(LIVROS->Elemento.SegundoAutor) + 
-    sizeof(LIVROS->Elemento.Titulo);
-    return sizeof(LIVRO) - clienteAtual + operacao11Aux(LIVROS->Esquerda) + operacao11Aux(LIVROS->Direita);
+    clienteAtual = 100 - strlen(LIVROS->Elemento.AreaCientifica) +
+    100 - strlen(LIVROS->Elemento.Editora) +
+    100 - strlen(LIVROS->Elemento.Idioma) + 
+    100 - strlen(LIVROS->Elemento.PrimeiroAutor) + 
+    100 - strlen(LIVROS->Elemento.SegundoAutor) + 
+    100 - strlen(LIVROS->Elemento.Titulo);
+    return clienteAtual + operacao11Aux(LIVROS->Esquerda) + operacao11Aux(LIVROS->Direita);
 }
 PNodoFila operacao11(PNodoFila ENCOMENDAS, PNodo CLIENTES, PNodoAB LIVROS)
 {
     size_t bytes=0;
-    size_t sizecliente=0,sizeEncomenda=0;
-    PNodoFila aux=NULL;
+    size_t sizecliente=0;
     //Secção dos clientes
     while(CLIENTES != NULL)
     {
-        sizecliente = sizeof(CLIENTES->Elemento.ListaDeCompras) + 
+        /*sizecliente = sizeof(CLIENTES->Elemento.ListaDeCompras) + 
         sizeof(CLIENTES->Elemento.Morada) + 
         sizeof(CLIENTES->Elemento.NIF) + 
         sizeof(CLIENTES->Elemento.Nome) + 
         sizeof(CLIENTES->Elemento.numeroEncomendas) + 
-        sizeof(CLIENTES->Elemento.Telefone);
-        bytes += sizeof(CLIENTE) - sizecliente;
+        sizeof(CLIENTES->Elemento.Telefone);*/
+        sizecliente = 100 - strlen(CLIENTES->Elemento.Nome) +
+        100 - strlen(CLIENTES->Elemento.Morada) + 
+        (sizeof(ENCOMENDA) * (100 - CLIENTES->Elemento.numeroEncomendas));
+        bytes += sizecliente;
         CLIENTES = CLIENTES->Prox;
     }
     bytes += operacao11Aux(LIVROS);
-    while(ENCOMENDAS != NULL)
-    {
-        aux = Inserir(ENCOMENDAS->Elemento,aux);
-        sizeEncomenda = sizeof(ENCOMENDAS->Elemento.Concluida.ano) +
-        sizeof(ENCOMENDAS->Elemento.Concluida.Dia) + 
-        sizeof(ENCOMENDAS->Elemento.Concluida.Mes) +
-        sizeof(ENCOMENDAS->Elemento.Encomenda.ano) + 
-        sizeof(ENCOMENDAS->Elemento.Concluida.Dia) +
-        sizeof(ENCOMENDAS->Elemento.Concluida.Mes) +
-        sizeof(ENCOMENDAS->Elemento.ID) + 
-        sizeof(ENCOMENDAS->Elemento.ISBN) +
-        sizeof(ENCOMENDAS->Elemento.NIF) +
-        sizeof(ENCOMENDAS->Elemento.PrecoTotal) +
-        sizeof(ENCOMENDAS->Elemento.Quantidade);
-        bytes += sizeof(ENCOMENDA) - sizeEncomenda;
-        ENCOMENDAS = Remover(ENCOMENDAS);
-    }
     printf("Desperdicio de memória: %zu bytes.\n",bytes);
-    return aux;
+    return ENCOMENDAS;
 }
 
 PNodoFila operacao12 (PNodoFila Encomendas)
