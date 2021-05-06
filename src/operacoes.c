@@ -405,6 +405,41 @@ void operacao9(PNodoAB LIVROS)
     free(livrosAnoPub);
 }
 
+PNodoFila operacao10(PNodo Clientes, PNodoFila Encomendas)
+{
+    PNodoFila encomendasAux;
+    PNodo clientesAux;
+    float precoaux = 0;
+    CLIENTE clienteAux;
+    int mesinicio, mesfim, anoinicio, anofim;
+
+    printf("Insira o mês inicial: ");
+    scanf("%i", &mesinicio);
+    printf("Insira o mês final: ");
+    scanf("%i", &mesfim);
+    printf("Insira o ano inicial: ");
+    scanf("%i", &anoinicio);
+    printf("Insira o ano final: ");
+    scanf("%i", &anofim);
+
+    while (Encomendas != NULL)
+    {
+        encomendasAux = Inserir(Encomendas->Elemento, encomendasAux);
+        if (Encomendas->Elemento.PrecoTotal > precoaux &&
+            mesinicio <= Encomendas->Elemento.Encomenda.Mes && Encomendas->Elemento.Encomenda.Mes <= mesfim &&
+            anoinicio<=Encomendas->Elemento.Encomenda.ano && Encomendas->Elemento.Encomenda.ano <= anofim)
+        {
+            precoaux = Encomendas->Elemento.PrecoTotal;
+            clienteAux.NIF = Encomendas->Elemento.NIF;
+        }
+        Encomendas = Remover(Encomendas);
+    }
+    printf("Cliente que mais gastou entre %i/%i e %i/%i:\n",mesinicio,mesfim,anoinicio,anofim);
+    encomendasAux = MostrarCliente(clienteAux,encomendasAux);
+
+    return encomendasAux;
+}
+
 size_t operacao11Aux(PNodoAB LIVROS)
 {
     if(LIVROS==NULL)
@@ -464,6 +499,8 @@ PNodoFila operacao12 (PNodoFila Encomendas)
         
         Encomendas = Remover(Encomendas);
     }
+    printf("Encomenda mais antiga:\n\n");
+    MostrarEncomenda(encomendaAux);
     return aux;
 }
 
@@ -475,14 +512,7 @@ void operacao13(PNodo Clientes)
 
     while (aux != NULL)
     {
-        PNodoFila filaEncomenda = aux -> Elemento.ListaDeCompras;
-
-        while (filaEncomenda != NULL)
-        {
-            if (filaEncomenda->Elemento.Concluida.Dia != -1)
-                contador++;
-            filaEncomenda = Remover(filaEncomenda->Prox);
-        }
+        contador = aux->Elemento.numeroEncomendas;
         if (contador > contadormaisencomendas)
         {
             contadormaisencomendas = contador;
@@ -496,4 +526,46 @@ void operacao13(PNodo Clientes)
     printf("NIF: %lld\n", clienteAux.NIF);
     printf("Nome: %s\n", clienteAux.Nome);
     printf("Numero de encomendas concluidas: %i\n", contadormaisencomendas);
+}
+
+PNodoFila operacao14(PNodoAB Livros, PNodo Clientes, PNodoFila Encomendas)
+{
+    PNodoAB livrosAux = Livros;
+    PNodo clientesAux = Clientes;
+    CLIENTE clienteAux;
+    LIVRO livroAux;
+    printf("Insira um ISBN de um livro valido: ");
+    scanf("%lld", &livroAux.ISBN);
+    printf("\n");
+
+    if(PesquisarABP(Livros,livroAux)==0) //Livro não existe
+        printf("Esse livro não existe!(ISBN)\n\n");
+    else
+    {
+        printf("Clientes cque encomendaram o livro: \n");
+        while (clientesAux != NULL)
+        {
+            if (Encomendas->Elemento.ISBN == livroAux.ISBN);
+            {
+                clienteAux.NIF = Encomendas->Elemento.NIF;
+                clienteAux = DevolveCliente(clienteAux, Clientes);
+                Encomendas = MostrarCliente(clienteAux, Encomendas);
+            }
+            clientesAux = clientesAux->Prox;
+        }
+    }
+
+    return Encomendas;
+}
+
+PNodoFila operacao15 (PNodo Clientes, PNodoFila Encomendas)
+{
+    PNodo clientesAux = Clientes;
+
+    while (clientesAux != NULL)
+    {
+        Encomendas = MostrarCliente(clientesAux->Elemento, Encomendas);
+        clientesAux = clientesAux -> Prox;
+    }
+    return Encomendas;
 }
