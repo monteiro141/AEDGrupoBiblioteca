@@ -36,7 +36,8 @@ PNodoAB livros;
 PNodo clientes;
 PNodoFila encomendas;
 
-/*Menu principal que leva para outros, começa sempre com as 3 EDs a NULL para mais tarde serem usadas*/
+/*Menu principal que leva para os outros menus.
+Começa sempre com os valores das 3 EDs (Estrutura de Dados) a NULL para mais tarde serem usadas*/
 int main(void)
 {
     livros=NULL;
@@ -421,7 +422,7 @@ void lerMenuOperacoes()
         {
             case 1:
                 /*Quantos livros foram vendidos num dado período de tempo (mês e ano)
-                funcao(encomendas) Dentro da função pergunta-se pelo mes-mes e ano-ano para contar quantas
+                funcao(encomendas) Dentro da função pergunta-se pelo mesinicial-mesfinal e anoinicial-anofinal para contar quantas
                 encomendas foram feitas nessa altura*/
                 encomendas = operacao1(encomendas);
                 break;
@@ -435,24 +436,28 @@ void lerMenuOperacoes()
 
             case 3:
                 /*funcao3(encomendas);
-                Percorre das encomendas e conta quantas vezes um dado cliente pelo NIF comprou*/               
+                Percorre as encomendas e conta quantos livros um dado cliente (pelo NIF) comprou*/
                 encomendas = operacao3(encomendas);
                 break;
 
             case 4:
                 /*funcao4(livros)
-                Percorre os livros e agrupa num array dinamico os livros com a mesma area cientifica que foi dado.
-                Após agrupar e, usando um sort, vai mostrar os K livros*/
+                Percorre os livros e agrupa-os num array dinamico com a mesma area cientifica que foi dado.
+                Após agrupar e, usando um sort, vai mostrar os K livros mais recentes*/
                 operacao4(livros);
                 break;
 
             case 5:
+                /*funcao5(fila, arvore);
+                Dado um mesinicial-mesfinal e anoinicial-anofinal pelo utilizador, percorre a fila de encomendas
+                e determina quais foram os livros mais vendidos nesse espaco de tempo
+                */
                 encomendas = operacao5(encomendas,livros);
                 break;
 
             case 6:
                 /*funcao6(arvore);
-                Percorre os livros e mostra qual é o livro em mair quantidade numa area cientifica*/
+                Percorre os livros e mostra qual é o livro em maior quantidade numa area cientifica*/
                 operacao6(livros);
                 break;
 
@@ -465,7 +470,7 @@ void lerMenuOperacoes()
 
             case 8:
                 /*funcao8(listaClientes);
-                Percorre os clientes e mostra por ordem do numero de compras que foram concluidas
+                Percorre os clientes e mostra por ordem decrescente o numero de compras que foram concluidas
                 */
                 operacao8(clientes);
                 break;
@@ -479,25 +484,41 @@ void lerMenuOperacoes()
                 break;
 
             case 10:
+                /*funcao10(lista, fila);
+                Percorre a lista de clientes e determina qual foi o cliente que mais gastou no total
+                */
                 encomendas = operacao10(clientes, encomendas);
                 break;
 
             case 11:
                 /*funcao(encomendas,clientes,livros)
-                Percorre cada ED e conta quantos bytes foram desperdiçados devido ao uso de memoria dinamica
+                Percorre cada ED e conta quantos bytes foram desperdiçados devido ao uso de memoria estática versus memoria dinâmica
                 */
                 encomendas = operacao11(encomendas,clientes,livros);
                 break;
             case 12:
+                /*funcao12(fila);
+                Percorre a fila de encomendas e determina qual a encomenda mais antiga
+                */
                 encomendas = operacao12(encomendas);
                 break;
             case 13:
+                /*funcao13(lista);
+                Percorre a lista de clientes e determina qual foi o cliente que possui mais encomendas concluidas
+                */
                 operacao13(clientes);
                 break;
             case 14:
+                /*funcao14(arvore, lista, fila);
+                Usando um dado livro como referencia, percorre a lista de clientes e mostra
+                quais os clientes que compraram o livro em questão
+                */
                 encomendas = operacao14(livros, clientes, encomendas);
                 break;
             case 15:
+                /*funcao15(lista, fila);
+                Percorre a lista de clientes e mostra todos os clientes que existem
+                */
                 encomendas = operacao15(clientes, encomendas);
                 break;
             case 0:

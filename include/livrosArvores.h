@@ -33,20 +33,20 @@ PNodoAB CriarABPEquilibradaIB (PNodoAB t);
 
 /*----------Inserir livro----------*/
 /*Esta função tem por base inserir um livro.
-Primeiro verifica se o ISBN do livro a inserir existe, se não então adiciona, caso contrário 
-printa um erro.
-Ao fim de inserir(ou não) verifica o equilibra a arvore se for necessário e retorna a arvoreLivro*/
+Primeiro verifica se o ISBN do livro a inserir existe, senão adiciona.
+Caso contrário printa um erro.
+Ao fim de ter ou não inserido verifica o equilibrio da arvore se for necessário e retorna a arvoreLivro*/
 PNodoAB InserirLivro(PNodoAB t, LIVRO L);
 
 /*----------Remover livro----------*/
-/*Este função tem por base remover um dado livro
+/*Esta função tem por base remover um dado livro
 Primeiro pesquisa pelo livro dado ISBN, caso não consiga encontrar então printa um aviso e retorna a arvore
 Caso contrário vai remover o dado livro pelo ISBN e equilibra a arvore se for necessário*/
 PNodoAB RemoverLivro(PNodoAB t, LIVRO L,int * removido);
 
 /*----------Alterar livro(ISBN)----------*/
-/*Esta função tem por base alterar o livro, primeiro pesquisa pelo mesmo, caso não encontre retorna arvore
-Caso contrário altera o livro atual com o novo livro passo como parametro e verifica equilibrio para depois retornar
+/*Esta função tem por base alterar o livro. Primeiro pesquisa pelo mesmo, caso não encontre retorna arvore
+Caso contrário altera o livro atual com o novo livro passado como parametro e verifica o equilibrio para depois retornar
 a arvore*/
 PNodoAB AlterarLivroAux(PNodoAB t, LIVRO L, LIVRO X);
 PNodoAB AlterarLivro(PNodoAB t, LIVRO L,LIVRO X);
