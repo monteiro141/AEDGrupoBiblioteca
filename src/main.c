@@ -36,7 +36,7 @@ PNodoAB livros;
 PNodo clientes;
 PNodoFila encomendas;
 
-
+/*Menu principal que leva para outros, começa sempre com as 3 EDs a NULL para mais tarde serem usadas*/
 int main(void)
 {
     livros=NULL;
@@ -138,7 +138,10 @@ void menuOperacoes()
     printf("Escolha a operação que pretende realizar: ");
 }
 
-//Por acabar
+/*Menu para ler ficheiros
+Caso 1 Abrir: Limpar os ficheiros e as EDs no programa
+Caso 2 Novo: Limpar as EDs e abrir o conteudo dos ficheiros para o programa
+Caso 3 Guardar: Carregar o conteudo do programa para os ficheiros sem sobrepor o que já lá está  */
 void lerMenuFicheiro()
 {
     CLIENTE Cliente;
@@ -214,6 +217,11 @@ void lerMenuFicheiro()
     }while(opcao !=0);
 }
 
+/*Menu para ler livros
+Caso 1 Inserir: Insere um novo livro na ED livros
+Caso 2 Remnover: Remove um livro da ED livros pelo ISBN
+Caso 3 Alterar: Remover primeiramente um livro pelo ISBN e depois insere um novo na ED
+Caso 4 Consultar: Entra num menu dentro dos livrosArvores.c para consultar os livros */
 void lerMenuLivros()
 {
     LIVRO livro;
@@ -271,7 +279,11 @@ void lerMenuLivros()
     }while(opcao !=0);
     
 }
-
+/*Menu ler clientes
+Caso 1 Inserir: Pega no novo cliente e insere no inicio da lista
+Caso 2 Remover: Remove o cliente da lista pelo NIF
+Caso 3 Alterar: Entra num menu dentro dos clientesListasLigadas.c
+Caso 4 Consultar: Entra num menu dentro dos clientesListasLigadas.c*/
 void lerMenuClientes()
 {
     CLIENTE cliente;
@@ -315,7 +327,11 @@ void lerMenuClientes()
         
     }while(opcao !=0);
 }
-
+/*Menu ler encomendas
+Caso 1 Inserir: Insere uma nova encomenda se for possivel, pelo ISBN e NIF com uma data e ID dinamicos, decrementando a quantidade em stock do livro
+Caso 2 Remover: Remove a encomenda e adiciona ao array do cliente como concluida
+Caso 3 Consultar: Entra num menu dentro das encomendas 
+*/
 void lerMenuEncomendas()
 {
     ENCOMENDA encomenda;
@@ -392,7 +408,7 @@ void lerMenuEncomendas()
         
     }while(opcao !=0);
 }
-
+/*Menu das operacoes*/
 void lerMenuOperacoes()
 {
     int opcao;
@@ -405,88 +421,72 @@ void lerMenuOperacoes()
         {
             case 1:
                 /*Quantos livros foram vendidos num dado período de tempo (mês e ano)
-                funcao1(filas, mes1, mes2, ano1, ano2); livros -> arvore ; encomendas -> filas tem as datas
-                Buscar os ISBNs à função e listar pelo void ConsultarLivroISBN(PNodoAB t, int ISBN)
-                percorrer a arvore e conta quantos livros foram vendidos
-                entre 'x' e 'y' meses dentro de 'a' e 'b' anos*/
+                funcao(encomendas) Dentro da função pergunta-se pelo mes-mes e ano-ano para contar quantas
+                encomendas foram feitas nessa altura*/
                 encomendas = operacao1(encomendas);
                 break;
 
             case 2:
-                /*funcao2(encomendas, livro);
-                percorre as encomendas dentro da arvore
-                e guarda a data mais recente do 'livro' vendido escolhido*/
-                
+                /*funcao2(encomendas);
+                Percorre as encomendas e encontra a ultima compra de um dado livro pelo ISBN*/
                 encomendas = operacao2(encomendas);
                 
                 break;
 
             case 3:
-                //funcao3(cliente,encomendas);
-                
-                // percorrer todas as encomendas e somar a 'Quantidade'
+                /*funcao3(encomendas);
+                Percorre das encomendas e conta quantas vezes um dado cliente pelo NIF comprou*/               
                 encomendas = operacao3(encomendas);
                 break;
 
             case 4:
-                /*funcao4(arvore,area cientifica, int K)
-                percorrer a arvore e comparar os Nodos a procura de livros da 'area cientifica'
-                e por os livros da 'area cientifica' por ordem crescente
-                (os mais recentes primeiro)
-                mostrar os K primeiro elementos*/
+                /*funcao4(livros)
+                Percorre os livros e agrupa num array dinamico os livros com a mesma area cientifica que foi dado.
+                Após agrupar e, usando um sort, vai mostrar os K livros*/
                 operacao4(livros);
                 break;
 
             case 5:
-                //funcao5(fila encomendas, mes1, mes2, ano1, ano2, int K);
                 encomendas = operacao5(encomendas,livros);
-                // similar a funcao4, mas tem em conta os intervalos de tempo
-                // em vez da 'Area Cientifica'
                 break;
 
             case 6:
-                //funcao6(arvore);
+                /*funcao6(arvore);
+                Percorre os livros e mostra qual é o livro em mair quantidade numa area cientifica*/
                 operacao6(livros);
-                // procurar a arvore pelos diferentes tipos de 'Areas Cientificas'
-                // e conta a quantidade de livros de cada categoria
                 break;
 
             case 7:
-                //funcao7(listaClientes);
+                /*funcao7(encomendas,listaClientes);
+                Percorre as encomendas e mete num array os clientes com encomendas
+                Ao final mostra o que tem mais encomendas*/
                 encomendas = operacao7(encomendas,clientes);
-                // usa a funcao3 ate nao haver mais clientes para analisar, 
-                // guardando o cliente e o numero de livros comprados,
-                // comparando-os e mantemdo o cliente com o maior numero de livros comprado
                 break;
 
             case 8:
-                //funcao8(listaClientes);
+                /*funcao8(listaClientes);
+                Percorre os clientes e mostra por ordem do numero de compras que foram concluidas
+                */
                 operacao8(clientes);
-                // similarmente a funcao7, usa a funcao3 e guarda todos os clientes
-                // com o numero de livros comprados numa lista
-                // e de seguida e ordenado com um algoritmo de ordenacao
                 break;
 
             case 9:
-                //funcao9(arvore);
+                /*funcao9(arvore);
+                Percorre os livros e verifica qual foi o ano com mais publicações usando um array dinamico
+                */
                 operacao9(livros);
-                // percorrer a arvore e encontrar o ano mais antigo de publicacao
-                // apos encontrar o numero mais antigo percorrer a arvore toda ate ao ano atual
-                // guardando o numero de livros publicados no ano em questao para comparar com o ano a seguir
-                // guardando o ano com mais publicacoes
+                
                 break;
 
             case 10:
                 encomendas = operacao10(clientes, encomendas);
-
-                // percorrer a listaClientes e le o precoTotal das encomendas de cada cliente,
-                // comparando-o com o seguinte, guardando apenas o cliente com o maior gasto
                 break;
 
             case 11:
-                //funcao11();
+                /*funcao(encomendas,clientes,livros)
+                Percorre cada ED e conta quantos bytes foram desperdiçados devido ao uso de memoria dinamica
+                */
                 encomendas = operacao11(encomendas,clientes,livros);
-                // nao faco a minima como pegar nisto 991 sirene
                 break;
             case 12:
                 encomendas = operacao12(encomendas);
