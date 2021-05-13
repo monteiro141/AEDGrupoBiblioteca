@@ -2,6 +2,10 @@
 /*
 Data: Contêm apenas Dia, Mes e Ano.
 */
+#ifndef OPERACOESPRIMARIAS_H
+#define OPERACOESPRIMARIAS_H
+#include <stdio.h>
+#include <stdlib.h>
 typedef struct 
 {
     int Dia;
@@ -107,3 +111,5 @@ Funções:MostrarCliente(Recebe um Cliente X e mostra os atributos todos do Clie
 PNodoFila MostrarCliente (CLIENTE C,PNodoFila Fila);
 CLIENTE CriarCliente();
 int CompararClientes (CLIENTE X, CLIENTE Y);
+
+#endif

@@ -194,9 +194,14 @@ PNodoAB CriarABPEquilibradaIB (PNodoAB t){
     return NULL;
   Lista = (LIVRO *) malloc(Num * sizeof(LIVRO));
   if (Lista == NULL)
+  {
+    free(Lista);
     return NULL;
+  }
   CriarSequenciaEmOrdem(t, Lista, &N);
   ABPEqInsercaoBinaria(&TE, Lista, 0, N-1);
+  free(Lista);
+  t = DestruirAB(t);
   return TE;
 }
 
@@ -210,9 +215,11 @@ PNodoAB InserirLivro(PNodoAB t, LIVRO L)
     printf("Não pode inserir algo que ja existe!(ISBN)\n");
 
   if(verificarEquilibrio(t)==0)
-    return CriarABPEquilibradaIB(t);
-  else
-    return t;
+  {
+    printf("Equilibrou\n");
+    t = CriarABPEquilibradaIB(t);
+  }
+  return t;
 }
 
 /*----------Remover livro----------*/

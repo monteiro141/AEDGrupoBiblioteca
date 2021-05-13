@@ -1,7 +1,8 @@
-#include "livrosArvores.h"
-
+#ifndef CLIENTESLISTAS_H
+#define CLIENTESLISTAS_H
+#include "OperacoesPrimarias.h"
+#include <stdio.h>
 #include <stdlib.h>
-
 
 
 PNodo Criar ();
@@ -33,3 +34,4 @@ PNodoFila ConsultarClientesPor(PNodo L,PNodoFila Fila);
 void guardarClientes(PNodo L, FILE * FP);
 PNodo novoClientes(PNodo L);
 
+#endif

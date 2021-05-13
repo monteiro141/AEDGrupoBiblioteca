@@ -1,5 +1,8 @@
+#ifndef LIVROSARVORES_H
+#define LIVROSARVORES_H
 #include "OperacoesPrimarias.h"
-
+#include <stdio.h>
+#include <stdlib.h>
 
 /*----------Funções Auxiliares----------*/
 PNodoAB CriarNodoAB(LIVRO L);
@@ -71,3 +74,5 @@ void ConsultarLivro(PNodoAB t);
 void guardarLivros(PNodoAB t, FILE * FP);
 /*Esta função tem por base "limpar" a arvore para mais tarde ser usada*/
 PNodoAB novoLivros(PNodoAB t);
+
+#endif

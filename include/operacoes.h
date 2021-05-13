@@ -1,15 +1,22 @@
+#ifndef OPERACOES_H
+#define OPERACOES_H
+#include "OperacoesPrimarias.h"
+#include "encomendasFilas.h"
+#include "livrosArvores.h"
+#include "clientesListasLigadas.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "encomendasFilas.h"
+
 
 //Quantos livros foram vendidos num dado período de tempo (mês e ano)
-PNodoFila operacao1(PNodoFila Encomendas);
+void operacao1(PNodo Clientes);
 
 //Determinar a data da última compra/venda de um dado livro
-PNodoFila operacao2(PNodoFila Encomendas);
+void operacao2(PNodo Clientes);
 
 //Determinar quantos livros um dado cliente já comprou
-PNodoFila operacao3(PNodoFila Encomendas);
+void operacao3(PNodo Clientes);
 
 //Mostrar os K livros mais recentes de uma dada Área Científica
 void bubbleSort4(LIVRO ** arr, int n);
@@ -24,8 +31,8 @@ typedef struct operacao5Counter
     int qtd;
 }operacao5Counter;
 void bubbleSort5(operacao5Counter ** arr, int n);
-PNodoFila operacao5Aux(PNodoFila ENCOMENDA,int mI,int mF,int aI,int aF,operacao5Counter ** kLivros,int * quantidade);
-PNodoFila operacao5(PNodoFila ENCOMENDA,PNodoAB LIVROS);
+void operacao5Aux(PNodo CLIENTES,int mI,int mF,int aI,int aF,operacao5Counter ** kLivros,int * quantidade);
+void operacao5(PNodo CLIENTES, PNodoAB LIVROS);
 
 
 //6 Determinar a Área Científica com mais livros
@@ -44,7 +51,7 @@ typedef struct operacao7counter
     int qtdLivros;
 } operacao7counter;
 void bubbleSort7(operacao7counter ** arr, int n);
-PNodoFila operacao7Aux(PNodoFila ENCOMENDAS,operacao7counter ** clientes,int * quantidade);
+void operacao7Aux(PNodo CLIENTES,operacao7counter ** clientes,int * quantidade);
 PNodoFila operacao7(PNodoFila ENCOMENDAS, PNodo L);
 
 //Mostrar os Clientes por ordem decrescente do número de compras
@@ -84,3 +91,5 @@ void operacao13(PNodo Clientes);
 PNodoFila operacao14(PNodoAB Livros, PNodo Clientes, PNodoFila Encomendas);
 //Quantos clientes existem no programa.
 PNodoFila operacao15 (PNodo Clientes, PNodoFila Encomendas);
+
+#endif

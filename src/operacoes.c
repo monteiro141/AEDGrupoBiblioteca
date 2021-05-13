@@ -1,8 +1,7 @@
 #include "operacoes.h"
 
-PNodoFila operacao1(PNodoFila Encomendas)
+void operacao1(PNodo Clientes)
 {
-    PNodoFila aux=NULL;
     int mesInicial,mesFinal,anoInicial,anoFinal,count=0;
     do
     {
@@ -16,66 +15,84 @@ PNodoFila operacao1(PNodoFila Encomendas)
         printf("Ano inicial: ");
         scanf("%i",&anoFinal);
     }while (mesFinal < mesInicial || anoFinal < anoInicial );
-    while(Encomendas!=NULL)
+    while(Clientes!=NULL)
     {
-        aux = Inserir(Encomendas->Elemento,aux);
-        if(mesInicial <= Encomendas->Elemento.Encomenda.Mes && Encomendas->Elemento.Encomenda.Mes <= mesFinal &&
-           anoInicial <= Encomendas->Elemento.Encomenda.ano && Encomendas->Elemento.Encomenda.ano <= anoFinal)
-           {
-               count++;
-           }
-        Encomendas = Remover(Encomendas);
+       for(int i =0;i < Clientes->Elemento.numeroEncomendas;i++)
+       {
+            
+            if(mesInicial <= Clientes->Elemento.ListaDeCompras[i].Concluida.Mes && 
+            Clientes->Elemento.ListaDeCompras[i].Concluida.Mes <= mesFinal &&
+            anoInicial <= Clientes->Elemento.ListaDeCompras[i].Concluida.ano && 
+            Clientes->Elemento.ListaDeCompras[i].Concluida.ano <= anoFinal)
+            {
+                count++;
+            }
+       }
+       Clientes = Clientes->Prox;
     }
     printf("Foram vendidos %d livros entre %d/%d e %d/%d",count,mesInicial,anoInicial,mesFinal,anoFinal);
-    return aux;
 }
-PNodoFila operacao2(PNodoFila Encomendas)
+void operacao2(PNodo Clientes)
 {
-    PNodoFila aux=NULL;
     long long int ISBN;
     int dia=0,mes=0,ano=0;
     printf("Qual é o ISBN?");
     scanf("%lld",&ISBN);
-
-    while(Encomendas!=NULL)
+    
+    while(Clientes!=NULL)
     {
-        aux = Inserir(Encomendas->Elemento,aux);
-        if(Encomendas->Elemento.NIF==ISBN)
+        if(Clientes->Elemento.numeroEncomendas >= 1)
         {
-            if(dia< Encomendas->Elemento.Encomenda.Dia &&
-               mes < Encomendas->Elemento.Encomenda.Mes &&
-               ano < Encomendas->Elemento.Encomenda.ano)
-               {
-                    dia = Encomendas->Elemento.Encomenda.Dia;
-                    mes = Encomendas->Elemento.Encomenda.Mes;
-                    ano = Encomendas->Elemento.Encomenda.ano;
-               }
+            if(Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].ISBN==ISBN)
+            {
+                if(Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].Concluida.ano > ano)
+                {
+                    ano = Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].Concluida.ano;
+                    dia = Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].Concluida.Dia;
+                    mes = Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].Concluida.Mes;
+                }else
+                if(Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].Concluida.Mes > mes)
+                {
+                    ano = Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].Concluida.ano;
+                    dia = Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].Concluida.Dia;
+                    mes = Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].Concluida.Mes;
+                }else
+                if(Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].Concluida.Dia > dia)
+                {
+                    ano = Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].Concluida.ano;
+                    dia = Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].Concluida.Dia;
+                    mes = Clientes->Elemento.ListaDeCompras[Clientes->Elemento.numeroEncomendas-1].Concluida.Mes;
+                }
+            }
         }
-        Encomendas = Remover(Encomendas);
+        Clientes = Clientes->Prox;
+        
     }
     if(dia==0)
         printf("Não há registo desse livro.\n");
     else
         printf("Ultima compra do livro %lld: %d/%d/%d\n",ISBN,dia,mes,ano);
-    return aux;
 }
 
-PNodoFila operacao3(PNodoFila Encomendas)
+
+void operacao3(PNodo Clientes)
 {
-    PNodoFila aux=NULL;
     long long int NIF;
     printf("NIF do cliente?");
     scanf("%lld",&NIF);
     int count=0;
-    while(Encomendas!=NULL)
+    while(Clientes!=NULL)
     {
-        aux = Inserir(Encomendas->Elemento,aux);
-        if(Encomendas->Elemento.NIF == NIF)
-            count+=Encomendas->Elemento.Quantidade;
-        Encomendas = Remover(Encomendas);
+        if(Clientes->Elemento.NIF == NIF)
+        {
+            for(int i=0;i < Clientes->Elemento.numeroEncomendas;i++)
+            {
+                count+=Clientes->Elemento.ListaDeCompras[i].Quantidade;
+            }
+        }
+        Clientes = Clientes->Prox;
     }
     printf("O cliente com o NIF %lld comprou %d livros.\n",NIF,count);
-    return aux;
 }
 
 void bubbleSort4(LIVRO ** arr, int n)
@@ -142,39 +159,40 @@ void bubbleSort5(operacao5Counter ** arr, int n)
            }
 }
 
-PNodoFila operacao5Aux(PNodoFila ENCOMENDA,int mI,int mF,int aI,int aF,operacao5Counter ** kLivros,int * quantidade)
+void operacao5Aux(PNodo CLIENTES,int mI,int mF,int aI,int aF,operacao5Counter ** kLivros,int * quantidade)
 {
-    PNodoFila aux=NULL;
     int exist=0;
-    while(ENCOMENDA !=NULL)
+    while(CLIENTES !=NULL)
     {   
-        aux = Inserir(ENCOMENDA->Elemento,aux);
-        if(mI<=ENCOMENDA->Elemento.Encomenda.Mes && ENCOMENDA->Elemento.Encomenda.Mes <= mF &&
-           aI<=ENCOMENDA->Elemento.Encomenda.ano && ENCOMENDA->Elemento.Encomenda.ano <= aF)
-           {
-                for(int i = 0;i< (*quantidade);i++)
-                {
-                    if((*kLivros)[i].ISBN==ENCOMENDA->Elemento.ISBN)
+        for(int u=0;u < CLIENTES->Elemento.numeroEncomendas;u++)
+        {
+            if(mI<=CLIENTES->Elemento.ListaDeCompras[u].Concluida.Mes && CLIENTES->Elemento.ListaDeCompras[u].Concluida.Mes <= mF &&
+            aI<=CLIENTES->Elemento.ListaDeCompras[u].Concluida.ano && CLIENTES->Elemento.ListaDeCompras[u].Concluida.ano <= aF)
+            {
+
+                    for(int i = 0;i< (*quantidade);i++)
                     {
-                        (*kLivros)[i].qtd += ENCOMENDA->Elemento.Quantidade;
-                        exist=1;
+                        if((*kLivros)[i].ISBN==CLIENTES->Elemento.ListaDeCompras[u].ISBN)
+                        {
+                            (*kLivros)[i].qtd += CLIENTES->Elemento.ListaDeCompras[u].Quantidade;
+                            exist=1;
+                        }
                     }
-                }
-                if(exist==0)
-                {
-                    (*quantidade)++;
-                    (*kLivros)= realloc((*kLivros),(*quantidade)*sizeof(operacao5Counter));
-                    (*kLivros)[(*quantidade)-1].ISBN = ENCOMENDA->Elemento.ISBN;
-                    (*kLivros)[(*quantidade)-1].qtd = ENCOMENDA->Elemento.Quantidade;
-                    exist=0;
-                }
-           }
-        ENCOMENDA = Remover(ENCOMENDA);
+                    if(exist==0)
+                    {
+                        (*quantidade)++;
+                        (*kLivros)= realloc((*kLivros),(*quantidade)*sizeof(operacao5Counter));
+                        (*kLivros)[(*quantidade)-1].ISBN = CLIENTES->Elemento.ListaDeCompras[u].ISBN;
+                        (*kLivros)[(*quantidade)-1].qtd = CLIENTES->Elemento.ListaDeCompras[u].Quantidade;
+                        exist=0;
+                    }
+            }
+        }   
+        CLIENTES = CLIENTES->Prox;
     }
-    return aux;
 }
 
-PNodoFila operacao5(PNodoFila ENCOMENDA, PNodoAB LIVROS)
+void operacao5(PNodo CLIENTES, PNodoAB LIVROS)
 {
     int k=0,mesInicial=0,mesFinal=0,anoInicial=0,anoFinal=0,quantidade=0;
     operacao5Counter * kLivros = malloc(quantidade*sizeof(operacao5Counter));
@@ -188,15 +206,15 @@ PNodoFila operacao5(PNodoFila ENCOMENDA, PNodoAB LIVROS)
     scanf("%d",&anoInicial);
     printf("Ano final?");
     scanf("%d",&anoFinal);
-    ENCOMENDA = operacao5Aux(ENCOMENDA,mesInicial,mesFinal,anoInicial,anoFinal,&kLivros,&quantidade);
+    operacao5Aux(CLIENTES,mesInicial,mesFinal,anoInicial,anoFinal,&kLivros,&quantidade);
     bubbleSort5(&kLivros,quantidade);
+    printf("Quantidade: %d\n",quantidade);
     for(int i = 0;i < k && i < quantidade ;i++)
     {
         printf("\nVendidos: %d\n",kLivros[i].qtd);
         ConsultarLivroISBN(LIVROS,kLivros[i].ISBN);
     }
     free(kLivros);
-    return ENCOMENDA;
 }
 
 
@@ -274,38 +292,38 @@ void bubbleSort7(operacao7counter ** arr, int n)
            }
 }
 
-PNodoFila operacao7Aux(PNodoFila ENCOMENDAS,operacao7counter ** clientes,int * quantidade)
+void operacao7Aux(PNodo CLIENTES,operacao7counter ** clientes,int * quantidade)
 {
-    PNodoFila aux=NULL;
     int exist=0;
-    while(ENCOMENDAS != NULL)
+    while(CLIENTES != NULL)
     {
-        aux = Inserir(ENCOMENDAS->Elemento,aux);
-        for(int i=0;i < (*quantidade);i++)
+        for(int u=0;u < CLIENTES->Elemento.numeroEncomendas;u++)
         {
-            if(ENCOMENDAS->Elemento.NIF==(*clientes)[i].NIF)
+            for(int i=0;i < (*quantidade);i++)
             {
-                exist=1;
-                (*clientes)[i].qtdLivros += ENCOMENDAS->Elemento.Quantidade;
+                if(CLIENTES->Elemento.NIF==(*clientes)[i].NIF)
+                {
+                    exist=1;
+                    (*clientes)[i].qtdLivros += CLIENTES->Elemento.ListaDeCompras[u].Quantidade;
+                }
+            }
+            if(exist==0)
+            {
+                (*quantidade)++;
+                (*clientes) = realloc((*clientes),(*quantidade)*sizeof(operacao7counter));
+                (*clientes)[(*quantidade)-1].NIF = CLIENTES->Elemento.NIF;
+                (*clientes)[(*quantidade)-1].qtdLivros = CLIENTES->Elemento.ListaDeCompras[u].Quantidade;
             }
         }
-        if(exist==0)
-        {
-            (*quantidade)++;
-            (*clientes) = realloc((*clientes),(*quantidade)*sizeof(operacao7counter));
-            (*clientes)[(*quantidade)-1].NIF = ENCOMENDAS->Elemento.NIF;
-            (*clientes)[(*quantidade)-1].qtdLivros = ENCOMENDAS->Elemento.Quantidade;
-        }
-        ENCOMENDAS = Remover(ENCOMENDAS);
+        CLIENTES = CLIENTES->Prox;
     }
-    return aux;
 }
 
 PNodoFila operacao7(PNodoFila ENCOMENDAS, PNodo L)
 {
     int quantidade=0;
     operacao7counter * clientes = malloc(quantidade*sizeof(operacao7counter));
-    ENCOMENDAS = operacao7Aux(ENCOMENDAS,&clientes,&quantidade);
+    operacao7Aux(L,&clientes,&quantidade);
     bubbleSort7(&clientes,quantidade);
     if(quantidade==0)
         printf("Não há clientes com encomendas.\n");
@@ -313,7 +331,6 @@ PNodoFila operacao7(PNodoFila ENCOMENDAS, PNodo L)
         ENCOMENDAS = ConsultarClientesPorNIF(clientes[0].NIF,L,ENCOMENDAS);
     free(clientes);
     return ENCOMENDAS;
-
 }
 
 void operacao8(PNodo listaClientes)
@@ -407,9 +424,11 @@ void operacao9(PNodoAB LIVROS)
 
 PNodoFila operacao10(PNodo Clientes, PNodoFila Encomendas)
 {
-    PNodoFila encomendasAux=NULL;
     float precoaux = 0;
+    float aux=0;
     CLIENTE clienteAux;
+    PNodo find=Clientes;
+    clienteAux.NIF=-1;
     int mesinicio, mesfim, anoinicio, anofim;
 
     printf("Insira o mês inicial: ");
@@ -421,22 +440,31 @@ PNodoFila operacao10(PNodo Clientes, PNodoFila Encomendas)
     printf("Insira o ano final: ");
     scanf("%i", &anofim);
 
-    while (Encomendas != NULL)
+    while (find != NULL)
     {
-        encomendasAux = Inserir(Encomendas->Elemento, encomendasAux);
-        if (Encomendas->Elemento.PrecoTotal > precoaux &&
-            mesinicio <= Encomendas->Elemento.Encomenda.Mes && Encomendas->Elemento.Encomenda.Mes <= mesfim &&
-            anoinicio<=Encomendas->Elemento.Encomenda.ano && Encomendas->Elemento.Encomenda.ano <= anofim)
+        aux=0;
+        for(int i=0;i < find->Elemento.numeroEncomendas;i++)
         {
-            precoaux = Encomendas->Elemento.PrecoTotal;
-            clienteAux.NIF = Encomendas->Elemento.NIF;
+            if(mesinicio <= find->Elemento.ListaDeCompras[i].Concluida.Mes && 
+            find->Elemento.ListaDeCompras[i].Concluida.Mes <= mesinicio &&
+            anoinicio <= find->Elemento.ListaDeCompras[i].Concluida.ano && 
+            find->Elemento.ListaDeCompras[i].Concluida.ano <= anofim)
+                aux+= find->Elemento.ListaDeCompras[i].PrecoTotal;
         }
-        Encomendas = Remover(Encomendas);
+        if(aux>=precoaux)
+        {
+            precoaux = aux;
+            clienteAux =  find->Elemento;
+        }
+        find = find->Prox;
     }
-    printf("Cliente que mais gastou entre %i/%i e %i/%i:\n",mesinicio,mesfim,anoinicio,anofim);
-    encomendasAux = ConsultarClientesPorNIF(clienteAux.NIF,Clientes,encomendasAux);
+    printf("Cliente com o nif %lld que mais gastou entre %i/%i e %i/%i:\n",clienteAux.NIF,mesinicio,anoinicio,mesfim,anofim);
+    if(clienteAux.NIF > -1)
+        Encomendas = ConsultarClientesPorNIF(clienteAux.NIF,Clientes,Encomendas);
+    else
+        printf("Não há encomendas nessa data.\n");
 
-    return encomendasAux;
+    return Encomendas;
 }
 
 size_t operacao11Aux(PNodoAB LIVROS)

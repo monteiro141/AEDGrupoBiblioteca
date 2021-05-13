@@ -2,10 +2,10 @@
 #include <stdlib.h>
 //Random
 #include "Aleatorio.h"
-//#include "OperacoesPrimarias.h" V
-//#include "livrosArvores.h" V
-//#include "clientesListasLigadas.h" V
-//#include "encomendasFilas.h"
+#include "OperacoesPrimarias.h" 
+#include "livrosArvores.h" 
+#include "clientesListasLigadas.h" 
+#include "encomendasFilas.h"
 #include "operacoes.h"
 
 //Mostrar os menus
@@ -424,20 +424,20 @@ void lerMenuOperacoes()
                 /*Quantos livros foram vendidos num dado período de tempo (mês e ano)
                 funcao(encomendas) Dentro da função pergunta-se pelo mesinicial-mesfinal e anoinicial-anofinal para contar quantas
                 encomendas foram feitas nessa altura*/
-                encomendas = operacao1(encomendas);
+                operacao1(clientes);
                 break;
 
             case 2:
                 /*funcao2(encomendas);
                 Percorre as encomendas e encontra a ultima compra de um dado livro pelo ISBN*/
-                encomendas = operacao2(encomendas);
+                operacao2(clientes);
                 
                 break;
 
             case 3:
                 /*funcao3(encomendas);
                 Percorre as encomendas e conta quantos livros um dado cliente (pelo NIF) comprou*/
-                encomendas = operacao3(encomendas);
+                operacao3(clientes);
                 break;
 
             case 4:
@@ -452,7 +452,7 @@ void lerMenuOperacoes()
                 Dado um mesinicial-mesfinal e anoinicial-anofinal pelo utilizador, percorre a fila de encomendas
                 e determina quais foram os livros mais vendidos nesse espaco de tempo
                 */
-                encomendas = operacao5(encomendas,livros);
+                operacao5(clientes,livros);
                 break;
 
             case 6:
