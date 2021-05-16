@@ -216,7 +216,6 @@ PNodoAB InserirLivro(PNodoAB t, LIVRO L)
 
   if(verificarEquilibrio(t)==0)
   {
-    printf("Equilibrou\n");
     t = CriarABPEquilibradaIB(t);
   }
   return t;

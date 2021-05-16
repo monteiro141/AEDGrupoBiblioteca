@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdio_ext.h>
 #include <stdlib.h>
 //Random
 #include "Aleatorio.h"
@@ -17,6 +18,16 @@ void clrscr()
 
     #if defined(_WIN32) || defined(_WIN64)
         system("cls");
+    #endif
+}
+void clearStdinput()
+{
+    #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+        __fpurge(stdin);
+    #endif
+
+    #if defined(_WIN32) || defined(_WIN64)
+        fflush(stdin);
     #endif
 }
 void menu();
@@ -47,7 +58,7 @@ int main(void)
     clrscr();
     do
     {
-        
+        clearStdinput();
         menu();
         scanf("%d",&opcao);
         switch(opcao)
@@ -154,6 +165,7 @@ void lerMenuFicheiro()
     clrscr();
     do
     {
+        clearStdinput();
         menuFicheiro();
         scanf("%d",&opcao);
         
@@ -231,6 +243,7 @@ void lerMenuLivros()
     clrscr();
     do
     {
+        clearStdinput();
         menuLivros();
         scanf("%d",&opcao);
         
@@ -293,6 +306,7 @@ void lerMenuClientes()
     int removido=0;
     do
     {
+        clearStdinput();
         menuClientes();
         scanf("%d",&opcao);
         
@@ -346,6 +360,7 @@ void lerMenuEncomendas()
     clrscr();
     do
     {
+        clearStdinput();
         menuEncomendas();
         scanf("%d",&opcao);
         
@@ -416,6 +431,7 @@ void lerMenuOperacoes()
     clrscr();
     do
     {
+        clearStdinput();
         menuOperacoes();
         scanf("%d",&opcao);
         switch(opcao)
