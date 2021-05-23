@@ -216,6 +216,7 @@ PNodoAB InserirLivro(PNodoAB t, LIVRO L)
 
   if(verificarEquilibrio(t)==0)
   {
+
     t = CriarABPEquilibradaIB(t);
   }
   return t;
@@ -224,15 +225,18 @@ PNodoAB InserirLivro(PNodoAB t, LIVRO L)
 /*----------Remover livro----------*/
 PNodoAB RemoverLivro(PNodoAB t, LIVRO L,int * removido)
 {
-  if(PesquisarABP(t,L)==0)
+  if(t==NULL || PesquisarABP(t,L)==0)
   {
     printf("Livro não existe!\n");
     return t;
   }
   t = RemoverABP(t,L);
   (*removido) = 1;
-  if(verificarEquilibrio(t)==0)
-    return CriarABPEquilibradaIB(t);
+  printf("Livro removido!\n");
+  if(t!=NULL && verificarEquilibrio(t)==0)
+  {
+    t = CriarABPEquilibradaIB(t);
+  }
   return t;
 }
 

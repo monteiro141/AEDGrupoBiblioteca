@@ -1,0 +1,476 @@
+\chapter{Descrição do funcionamento do Software}
+\label{chap:imp-test}
+
+\section{Introdução}
+\label{chap4:sec:intro}
+Nesta etapa explicámos ao pormenor como funcionam as funcões que integram o código, qual o seu intuito e de que forma se relacionam.
+
+No desenvolvimento do projeto, foi necessário organizar o código em diferentes ficheiros de modo a torná-lo mais organizado e percetível para quem o interpreta.
+Sendo assim, temos os segunites ficheiros: \textit{main.cpp}, \textit{draw.hpp} e o  \textit{transferDataToGPU.hpp}. Por sua vez os \textit{shadders} utilizados foram os seguintes: \textit{TransformVertexShader.vertexshader} e o  \textit{TextureFragmentShader.fragmentshader}.
+
+\section{Funcionamento Geral}
+Quando o programa é iniciado, o utilizador através das arrow keys up and down, pode selecionar uma das 3 opções disponíveis: "Free Walk", "Planets" e "Quit". Carregando no enter entra numa das opções.
+
+Na opção "Free Walk" o utilizador pode andar livremente pela cena, usando as teclas "WASD" e o rato. Clicando no "R" tem uma perspetiva real do Sistema Solar e clicando no "F" os planetas ficam mais próximos uns dos outros e mais estagnados para permitir ao utilizador ver os planetas de forma mais pormenorizada. Clicando no "Q" volta ao Menu Inicial.
+
+Na opção "Planets" o utilizador pode usar as arrow keys up and down para trocar entre a história dos diferentes planetas. Tal como no menu anterior, pode usar as teclas "WASD" e o rato para se mover na cena. Clicando no "Q" volta ao Menu Inicial.
+
+Na opção "Quit" o programa é encerrado.
+
+\section{\textit{Main.cpp}}
+\label{chap4:sec:...}
+
+Iniciamos este ficheiro com a importação das diferentes bibliotecas necessárias:
+\begin{lstlisting}[caption=\textit{Includes} das bibliotecas usadas.]
+// Include standard headers
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <vector>
+
+// Include GLEW
+#include <GL/glew.h>
+
+// Include GLFW
+#include <GLFW/glfw3.h>
+GLFWwindow* window;
+
+// Include GLM
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+using namespace glm;
+
+#include "common/shader.hpp"
+#include "common/texture.hpp" 
+#include "common/controls.hpp" 
+#include "common/objloader.hpp"
+#include "common/shader.cpp"
+#include "common/texture.cpp" 
+
+#include "common/controls.cpp" 
+#include "common/objloader.cpp"
+
+#include "transferDataToGPU.hpp"
+#include "draw.hpp"
+\end{lstlisting}
+
+
+
+Criámos uma \textit{typedef struct INFO}, usada para cada um dos seguintes objetos: Background, Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Ring, Asteroid, Moon, Menu1, Menu2, Menu3, MercuryHistory, VenusHistory, EarthHistory, MarsHistory, JupiterHistory, SaturnHistory, UranusHistory, NeptuneHistory, AsteroidHistory, MoonHistory, SunHistory.
+\begin{lstlisting}[caption= \textit{typedef struct INFO}.]
+typedef struct {
+	GLuint VertexArrayID;
+	GLuint MatrixID;
+	GLuint Texture;
+	GLuint TextureID;
+	GLuint uvbuffer;
+	GLuint vertexbuffer;
+}INFO;
+\end{lstlisting}
+
+Criámos uma \textit{typedef struct VECTORS}, usada para cada um dos seguintes objetos: Sphere, Back, VRing, VAsteroid, Menu;
+\begin{lstlisting}[caption= \textit{typedef struct VECTORS}.]
+typedef struct {
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec2> uvs;
+	std::vector<glm::vec3> normals;
+}VECTORS;
+\end{lstlisting}
+
+Criámos uma \textit{typedef struct TRANSFORMATIONS}, usada para cada um dos seguintes objetos: transfBackground, transfSun, transfMercury, transfVenus, transfEarth, transfMars, transfJupiter, transfSaturn, transfUranus, transfNeptune, transfRing, transfAsteroid, transfMoon, transfList, transfHistory, randomAsteroid[100];
+\begin{lstlisting}[caption= \textit{typedef struct TRANSFORMATIONS}.]
+typedef struct {
+	glm::mat4 self_rotation;
+	glm::mat4 center_rotation;
+	glm::mat4 translation;
+	glm::mat4 scaling;
+	float xPosition;
+	float yPosition;
+	float zPosition;
+}TRANSFORMATIONS;
+\end{lstlisting}
+
+Criámos a \textit{typedef struct planetRotation}, que foi necessária para a criação da \textit{typedef struct PLANETSROTATIONS};
+\begin{lstlisting}[caption= \textit{typedef struct planetRotation}.]
+typedef struct {
+	float center_Rotation;
+	float self_Rotation;
+}planetRotation;
+\end{lstlisting}
+
+Criámos uma \textit{typedef struct PLANETSROTATIONS}, usada para cada um dos seguintes objetos: UsingRotation;
+\begin{lstlisting}[caption= \textit{typedef struct PLANETSROTATIONS}.]
+typedef struct {
+	planetRotation sun;
+	planetRotation mercury;
+	planetRotation venus;
+	planetRotation earth;
+	planetRotation mars;
+	planetRotation jupiter;
+	planetRotation saturn;
+	planetRotation uranus;
+	planetRotation neptune;
+	planetRotation moon;
+	planetRotation asteroidBelt;
+}PLANETSROTATIONS;
+\end{lstlisting}
+
+Criámos uma \textit{typedef struct DIMENSIONS}, usada para cada um dos seguintes objetos: Real, Fake, Using;
+\begin{lstlisting}[caption= \textit{typedef struct DIMENSIONS}.]
+typedef struct {
+	float sun;
+	float mercury;
+	float venus;
+	float earth;
+	float mars;
+	float jupiter;
+	float saturn;
+	float uranus;
+	float neptune;
+	float moon;
+	float asteroidBelt;
+}DIMENSIONS;
+\end{lstlisting}
+
+Após a criação das \textit{typedef structs}, referenciamos as funções criadas e utilizadas.
+São elas as seguintes:
+\begin{itemize}
+\item \textit{transferDataToGPU()}, contida no \textit{transferDataToGPU.hpp};
+\item \textit{draw(), setMVP()}, contida no \textit{draw.hpp};
+\item \textit{resetPosPlanetsList()};
+\item \textit{selectingMenu1()};
+\item \textit{selectingMenu3()};
+\item \textit{declareDimensions()};
+\item \textit{incrementRotations()};
+\item \textit{CelestialBodiesPosition()};
+\item \textit{deletebuffers()};
+\end{itemize}
+
+\subsection{Funções Implementadas}
+\subsubsection{\textit{transferDataToGPU()}}
+Começámos por passar como parâmetros a struct INFO, Vectors, a variavel associada aos shaders, o nome da textura e do objeto.
+
+\begin{lstlisting}[caption=\textit{VertexArray} funções.]
+glGenVertexArrays(1, (&a->VertexArrayID));
+glBindVertexArray((a->VertexArrayID));
+\end{lstlisting}
+Nestas duas funções vamos buscar o número de Arrays que existem e atribuimo-los ao VertexArrayID da nossa struct INFO.
+
+\begin{lstlisting}[caption=\textit{VertexArray} funções.]
+	a->MatrixID = glGetUniformLocation(programID, "MVP");
+
+	a->Texture = loadDDS(textureName);
+
+	a->TextureID = glGetUniformLocation(programID, "myTextureSampler");
+
+	bool res = loadOBJ(objectName, Sphere->vertices, Sphere->uvs, Sphere->normals);
+\end{lstlisting}
+
+A primeira função vai utilizar o \textit{MatrixID} para lhe atribuir a localizaçao da matriz MVP dos \textit{shaders}. A segunda vai atribuir a variável textura à nossa textura do que nos é passada em parametro para uma função de carregar texturas (loadDDS(\textit{texturename()}). A terceira textura, no fundo, faz o mesmo que a priemira função mas aplicada à textura. A quarta e ultima, vai atribuir à nossa \textit{struct VECTORS} os vértices, os UVs e as normais do objecto.
+
+
+\begin{lstlisting}[caption=\textit{Buffers} funções.]
+glGenBuffers(1, &a->vertexbuffer);
+glBindBuffer(GL_ARRAY_BUFFER, a->vertexbuffer);
+glBufferData(GL_ARRAY_BUFFER, (&Sphere->vertices)->size() * sizeof(glm::vec3), &Sphere->vertices[0][0], GL_STATIC_DRAW);
+
+glGenBuffers(1, &a->uvbuffer);
+glBindBuffer(GL_ARRAY_BUFFER, a->uvbuffer);
+glBufferData(GL_ARRAY_BUFFER, (&Sphere->uvs)->size() * sizeof(glm::vec2), &Sphere->uvs[0][0], GL_STATIC_DRAW);
+\end{lstlisting}
+
+\subsubsection{\textit{draw(), setMVP()}}
+\begin{lstlisting}[caption=\textit{setMVP()}.]
+glm::mat4 setMVP(TRANSFORMATIONS b) {
+	// Compute the MVP matrix from keyboard and mouse input
+	computeMatricesFromInputs();
+	glm::mat4 ProjectionMatrix = getProjectionMatrix();
+	glm::mat4 ViewMatrix = getViewMatrix();
+	glm::mat4 ModelMatrix = glm::mat4(1.0);
+	glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix * b.center_rotation * b.translation * b.self_rotation * b.scaling;
+	return MVP;
+}
+\end{lstlisting}
+Esta função vai receber como parâmetro a \textit{struct Transformations}, que vai ser usada para aplicar à matriz MVP (\textit{computeMatricesFromInputs()}). A matriz MVP foi calculada da seguinte forma : \textit{MVP = ProjectionMatrix * ViewMatrix * ModelMatrix * b.center\_rotation * b.translation * b.self\_rotation * b.scaling}.
+
+\begin{lstlisting}[caption=\textit{draw()}.]
+void draw(INFO *a, TRANSFORMATIONS b, GLuint programID, GLuint primitive, std::vector<glm::vec3>* verticesName) {
+	// Use our shader
+	
+	glUseProgram(programID);
+	glm::mat4 MVP= setMVP(b);
+	// Send our transformation to the currently bound shader, 
+	// in the "MVP" uniform
+	glUniformMatrix4fv(a->MatrixID, 1, GL_FALSE, &MVP[0][0]);
+
+	// Bind our texture in Texture Unit 0
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, a->Texture);
+	// Set our "myTextureSampler" sampler to use Texture Unit 0
+	glUniform1i(a->TextureID, 0);
+
+	// 1rst attribute buffer : vertices
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, a->vertexbuffer);
+	glVertexAttribPointer(
+		0,                  // attribute
+		3,                  // size
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		0,                  // stride
+		(void*)0            // array buffer offset
+	);
+
+	// 2nd attribute buffer : UVs
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, a->uvbuffer);
+	glVertexAttribPointer(
+		1,                                // attribute
+		2,                                // size
+		GL_FLOAT,                         // type
+		GL_FALSE,                         // normalized?
+		0,                                // stride
+		(void*)0                          // array buffer offset
+	);
+
+	// Draw the triangle !
+	glDrawArrays(primitive, 0, verticesName->size());
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+}
+\end{lstlisting}
+
+A função \textit{draw()} recebe como parâmetros as structs INFO e TRANSFORMATIONS, o \textit{programID} (link para os shaders), a \textit{primitive} e o \textit{verticesName} (vetor com os vertices).
+A \textit{glActiveTexture} e a \textit{glBindTexture} são usadas para carregar as texturas.
+
+A primeira ocorrência destas funções, \textit{glEnableVertexAttribArray}, \textit{glBindBuffer}, \textit{glVertexAttribPointer} envia os vértices deste objeto para os shaders.
+A segunda, envia para os shaders os UVs, que por si são as coordenadas das texturas.
+
+Posteriormente ele vai desenhar de acordo com a primitiva passada como parametro, desde o índice 0 até ao tamanho do vetor.
+
+
+\subsubsection{\textit{resetPosPlanetsList()}}
+Esta função vai dar \textit{reset} à posição da camâra quando o utilizador alterna entre planetas no Menu \textit{Planets}
+\begin{lstlisting}[caption=\textit{resetPosPlanetsList()}.]
+void resetPosPlanetsList() {
+	position = glm::vec3(145.78f, 2.13f, 39.61f);
+	horizontalAngle = -1.55f;
+	verticalAngle= -0.03f;
+\end{lstlisting}
+
+\subsubsection{\textit{selectingMenu1()}}
+Esta função é responsável pela escolha da opção do Menu Inicial.
+\begin{lstlisting}[caption=\textit{ Pequeno excerto da função selectingMenu1()}.]
+	if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_RELEASE)
+	{
+		if (selectedMenu1 == 1)
+			currentMenu = 2;
+		else if (selectedMenu1 == 2) {
+			resetPosPlanetsList();
+			currentMenu = 3;
+		}
+
+		else if (selectedMenu1 == 3)
+			currentMenu = 4;
+	}
+\end{lstlisting}
+
+
+\subsubsection{\textit{selectingMenu3()}}
+Esta função é a responsável pela escolha da história dos planetas que irão aparecer.
+\begin{lstlisting}[caption=\textit{ Pequeno excerto da função selectingMenu3()}.]
+draw(&Background, transfBackground, programID, GL_TRIANGLES, &Back.vertices);
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_RELEASE)
+	{
+		resetPosPlanetsList();
+		if (selectedMenu3 == 11)
+			selectedMenu3 = 1;
+		else
+			selectedMenu3++;
+	}
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && glfwGetKey(window, GLFW_KEY_UP) == GLFW_RELEASE)
+	{
+		resetPosPlanetsList();
+		if (selectedMenu3 == 1)
+			selectedMenu3 = 11;
+		else
+			selectedMenu3--;
+	}
+\end{lstlisting}
+
+\subsubsection{\textit{declareDimensions()}}
+Nesta função nós declaramos a escala real dos planetas e uma escala \textit{Fake}, sendo esta última usada para visualizar melhor os planetas. Atribuimos um valor \textit{random} ã posição inicial dos planetas em torno do Sol.
+\newpage
+\begin{lstlisting}[caption=\textit{Pequeno excerto da função declareDimensions()}.]
+Real.sun = 0.0f * AU;
+Real.mercury = 0.28f * AU;
+Real.venus = 0.367f * AU;
+
+(...)
+
+Fake.sun = 0.0f * AU;
+Fake.mercury = 0.28f * AU;
+Fake.venus = 0.367f * AU;
+
+(...)
+
+UsingRotation.sun.center_Rotation = (float)(rand() % 365);
+UsingRotation.mercury.center_Rotation = (float)(rand() % 365);
+UsingRotation.venus.center_Rotation = (float)(rand() % 365);
+\end{lstlisting}
+
+\subsubsection{\textit{incrementRotations()}}
+Esta função é a responsável pela escala de rotação e translação dso planetas.
+\begin{lstlisting}[caption=\textit{ Pequeno excerto da função incrementRotations()}.]
+UsingRotation.sun.center_Rotation += 0.0f;
+UsingRotation.mercury.center_Rotation += 4.20f * rotationScale;
+UsingRotation.venus.center_Rotation += 1.43f * rotationScale;
+
+(...)
+
+UsingRotation.sun.self_Rotation += 0.0115f;
+UsingRotation.mercury.self_Rotation += 0.017f;
+UsingRotation.venus.self_Rotation -= 0.004f;
+\end{lstlisting}
+
+\subsubsection{\textit{CelestialBodiesPosition()}}
+Esta função define a translação em torno do Sol, a rotação sobre si mesma e o tamanho do planeta(\textit{scaling}).
+
+\begin{lstlisting}[caption=\textit{ Pequeno excerto da função CelestialBodiesPosition()}.]
+//Sol
+	transfSun.center_rotation = glm::rotate(glm::mat4(1.0), glm::radians(UsingRotation.sun.center_Rotation), glm::vec3(0, 1, 0));
+	transfSun.self_rotation = glm::rotate(glm::mat4(1.0), glm::radians(UsingRotation.sun.self_Rotation), glm::vec3(0, 1, 0));
+	transfSun.translation = glm::translate(glm::mat4(1.0), glm::vec3(Using.sun, 0.0f, 0.0f));
+	transfSun.scaling = glm::scale(glm::mat4(1.0), glm::vec3(19.0f));
+
+//Mercury
+	transfMercury.center_rotation = glm::rotate(glm::mat4(1.0), glm::radians(UsingRotation.mercury.center_Rotation), glm::vec3(0, 1, 0));
+	transfMercury.self_rotation = glm::rotate(glm::mat4(1.0), glm::radians(UsingRotation.mercury.self_Rotation), glm::vec3(0, 1, 0));
+	transfMercury.translation = glm::translate(glm::mat4(1.0), glm::vec3(Using.mercury, 0.0f, 0.0f));
+\end{lstlisting}
+
+\subsubsection{\textit{deletebuffers()}}
+Nesta função apagamos o \textit{programID}, todas as texturas, \textit{buffers}(contêm vértices dos objectos e UVs). Apagamos ainda os \textit{VertexArrayID}'s.
+\begin{lstlisting}[caption=\textit{ Pequeno excerto da função deletebuffers()}.]
+glDeleteProgram(programID);
+
+//Delete Textures
+glDeleteTextures(1, &Background.Texture);
+glDeleteTextures(1, &Sun.Texture);
+
+//Delete buffers
+glDeleteBuffers(1, &Background.vertexbuffer);
+glDeleteBuffers(1, &Background.uvbuffer);
+
+//Delete VertexArrays
+glDeleteVertexArrays(1, &Background.VertexArrayID);
+glDeleteVertexArrays(1, &Sun.VertexArrayID);
+\end{lstlisting}
+
+\subsubsection{\textit{Cintura de Asteróides}}
+Depois de declarmos o randomAsteroid[100]  do tipo \textit{strut} TRANSFORMATIONS, percorremos cada posição do Array e atribuímos uma posição para o asteróide correspondente e um tamanho variável. De forma a tornar isto o mais \textit{random} possível gerámos uma nova \textit{seed} em cada execução do programa.
+
+\begin{lstlisting}[caption=\textit{ Excerto de código para a criação da cintura de Asteroides}.]
+    int j = 0;
+    float i = 0;
+    //Random seed
+    time_t t;
+    srand((unsigned) time(&t));
+    for (i = 0, j = 0; i < 360; i += 3.6, j++)
+    {
+        //float cent_Rotation = (((float)(rand()) / RAND_MAX) * i) + i;
+        float cent_Rotation = (rand() % 4) + i - 0.4;
+        float transl = ((rand() % 10) + AU - 10);
+        float scal = ((float)(rand()) / RAND_MAX) * 0.1f;
+
+        randomAsteroid[j].self_rotation = glm::rotate(glm::mat4(1.0), glm::radians(1.0f), glm::vec3(0, 1, 0));
+        randomAsteroid[j].center_rotation = glm::rotate(glm::mat4(1.0), glm::radians(cent_Rotation), glm::vec3(0, 1, 0));
+        randomAsteroid[j].translation = glm::translate(glm::mat4(1.0), glm::vec3(transl, 0.0f, 0.0f));
+        randomAsteroid[j].scaling = glm::scale(glm::mat4(1.0), glm::vec3(scal));
+    }
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm]{Images/cinturaasteroides.png}
+    \caption{Cintura de Asteróides vista de cima}
+    \label{fig:label}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm]{Images/Menu.png}
+    \caption{Menu Inicial}
+    \label{fig:label}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm]{Images/SolarSystemPerspective.png}
+    \caption{Perspetiva do Sistema Solar}
+    \label{fig:label}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm]{Images/earth_history.png}
+    \caption{História da Terra}
+    \label{fig:label}
+\end{figure}
+
+\section{\textit{Shaders}}
+\subsection{\textit{VertexShader}}
+Os \textit{shaders} recebem as posições dos vértices do objeto que são armazenadas no \textit{vertexPosition\_modelspace}. Recebem também as posições dos objetos no qual terá a textura, estas são guardadas no \textit{vertexUV}.
+
+O MVP é uma matriz 4x4 recebida do \textit{draw()} através do: \newline \textit{glUniformMatrix4fv(a->MatrixID, 1, GL\_FALSE, \&MVP[0][0])}. 
+
+Primeiramente transformamos o \textit{vertexPosition\_modelspace} num vec4, uma vez que a matriz MVP é um mat4. Desta forma a multiplicação é possível para obter o \textit{gl\_Position}.
+
+O UV recebe os \textit{VertexUV} e envia-os para o \textit{FragmentShader}.
+
+\begin{lstlisting}[caption=\textit{VertexShader}]
+#version 330 core
+
+layout(location = 0) in vec3 vertexPosition_modelspace;
+layout(location = 1) in vec2 vertexUV;
+
+out vec2 UV;
+
+uniform mat4 MVP;
+
+void main(){
+
+	gl_Position =  MVP * vec4(vertexPosition_modelspace,1);
+	
+	UV = vertexUV;
+}
+\end{lstlisting}
+
+\subsection{\textit{FragmentShader}}
+O \textit{FragmentShader} recebe os UV's vindos do \textit{VertexShader} e a textura (\textit{myTextureSampler}) recebida do \textit{transferDataToGPU()} através da função:\newline
+a->TextureID = glGetUniformLocation(programID, "myTextureSampler").
+
+Aplicamos a função \textit{texture()} onde passamos como argumento a textura e os UV's. Esta tranformação é enviada como vec3 para o OpenGL.
+
+Como só existe um único \textit{out} o OpenGL já sabe qual é a variável das cores.
+
+\begin{lstlisting}[caption=\textit{FragmentShader}]
+#version 330 core
+
+in vec2 UV;
+
+out vec3 color;
+
+uniform sampler2D myTextureSampler;
+
+void main(){
+
+	color = texture( myTextureSampler, UV ).rgb;
+}
+\end{lstlisting}
+
+
+
+

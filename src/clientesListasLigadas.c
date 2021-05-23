@@ -297,10 +297,9 @@ PNodo AlterarComNIF (PNodo L)
 				New.Telefone = nTelefone;
 				L = AtualizarCliente(C,New,L);
 				break;
-			default:
-				printf("Operação inválida, por favor insira um número válido.\n");
 		}
 		printf("\n");
+		if(n>=1 && n <=3)
 		printf("Mudança feita com sucesso.\n");
   	}
 
@@ -364,9 +363,6 @@ PNodoFila ConsultarClientesPor(PNodo L,PNodoFila Fila)
 
 		case 0:
 			break;
-
-		default:
-			printf("Operação inválida, por favor insira um número válido.\n");
 	}
 	return Fila;
 }
